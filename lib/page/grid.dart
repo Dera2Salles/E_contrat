@@ -36,8 +36,6 @@ class Grid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-       double screenHeight =MediaQuery.of(context).size.height;
-      double screenWidth=MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -63,12 +61,12 @@ class Grid extends StatelessWidget {
  ) ,
  
  Positioned(
-  top: 6.h,
+  top: 5.h,
   left: 5.w,
    child: SvgPicture.asset(
     'assets/svg/Consent.svg',
-    width: screenWidth * 0.8 ,
-    height:screenHeight * 0.8,
+    width: 80.w ,
+    height:80.h,
    ),
  )  ,
 
