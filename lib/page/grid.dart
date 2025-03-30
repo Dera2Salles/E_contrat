@@ -1,46 +1,104 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:sizer/sizer.dart';
 
 
 class Grid extends StatelessWidget {
-  const Grid({super.key});
+ 
+  final List<IconData> icons = [
+    Icons.home,
+    Icons.favorite,
+    Icons.star,
+    Icons.person,
+    Icons.settings,
+    Icons.camera,
+    Icons.music_note,
+    Icons.email,
+    Icons.phone,
+  ];
+
+
+
+
+   Grid({super.key});
 
   @override
   Widget build(BuildContext context) {
 
-     double screenHeight =MediaQuery.of(context).size.height;
-      double screenWidth=MediaQuery.of(context).size.width;
-
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
+      backgroundColor: Colors.transparent,
        extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           linear(),
  Positioned(
-  top: screenHeight * 0.36,
- right: screenWidth * 0.6,
+  top: 35.h,
+ right: 55.w,
    child: Transform.scale(
     scale: 3.0,
      child: SvgPicture.asset(
       'assets/svg/background.svg',
-      width: 300,
-      height:300,
+      width: 35.w,
+      height:35.h,
      ),
    ),
  ) ,
  
  Positioned(
-  top: screenHeight * 0.06,
-  left: screenWidth * 0.05,
+  top: 6.h,
+  left: 5.w,
    child: SvgPicture.asset(
     'assets/svg/Consent.svg',
-    width: 670 ,
-    height:670,
+    width: 80.w ,
+    height:80.h,
    ),
- )      ],
+ )  ,
+
+Positioned(
+  top:18.h,
+  left: 15.w,
+  child: SizedBox(
+    width: 70.w,
+    height: 70.h,
+    child: Positioned(
+                height: 60.h, // Hauteur fixe de la grille
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, // 3 colonnes
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                  ),
+                  itemCount: 9, // 3x3 = 9 items
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(185, 187, 173, 173),
+                          borderRadius: BorderRadius.circular(100),
+                        
+                        ),
+                        child: Icon(
+                          icons[index],
+                          size: 35,
+                          color: Colors.black,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+  ),
+),
+  bottomTabbar(),    ],
       ),
-      // bottomNavigationBar: bottomTabbar()
+     
     );
   }
 }
@@ -66,25 +124,37 @@ Container linear(){
 }
 
 
-GNav bottomTabbar(){
- return GNav(
-        gap: 8,
-        tabs: const [
-          GButton(
-            icon: Icons.home_outlined,
-            text:"Home",),
-          GButton(
-            icon: Icons.check_circle_outline,
-            text:"Check",),
-          GButton(
-            icon: Icons.favorite_outline,
-            text:"Favorite",
-            ),
-             GButton(
-            icon: Icons.settings_outlined,
-            text:"Setting",
-            ),
-
-        ]);
+Column bottomTabbar(){
+ return 
+ Column(
+  mainAxisSize:MainAxisSize.max ,
+  mainAxisAlignment: MainAxisAlignment.end,
+   children: [
+     GNav( 
+      
+            backgroundColor: Colors.black.withOpacity(0.3),
+            tabBackgroundColor:  Colors.white ,
+            color: Colors.white,
+            activeColor:   Color.fromARGB(255, 83, 19, 194),
+            padding: EdgeInsets.symmetric(horizontal: 20,vertical: 18),
+            gap: 4,
+            tabs: const [
+              GButton(
+                icon: Icons.layers_rounded,
+                text:"Template",),
+              GButton(
+                icon: Icons.check_circle,
+                text:"Check",),
+              GButton(
+                icon: Icons.favorite,
+                text:"Favorite",
+                ),
+                 GButton(
+                icon: Icons.settings,
+                text:"Setting",
+                ),
+     
+            ]),
+   ],
+ );
 }
-

@@ -41,6 +41,7 @@ dependencies:
   flutter_signature_pad: ^3.0.1
   syncfusion_flutter_signaturepad: ^29.1.33
   digital_ink_recognition_mlkit: ^0.0.4
+  sizer: ^3.0.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

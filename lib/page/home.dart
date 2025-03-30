@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:sizer/sizer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,8 +9,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      double screenHeight =MediaQuery.of(context).size.height;
-      double screenWidth=MediaQuery.of(context).size.width;
+
     return Scaffold(
 
       
@@ -34,27 +34,29 @@ class HomePage extends StatelessWidget {
                linear(),
 
  Positioned(
-  top: screenHeight * 0.33,
- left: screenWidth * 0.1,
+  top: 33.h,
+ left: 15.w,
    child: Transform.scale(
     scale: 3.0,
      child: SvgPicture.asset(
       'assets/svg/background.svg',
-      width: 280,
-      height:280,
+      width: 35.w,
+      height:35.h,
      ),
    ),
  )   ,     
 
                 Positioned(
-                  bottom: screenHeight * 0.25,
-                  left: screenWidth * 0.15,
+                  bottom: 25.h,
+                  left: 15.w,
                   child: Container(
                   margin: EdgeInsets.only(top: 520),
-                  width: 280,
-                  height: 100,
+                  width: 70.w,
+                  height: 13.h,
                   child: FloatingActionButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.pushNamed(context, '/grid');
+                    },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40)
                       ),
@@ -71,25 +73,25 @@ class HomePage extends StatelessWidget {
                     
                 ).animate()
                     .scale(begin: Offset(0.2, 0.2),end: Offset(1.2, 1.2),
-                    duration: 400.ms, curve: Curves.easeOut)
+                    duration: 550.ms, curve: Curves.easeOut)
                     .then()
                     .scale(begin: Offset(1.2, 1.2),end: Offset(0.8, 0.8),
-                    duration: 300.ms, curve: Curves.bounceOut)
-                    .fadeIn(duration: 300.ms),
+                    duration: 550.ms, curve: Curves.bounceOut)
+                    .fadeIn(duration: 550.ms),
   ),
 
  Positioned(
-  top: screenHeight * 0.16,
-  left: screenWidth * 0.045,
+  top: 15.h,
+  left: 5.w,
    child: SvgPicture.asset(
     'assets/svg/Business.svg',
-    width: 300 ,
-    height:300,
+    width: 35.w ,
+    height:35.h,
    ),
  ),
  Positioned(
-  bottom: screenHeight * 0.18,
-  left :screenWidth * 0.13,
+  bottom: 18.h,
+  left :13.w,
    child:  Text("Créez, signez, sécurisez en un clic",
                         style: TextStyle(
                           fontSize: 17,
@@ -100,7 +102,8 @@ class HomePage extends StatelessWidget {
                         ),
    
  ),
- 
+
+
 
               
             
