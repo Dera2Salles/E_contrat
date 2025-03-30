@@ -79,7 +79,7 @@ Positioned(
     width: 70.w,
     height: 70.h,
     child: Positioned(
-                height: 60.h, // Hauteur fixe de la grille
+                height: 70.h, // Hauteur fixe de la grille
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3, // 3 colonnes
@@ -91,32 +91,41 @@ Positioned(
                     return GestureDetector(
                       onTap: () {
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(185, 187, 173, 173),
-                          borderRadius: BorderRadius.circular(100),
-                        
-                        ),
-                        child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: Column(
+                         mainAxisSize:MainAxisSize.max ,
+  mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Icon(
-                            icons[index],
-                            size: 35,
-                            color: Colors.black,
-                          ),
-                          const SizedBox(height: 5), // Espace entre icône et texte
-                          Text(
-                            labels[index],
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                               fontWeight: FontWeight.bold
+                          Container(
+                            width: 15.w,
+                            height: 7.h,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(185, 187, 173, 173),
+                              borderRadius: BorderRadius.circular(100),
+                            
                             ),
+                            child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                icons[index],
+                                size: 35,
+                                color: Colors.black,
+                              ),
+                             
+                            ],
                           ),
+                        ),
+                         const SizedBox(height: 5), // Espace entre icône et texte
+                              Text(
+                                labels[index],
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                   fontWeight: FontWeight.bold
+                                ),
+                              ),
                         ],
                       ),
-                    ),
                     );
                   },
                 ),
