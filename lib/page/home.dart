@@ -3,13 +3,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sizer/sizer.dart';
 
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
 
   @override
   Widget build(BuildContext context) {
-
+       double screenHeight =MediaQuery.of(context).size.height;
+      double screenWidth=MediaQuery.of(context).size.width;
     return Scaffold(
 
       
@@ -48,7 +50,7 @@ class HomePage extends StatelessWidget {
 
                 Positioned(
                   bottom: 25.h,
-                  left: 15.w,
+                  left: 16.w,
                   child: Container(
                   margin: EdgeInsets.only(top: 520),
                   width: 70.w,
@@ -62,7 +64,7 @@ class HomePage extends StatelessWidget {
                       ),
                     child: Text("Ndao e-contrat",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 22.sp,
                       color: Color(0xFF3200d5),
                        fontWeight: FontWeight.bold
                       
@@ -85,16 +87,16 @@ class HomePage extends StatelessWidget {
   left: 5.w,
    child: SvgPicture.asset(
     'assets/svg/Business.svg',
-    width: 35.w ,
-    height:35.h,
+    width: screenWidth * 0.36,
+    height:screenHeight * 0.36,
    ),
  ),
  Positioned(
   bottom: 18.h,
-  left :13.w,
+  left :14.w,
    child:  Text("Créez, signez, sécurisez en un clic",
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 17.sp,
                           color: Colors.white70,
                            fontWeight: FontWeight.bold
                           

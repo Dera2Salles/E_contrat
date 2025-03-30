@@ -3,6 +3,7 @@ import 'package:e_contrat/page/grid.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -18,9 +19,7 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation,deviceType){
 
         return  MaterialApp(
-      initialRoute: '/home',
       routes: {
-        'home': (context)=> HomePage(),
         '/grid':  (context)=> Grid(),
       },
       title: 'Flutter Demo',

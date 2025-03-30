@@ -17,6 +17,17 @@ class Grid extends StatelessWidget {
     Icons.email,
     Icons.phone,
   ];
+  final List<String> labels = [
+    "Home",
+    "Favorite",
+    "Star",
+    "Person",
+    "Settings",
+    "Camera",
+    "Music",
+    "Email",
+    "Phone",
+  ];
 
 
 
@@ -25,11 +36,13 @@ class Grid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+       double screenHeight =MediaQuery.of(context).size.height;
+      double screenWidth=MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
       ),
       backgroundColor: Colors.transparent,
        extendBodyBehindAppBar: true,
@@ -54,8 +67,8 @@ class Grid extends StatelessWidget {
   left: 5.w,
    child: SvgPicture.asset(
     'assets/svg/Consent.svg',
-    width: 80.w ,
-    height:80.h,
+    width: screenWidth * 0.8 ,
+    height:screenHeight * 0.8,
    ),
  )  ,
 
@@ -84,12 +97,26 @@ Positioned(
                           borderRadius: BorderRadius.circular(100),
                         
                         ),
-                        child: Icon(
-                          icons[index],
-                          size: 35,
-                          color: Colors.black,
-                        ),
+                        child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            icons[index],
+                            size: 35,
+                            color: Colors.black,
+                          ),
+                          const SizedBox(height: 5), // Espace entre icône et texte
+                          Text(
+                            labels[index],
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                               fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ],
                       ),
+                    ),
                     );
                   },
                 ),
