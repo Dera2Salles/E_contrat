@@ -10,8 +10,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-       double screenHeight =MediaQuery.of(context).size.height;
-      double screenWidth=MediaQuery.of(context).size.width;
     return Scaffold(
 
       
@@ -93,7 +91,7 @@ class HomePage extends StatelessWidget {
  ),
  Positioned(
   bottom: 18.h,
-  left :14.w,
+  left :15.2.w,
    child:  Text("Créez, signez, sécurisez en un clic",
                         style: TextStyle(
                           fontSize: 17.sp,
