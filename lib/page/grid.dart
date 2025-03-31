@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -130,7 +131,7 @@ Positioned(
               ),
   ),
 ),
-  bottomTabbar(),    ],
+  curvedTab(),    ],
       ),
      
     );
@@ -158,37 +159,74 @@ Container linear(){
 }
 
 
-Column bottomTabbar(){
+// Column bottomTabbar(){
+//  return 
+//  Column(
+//   mainAxisSize:MainAxisSize.max ,
+//   mainAxisAlignment: MainAxisAlignment.end,
+//    children: [
+//      GNav( 
+      
+//             backgroundColor: Colors.black.withOpacity(0.3),
+//             tabBackgroundColor:  Colors.white ,
+//             color: Colors.white,
+//             activeColor:   Color.fromARGB(255, 83, 19, 194),
+//             padding: EdgeInsets.symmetric(horizontal: 20,vertical: 18),
+//             gap: 4,
+//             tabs: const [
+//               GButton(
+//                 icon: Icons.layers_rounded,
+//                 text:"Template",),
+//               GButton(
+//                 icon: Icons.check_circle,
+//                 text:"Check",),
+//               GButton(
+//                 icon: Icons.favorite,
+//                 text:"Favorite",
+//                 ),
+//                  GButton(
+//                 icon: Icons.settings,
+//                 text:"Setting",
+//                 ),
+     
+//             ]),
+//    ],
+//  );
+// }
+
+
+
+Column curvedTab(){
  return 
  Column(
   mainAxisSize:MainAxisSize.max ,
   mainAxisAlignment: MainAxisAlignment.end,
    children: [
-     GNav( 
-      
-            backgroundColor: Colors.black.withOpacity(0.3),
-            tabBackgroundColor:  Colors.white ,
-            color: Colors.white,
-            activeColor:   Color.fromARGB(255, 83, 19, 194),
-            padding: EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-            gap: 4,
-            tabs: const [
-              GButton(
-                icon: Icons.layers_rounded,
-                text:"Template",),
-              GButton(
-                icon: Icons.check_circle,
-                text:"Check",),
-              GButton(
-                icon: Icons.favorite,
-                text:"Favorite",
-                ),
-                 GButton(
-                icon: Icons.settings,
-                text:"Setting",
-                ),
-     
-            ]),
+    CurvedNavigationBar(
+      backgroundColor: Colors.transparent,
+      animationDuration: Duration(milliseconds: 300),
+      items: [
+        Icon(Icons.layers_rounded,
+        color: Color.fromARGB(255, 83, 19, 194),
+        size: 35,
+         ),
+        Icon(
+          Icons.check_circle,
+          color: Color.fromARGB(255, 83, 19, 194),
+          size: 35,
+        ),
+        Icon(Icons.favorite,
+        color: Color.fromARGB(255, 83, 19, 194),
+        size: 35,
+        ),
+        Icon(Icons.settings,
+        color: Color.fromARGB(255, 83, 19, 194),
+        size: 35,
+        ),
+        
+      ],)
+    
+            
    ],
  );
 }
