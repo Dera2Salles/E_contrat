@@ -10,6 +10,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
 
       
@@ -81,12 +83,12 @@ class HomePage extends StatelessWidget {
   ),
 
  Positioned(
-  top: 15.h,
-  left: 5.w,
+  top: screenHeight * 0.15,
+  left: screenWidth * 0.1,
    child: SvgPicture.asset(
     'assets/svg/Business.svg',
-    width: 36.w,
-    height:36.h,
+    width: screenHeight * 0.36,
+    height: screenHeight * 0.36,
    ),
  ),
  Positioned(
