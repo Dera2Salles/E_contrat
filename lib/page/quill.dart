@@ -1,46 +1,48 @@
 import 'dart:convert';
 import 'dart:io' as io show Directory, File;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-// ignore: depend_on_referenced_packages
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
-// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
+import 'package:sizer/sizer.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-void main() => runApp(const MainApp());
+// Définir un document par défaut
+final kQuillDefaultSample = [
+  {'insert': '\n'}
+];
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+
+// class Edit extends StatelessWidget {
+//   const Edit({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData.light(useMaterial3: true),
+//       darkTheme: ThemeData.dark(useMaterial3: true),
+//       themeMode: ThemeMode.system,
+//       home: HomePage(),
+//       localizationsDelegates: [
+//         GlobalMaterialLocalizations.delegate,
+//         GlobalCupertinoLocalizations.delegate,
+//         GlobalWidgetsLocalizations.delegate,
+//         FlutterQuillLocalizations.delegate,
+//       ],
+//     );
+//   }
+// }
+
+class Editor extends StatefulWidget {
+  const Editor({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(useMaterial3: true),
-      darkTheme: ThemeData.dark(useMaterial3: true),
-      themeMode: ThemeMode.system,
-      home: HomePage(),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        FlutterQuillLocalizations.delegate,
-      ],
-    );
-  }
+  State<Editor> createState() => _HomePageState();
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<Editor> {
   final QuillController _controller = () {
     return QuillController.basic(
         config: QuillControllerConfig(
@@ -48,20 +50,15 @@ class _HomePageState extends State<HomePage> {
         enableExternalRichPaste: true,
         onImagePaste: (imageBytes) async {
           if (kIsWeb) {
-            // Dart IO is unsupported on the web.
             return null;
           }
-          // Save the image somewhere and return the image URL that will be
-          // stored in the Quill Delta JSON (the document).
           final newFileName =
               'image-file-${DateTime.now().toIso8601String()}.png';
           final newPath = path.join(
             io.Directory.systemTemp.path,
             newFileName,
           );
-          final file = await io.File(
-            newPath,
-          ).writeAsBytes(imageBytes, flush: true);
+          final file = await io.File(newPath).writeAsBytes(imageBytes, flush: true);
           return file.path;
         },
       ),
@@ -69,26 +66,53 @@ class _HomePageState extends State<HomePage> {
   }();
   final FocusNode _editorFocusNode = FocusNode();
   final ScrollController _editorScrollController = ScrollController();
-  
-
 
   @override
   void initState() {
     super.initState();
-    // Load document
-    var kQuillDefaultSample;
-    _controller.document = Document.fromJson(kQuillDefaultSample!);
+    _controller.document = Document.fromJson(kQuillDefaultSample);
   }
 
+Container linear(){
+  return  Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors:[
+           Color.fromARGB(255, 83, 19, 194),
+          Color(0xFFE9CBFD),
+          Color(0xFFE9CBFD),
+         
+          
+
+        ],
+       
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter
+        )
+    ),
+  );
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('Flutter Quill Example'),
+         elevation: 0,
+         backgroundColor: Colors.transparent,
+       
+        title: Text('Motif du contrat',
+        
+        style: TextStyle(
+           fontWeight: FontWeight.bold
+        ),),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.output),
-            tooltip: 'Print Delta JSON to log',
+          FloatingActionButton(
+           elevation: 0,
+            shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40)
+                      ),
+            child: const Icon(Icons.output),
+            
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content:
@@ -98,83 +122,108 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            QuillSimpleToolbar(
-              controller: _controller,
-              config: QuillSimpleToolbarConfig(
-                embedButtons: FlutterQuillEmbeds.toolbarButtons(),
-                showClipboardPaste: true,
-                customButtons: [
-                  QuillToolbarCustomButtonOptions(
-                    icon: const Icon(Icons.add_alarm_rounded),
-                    onPressed: () {
-                      _controller.document.insert(
-                        _controller.selection.extentOffset,
-                        TimeStampEmbed(
-                          DateTime.now().toString(),
-                        ),
-                      );
+      body: Stack(
+        children: [
 
-                      _controller.updateSelection(
-                        TextSelection.collapsed(
-                          offset: _controller.selection.extentOffset + 1,
-                        ),
-                        ChangeSource.local,
-                      );
-                    },
-                  ),
-                ],
-                buttonOptions: QuillSimpleToolbarButtonOptions(
-                  base: QuillToolbarBaseButtonOptions(
-                    afterButtonPressed: () {
-                      final isDesktop = {
-                        TargetPlatform.linux,
-                        TargetPlatform.windows,
-                        TargetPlatform.macOS
-                      }.contains(defaultTargetPlatform);
-                      if (isDesktop) {
-                        _editorFocusNode.requestFocus();
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: QuillEditor(
-                focusNode: _editorFocusNode,
-                scrollController: _editorScrollController,
-                controller: _controller,
-                config: QuillEditorConfig(
-                  placeholder: 'Start writing your notes...',
-                  padding: const EdgeInsets.all(16),
-                  embedBuilders: [
-                    ...FlutterQuillEmbeds.editorBuilders(
-                      imageEmbedConfig: QuillEditorImageEmbedConfig(
-                        imageProviderBuilder: (context, imageUrl) {
-                          // https://pub.dev/packages/flutter_quill_extensions#-image-assets
-                          if (imageUrl.startsWith('assets/')) {
-                            return AssetImage(imageUrl);
-                          }
-                          return null;
+         linear(),
+         Positioned(
+  top: 35.h,
+ right: 55.w,
+   child: Transform.scale(
+    scale: 3.0,
+     child: SvgPicture.asset(
+      'assets/svg/background.svg',
+      width: 35.w,
+      height:35.h,
+     ),
+   ),
+ ) ,
+
+//  Positioned(
+//   top: -10.h,
+//   left: -5.w,
+//    child: SvgPicture.asset(
+//     'assets/svg/Consent.svg',
+//     width: 100.w ,
+//     height:100.h,
+//    ),
+//  )  ,
+          SafeArea(
+            child: Column(
+              children: [
+                QuillSimpleToolbar(
+                  controller: _controller,
+                  config: QuillSimpleToolbarConfig(
+                    embedButtons: FlutterQuillEmbeds.toolbarButtons(),
+                    showClipboardPaste: true,
+                    customButtons: [
+                      QuillToolbarCustomButtonOptions(
+                        icon: const Icon(Icons.add_alarm_rounded),
+                        onPressed: () {
+                          _controller.document.insert(
+                            _controller.selection.extentOffset,
+                            TimeStampEmbed(
+                              DateTime.now().toString(),
+                            ),
+                          );
+                          _controller.updateSelection(
+                            TextSelection.collapsed(
+                              offset: _controller.selection.extentOffset + 1,
+                            ),
+                            ChangeSource.local,
+                          );
                         },
                       ),
-                      videoEmbedConfig: QuillEditorVideoEmbedConfig(
-                        customVideoBuilder: (videoUrl, readOnly) {
-                          // To load YouTube videos https://github.com/singerdmx/flutter-quill/releases/tag/v10.8.0
-                          return null;
+                    ],
+                    buttonOptions: QuillSimpleToolbarButtonOptions(
+                      base: QuillToolbarBaseButtonOptions(
+                        afterButtonPressed: () {
+                          final isDesktop = {
+                            TargetPlatform.linux,
+                            TargetPlatform.windows,
+                            TargetPlatform.macOS
+                          }.contains(defaultTargetPlatform);
+                          if (isDesktop) {
+                            _editorFocusNode.requestFocus();
+                          }
                         },
                       ),
                     ),
-                    TimeStampEmbedBuilder(),
-                  ],
+                  ),
                 ),
-              ),
+                Expanded(
+                  child: QuillEditor(
+                    focusNode: _editorFocusNode,
+                    scrollController: _editorScrollController,
+                    controller: _controller,
+                    config: QuillEditorConfig(
+                      placeholder: 'Ndao e-contrat...',
+                      padding: const EdgeInsets.all(16),
+                      embedBuilders: [
+                        ...FlutterQuillEmbeds.editorBuilders(
+                          imageEmbedConfig: QuillEditorImageEmbedConfig(
+                            imageProviderBuilder: (context, imageUrl) {
+                              if (imageUrl.startsWith('assets/')) {
+                                return AssetImage(imageUrl);
+                              }
+                              return null;
+                            },
+                          ),
+                          videoEmbedConfig: QuillEditorVideoEmbedConfig(
+                            customVideoBuilder: (videoUrl, readOnly) {
+                              return null;
+                            },
+                          ),
+                        ),
+                        TimeStampEmbedBuilder(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

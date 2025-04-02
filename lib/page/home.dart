@@ -84,7 +84,7 @@ class HomePage extends StatelessWidget {
 
  Positioned(
   top: screenHeight * 0.15,
-  left: screenWidth * 0.1,
+  left: screenWidth * 0.05,
    child: SvgPicture.asset(
     'assets/svg/Business.svg',
     width: screenHeight * 0.36,

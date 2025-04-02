@@ -88,7 +88,7 @@ Positioned(
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                         Navigator.pushNamed(context, '/input');
+                         Navigator.pushNamed(context, '/editor');
                       },
                       child: Column(
                          mainAxisSize:MainAxisSize.max ,
@@ -223,6 +223,7 @@ Column curvedTab(){
         color: Color.fromARGB(255, 83, 19, 194),
         size: 35,
         ),
+        
         
       ],)
     
