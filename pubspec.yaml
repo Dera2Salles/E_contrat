@@ -33,13 +33,13 @@ dependencies:
   flutter_svg: ^2.0.10+1
   google_nav_bar: ^5.0.7
   flutter_advanced_drawer: ^1.4.0
-  syncfusion_flutter_datepicker: ^29.1.33
+  syncfusion_flutter_datepicker: ^29.1.35
   audioplayers: ^6.4.0
   animate_do: ^4.2.0
   flutter_form_builder: ^10.0.1
   scribble: ^0.10.0+1
   flutter_signature_pad: ^3.0.1
-  syncfusion_flutter_signaturepad: ^29.1.33
+  syncfusion_flutter_signaturepad: ^29.1.35
   digital_ink_recognition_mlkit: ^0.0.4
   sizer: ^3.0.3
   curved_navigation_bar: ^1.0.6
@@ -49,7 +49,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_animate: ^4.5.2
   material_color_utilities: ^0.11.1
-  flutter_localization: ^0.3.1
+  flutter_localization: ^0.3.2
+  flutter_quill: ^11.2.0
+  flutter_quill_extensions: ^11.0.0
 
 dev_dependencies:
   flutter_test:
