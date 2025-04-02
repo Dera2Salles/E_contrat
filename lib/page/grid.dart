@@ -88,6 +88,7 @@ Positioned(
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
+                         Navigator.pushNamed(context, '/input');
                       },
                       child: Column(
                          mainAxisSize:MainAxisSize.max ,

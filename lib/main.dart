@@ -2,6 +2,8 @@ import 'package:e_contrat/page/home.dart';
 import 'package:e_contrat/page/grid.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:e_contrat/page/inputfield.dart';
+
 
 
 void main() {
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
         return  MaterialApp(
       routes: {
         '/grid':  (context)=> Grid(),
+        '/input' :  (context)=> InputPage()
       },
       title: 'Flutter Demo',
       theme: ThemeData(
