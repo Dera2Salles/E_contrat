@@ -1,10 +1,19 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 
 
-class Grid extends StatelessWidget {
+class Grid extends StatefulWidget{
+  const Grid({super.key});
+
+ @override
+  State<Grid> createState()=> _GridState();
+}
+
+
+class _GridState extends State<Grid>{
  
   final List<IconData> icons = [
     Icons.home,
@@ -40,85 +49,101 @@ class Grid extends StatelessWidget {
     '/editor',
   ];
 
+  final advancedDrawerController =AdvancedDrawerController();
 
-
-
-
-   Grid({super.key});
+  void drawerControl(){
+    advancedDrawerController.showDrawer();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
+    return AdvancedDrawer(
+      rtlOpening: false,
+      animationCurve: Curves.easeInBack,
+      controller: advancedDrawerController,
+      drawer: SafeArea(
+        child: Column(
+          children: [],
+        ) 
+        
+        ),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(onPressed: (){drawerControl();}, icon: Icon(
+            Icons.menu_outlined,color: Colors.white,
+            
+          )
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+        ),
         backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-      ),
-      backgroundColor: Colors.transparent,
-       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          linear(),
- Positioned(
-  top: 35.h,
- right: 55.w,
-   child: Transform.scale(
-    scale: 3.0,
-     child: SvgPicture.asset(
-      'assets/svg/background.svg',
-      width: 35.w,
-      height:35.h,
-     ),
-   ),
- ) ,
- 
- Align(
-  alignment: Alignment(0.9, -0.4),
-   child: SvgPicture.asset(
-    'assets/svg/Consent.svg',
-    width: 80.w ,
-    height:80.h,
-   ),
- )  ,
-
-Align(
-  alignment: Alignment(0.05, 0.2),
-  child: SizedBox(
-    width: 70.w,
-    height: 70.h,
-    child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, // 3 colonnes
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 30,
-                  ),
-                  itemCount: 9, // 3x3 = 9 items
-                  itemBuilder: (context, index) {
-                    return  FloatingActionButton(
-                      heroTag: "fab_grid_$index",
-                      elevation: 1,
-              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40)
-                              ) ,
-                    onPressed: () {
-                     Navigator.pushNamed(context, destination[index]);
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(icons[index],
-                        size: 35,),
-                        Text(labels[index])
-                      ],
+         extendBodyBehindAppBar: true,
+        body: Stack(
+          children: [
+            linear(),
+       Positioned(
+        top: 35.h,
+       right: 55.w,
+         child: Transform.scale(
+      scale: 3.0,
+       child: SvgPicture.asset(
+        'assets/svg/background.svg',
+        width: 35.w,
+        height:35.h,
+       ),
+         ),
+       ) ,
+       
+       Align(
+        alignment: Alignment(0.9, -0.4),
+         child: SvgPicture.asset(
+      'assets/svg/Consent.svg',
+      width: 80.w ,
+      height:80.h,
+         ),
+       )  ,
+      
+      Align(
+        alignment: Alignment(0.05, 0.2),
+        child: SizedBox(
+      width: 70.w,
+      height: 70.h,
+      child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3, // 3 colonnes
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 30,
                     ),
-                    );
-                  },
-              ),
-  ),
-),
-  curvedTab(),    ],
+                    itemCount: 9, // 3x3 = 9 items
+                    itemBuilder: (context, index) {
+                      return  FloatingActionButton(
+                        heroTag: "fab_grid_$index",
+                        elevation: 1,
+                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40)
+                                ) ,
+                      onPressed: () {
+                       Navigator.pushNamed(context, destination[index]);
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(icons[index],
+                          size: 35,),
+                          Text(labels[index])
+                        ],
+                      ),
+                      );
+                    },
+                ),
+        ),
       ),
-     
+        curvedTab(),    ],
+        ),
+       
+      ),
     );
   }
 }

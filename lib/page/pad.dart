@@ -121,7 +121,7 @@ class _MyHomePageState extends State<_MyHomePage> {
                       child: SfSignaturePad(
                           key: signatureGlobalKey,
                           backgroundColor: Colors.transparent,
-                          strokeColor: Colors.black,
+                          strokeColor: Color(0xFF0D47A1),
                           minimumStrokeWidth: 1.0,
                           maximumStrokeWidth: 4.0)
                           )
