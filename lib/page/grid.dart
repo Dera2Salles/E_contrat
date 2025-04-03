@@ -95,6 +95,7 @@ Align(
                   itemCount: 9, // 3x3 = 9 items
                   itemBuilder: (context, index) {
                     return  FloatingActionButton(
+                      heroTag: "fab_grid_$index",
                       elevation: 1,
               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40)

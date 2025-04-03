@@ -134,6 +134,7 @@ class _MyHomePageState extends State<_MyHomePage> {
         
         children: <Widget>[
                 FloatingActionButton(
+                  heroTag: "clear",
               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40)
                               ) ,
@@ -142,6 +143,7 @@ class _MyHomePageState extends State<_MyHomePage> {
                     size: 30,),
                     ),
                FloatingActionButton(
+                heroTag: "save",
               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40)
                               ) ,
