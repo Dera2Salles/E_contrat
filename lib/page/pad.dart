@@ -47,7 +47,7 @@ class _MyHomePageState extends State<_MyHomePage> {
           return Scaffold(
             body: Center(
               child: Container(
-                color: Colors.grey[300],
+                color: Colors.white,
                 child: Image.memory(bytes!.buffer.asUint8List()),
               ),
             ),
