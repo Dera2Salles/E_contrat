@@ -13,12 +13,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 final kQuillDefaultSample = [
   {'insert': '\n'}
 ];
-
 // Mandeha ny POST
 
+final url = Uri.parse('http://192.168.229.144:1627/todo');
 Future<void>getData() async{
  
-  final url = Uri.parse('http://10.42.0.107:4300/todo');
+ 
 
  try{
   final response = await http.get(url);
@@ -43,11 +43,11 @@ Future<void>getData() async{
 
 Future<void>postData() async{
 
-  final url = Uri.parse('http://10.42.0.107:4300/todo');
+  
 
   final data = {
-    'titre':'Jhon',
-    'id':600
+    'titre':'Fetch',
+    'description': 'Dera'
   };
 
 
@@ -192,18 +192,15 @@ Container linear(){
            ),
              ),
            ) ,
-               Align(
-            alignment: Alignment(-1, 0.05),
-            
-             child: Transform.scale(
-          scale: 3.0,
+          Align(
+         alignment: Alignment(-1,-10),
            child: SvgPicture.asset(
             'assets/svg/editor.svg',
-            width: 33.w,
-            height:33.h,
+            width: 370.h,
+            height:370.w,
            ),
              ),
-           )  ,
+           
             
           Scaffold(
             backgroundColor: Colors.transparent,
@@ -295,16 +292,16 @@ Container linear(){
             ),
           
             floatingActionButton: SizedBox(
-              width:20.w,
-              height: 10.h,
+              width:15.w,
+              height: 7.h,
               child: FloatingActionButton(
               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40)
                               ) ,
                     onPressed: () {
-                      postData();
+                    
                     },
-                    child: Icon(Icons.output,
+                    child: Icon(Icons.check_circle,
                     size: 30,),
                     ),
             ),

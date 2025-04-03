@@ -1,6 +1,7 @@
 import 'package:e_contrat/page/quill.dart';
 import 'package:e_contrat/page/home.dart';
 import 'package:e_contrat/page/grid.dart';
+import 'package:e_contrat/page/pad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:sizer/sizer.dart';
@@ -47,6 +48,7 @@ class Econtrat extends StatelessWidget {
         '/grid':  (context)=> Grid(),
         '/input' :  (context)=> InputPage(),
         '/editor': (context)=> Editor(),
+        '/pad': (context)=> SignaturePadApp(),
       },
       title: 'Flutter Demo',
       // theme: ThemeData(

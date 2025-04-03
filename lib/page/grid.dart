@@ -29,6 +29,18 @@ class Grid extends StatelessWidget {
     "Phone",
   ];
 
+  final List<String> destination = [
+    '/editor',
+    '/input',
+    '/pad',
+    '/editor',
+    '/editor',
+    '/editor',
+    '/editor',
+    '/editor',
+  ];
+
+
 
 
 
@@ -82,45 +94,22 @@ Align(
                   ),
                   itemCount: 9, // 3x3 = 9 items
                   itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                         Navigator.pushNamed(context, '/editor');
-                      },
-                      child: Column(
-                         mainAxisSize:MainAxisSize.max ,
-  mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: 15.w,
-                            height: 7.h,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(185, 187, 173, 173),
-                              borderRadius: BorderRadius.circular(100),
-                            
-                            ),
-                            child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                icons[index],
-                                size: 35,
-                                color: Colors.black,
-                              ),
-                             
-                            ],
-                          ),
-                        ),
-                         const SizedBox(height: 5), // Espace entre icône et texte
-                              Text(
-                                labels[index],
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                   fontWeight: FontWeight.bold
-                                ),
-                              ),
-                        ],
-                      ),
+                    return  FloatingActionButton(
+                      elevation: 1,
+              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40)
+                              ) ,
+                    onPressed: () {
+                     Navigator.pushNamed(context, destination[index]);
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(icons[index],
+                        size: 35,),
+                        Text(labels[index])
+                      ],
+                    ),
                     );
                   },
               ),
