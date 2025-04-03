@@ -23,7 +23,7 @@ class Econtrat extends StatelessWidget {
       builder: (context, orientation,deviceType){
 
         return  MaterialApp(
-          debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: true,
           //  theme: ThemeData.light(useMaterial3: true),
                 theme: ThemeData(
         fontFamily: 'Poppins',

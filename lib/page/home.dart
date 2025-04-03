@@ -82,18 +82,18 @@ class HomePage extends StatelessWidget {
                     .fadeIn(duration: 550.ms),
   ),
 
- Positioned(
-  top: screenHeight * 0.15,
-  left: screenWidth * 0.05,
+ Align(
+  alignment: Alignment(0.02, -0.5),
+
+  
    child: SvgPicture.asset(
     'assets/svg/Business.svg',
-    width: screenHeight * 0.36,
+    width: screenWidth * 0.36,
     height: screenHeight * 0.36,
    ),
  ),
- Positioned(
-  bottom: 18.h,
-  left :15.2.w,
+ Align(
+  alignment: Alignment(0.03, 0.6),
    child:  Text("Créez, signez, sécurisez en un clic",
                         style: TextStyle(
                           fontSize: 17.sp,

@@ -60,9 +60,8 @@ class Grid extends StatelessWidget {
    ),
  ) ,
  
- Positioned(
-  top: 5.h,
-  left: 5.w,
+ Align(
+  alignment: Alignment(0.9, -0.4),
    child: SvgPicture.asset(
     'assets/svg/Consent.svg',
     width: 80.w ,
@@ -70,19 +69,16 @@ class Grid extends StatelessWidget {
    ),
  )  ,
 
-Positioned(
-  top:18.h,
-  left: 15.w,
+Align(
+  alignment: Alignment(0.05, 0.2),
   child: SizedBox(
     width: 70.w,
     height: 70.h,
-    child: Positioned(
-                height: 70.h, // Hauteur fixe de la grille
-                child: GridView.builder(
+    child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3, // 3 colonnes
                     crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
+                    mainAxisSpacing: 30,
                   ),
                   itemCount: 9, // 3x3 = 9 items
                   itemBuilder: (context, index) {
@@ -127,7 +123,6 @@ Positioned(
                       ),
                     );
                   },
-                ),
               ),
   ),
 ),
