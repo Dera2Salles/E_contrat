@@ -211,12 +211,13 @@ Container linear(){
                   alignment: Alignment(0.2, 0.2),
                   child: SafeArea(
                     child: SizedBox(
-                      width: 90.w,
+                      width: 85.w,
                       child: Column(
                         children: [
                           QuillSimpleToolbar(
                             controller: _controller,
                             config: QuillSimpleToolbarConfig(
+                              multiRowsDisplay: false,
                               embedButtons: FlutterQuillEmbeds.toolbarButtons(),
                               showClipboardPaste: true,
                               customButtons: [
