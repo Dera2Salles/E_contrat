@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,6 +13,65 @@ import 'package:flutter_svg/flutter_svg.dart';
 final kQuillDefaultSample = [
   {'insert': '\n'}
 ];
+
+// Mandeha ny POST
+
+Future<void>getData() async{
+ 
+  final url = Uri.parse('http://10.42.0.107:4300/todo');
+
+ try{
+  final response = await http.get(url);
+  final data = jsonDecode(response.body);
+  debugPrint('Donnee : $data');
+
+
+  if (response.statusCode ==200 ){
+
+  }
+ }
+ catch(e){
+
+  debugPrint('Erreur $e');
+ }
+}
+
+
+
+
+
+
+Future<void>postData() async{
+
+  final url = Uri.parse('http://10.42.0.107:4300/todo');
+
+  final data = {
+    'titre':'Jhon',
+    'id':600
+  };
+
+
+  try {
+    final response = await http.post(
+      url,
+      headers:{'Content-Type':'application/json'},
+      body:jsonEncode(data),
+
+
+    );
+
+    if (response.statusCode==201 || response.statusCode == 200){
+      debugPrint('succes: ${response.body}');
+    }
+    else{
+      debugPrint('Erreur ${response.statusCode}');
+    }
+  }
+  catch(e){
+    debugPrint('Exception: $e');
+  }
+
+}
 
 
 // class Edit extends StatelessWidget {
@@ -95,132 +155,158 @@ Container linear(){
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset:false ,
        extendBodyBehindAppBar: true,
-      appBar: AppBar(
-         elevation: 0,
-         backgroundColor: Colors.transparent,
-       
-        title: Text('Motif du contrat',
-        
-        style: TextStyle(
-           fontWeight: FontWeight.bold
-        ),),
-        actions: [
-          FloatingActionButton(
+        appBar: AppBar(
+           automaticallyImplyLeading: false,
+            centerTitle: true,
            elevation: 0,
-            shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40)
-                      ),
-            child: const Icon(Icons.output),
-            
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content:
-                      Text('The JSON Delta has been printed to the console.')));
-              debugPrint(jsonEncode(_controller.document.toDelta().toJson()));
-            },
+           backgroundColor: Colors.transparent,
+         
+          title: Text('Motif du contrat',
+          
+          style: TextStyle(
+             fontWeight: FontWeight.bold
           ),
-        ],
-      ),
-      body: Stack(
+          ),
+        ),
+
+
+
+
+
+      body: 
+      Stack(
+
         children: [
-
-         linear(),
-         Positioned(
-  top: 35.h,
- right: 55.w,
-   child: Transform.scale(
-    scale: 3.0,
-     child: SvgPicture.asset(
-      'assets/svg/background.svg',
-      width: 35.w,
-      height:35.h,
-     ),
-   ),
- ) ,
-
-//  Positioned(
-//   top: -10.h,
-//   left: -5.w,
-//    child: SvgPicture.asset(
-//     'assets/svg/Consent.svg',
-//     width: 100.w ,
-//     height:100.h,
-//    ),
-//  )  ,
-          SafeArea(
-            child: Column(
+            linear(),
+            Positioned(
+            top: 35.h,
+           right: 55.w,
+             child: Transform.scale(
+          scale: 3.0,
+           child: SvgPicture.asset(
+            'assets/svg/background.svg',
+            width: 35.w,
+            height:35.h,
+           ),
+             ),
+           ) ,
+               Align(
+            alignment: Alignment(-1, 0.05),
+            
+             child: Transform.scale(
+          scale: 3.0,
+           child: SvgPicture.asset(
+            'assets/svg/editor.svg',
+            width: 33.w,
+            height:33.h,
+           ),
+             ),
+           )  ,
+            
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            
+            body: Stack(
               children: [
-                QuillSimpleToolbar(
-                  controller: _controller,
-                  config: QuillSimpleToolbarConfig(
-                    embedButtons: FlutterQuillEmbeds.toolbarButtons(),
-                    showClipboardPaste: true,
-                    customButtons: [
-                      QuillToolbarCustomButtonOptions(
-                        icon: const Icon(Icons.add_alarm_rounded),
-                        onPressed: () {
-                          _controller.document.insert(
-                            _controller.selection.extentOffset,
-                            TimeStampEmbed(
-                              DateTime.now().toString(),
+                Align(
+                  alignment: Alignment(0.2, 0.2),
+                  child: SafeArea(
+                    child: SizedBox(
+                      width: 90.w,
+                      child: Column(
+                        children: [
+                          QuillSimpleToolbar(
+                            controller: _controller,
+                            config: QuillSimpleToolbarConfig(
+                              embedButtons: FlutterQuillEmbeds.toolbarButtons(),
+                              showClipboardPaste: true,
+                              customButtons: [
+                                QuillToolbarCustomButtonOptions(
+                                  icon: const Icon(Icons.add_alarm_rounded),
+                                  onPressed: () {
+                                    _controller.document.insert(
+                                      _controller.selection.extentOffset,
+                                      TimeStampEmbed(
+                                        DateTime.now().toString(),
+                                      ),
+                                    );
+                                    _controller.updateSelection(
+                                      TextSelection.collapsed(
+                                        offset: _controller.selection.extentOffset + 1,
+                                      ),
+                                      ChangeSource.local,
+                                    );
+                                  },
+                                ),
+                              ],
+                              buttonOptions: QuillSimpleToolbarButtonOptions(
+                                base: QuillToolbarBaseButtonOptions(
+                                  afterButtonPressed: () {
+                                    final isDesktop = {
+                                      TargetPlatform.linux,
+                                      TargetPlatform.windows,
+                                      TargetPlatform.macOS
+                                    }.contains(defaultTargetPlatform);
+                                    if (isDesktop) {
+                                      _editorFocusNode.requestFocus();
+                                    }
+                                  },
+                                ),
+                              ),
                             ),
-                          );
-                          _controller.updateSelection(
-                            TextSelection.collapsed(
-                              offset: _controller.selection.extentOffset + 1,
+                          ),
+                          Expanded(
+                            child: QuillEditor(
+                              focusNode: _editorFocusNode,
+                              scrollController: _editorScrollController,
+                              controller: _controller,
+                              config: QuillEditorConfig(
+                                placeholder: 'Ndao e-contrat...',
+                                padding: const EdgeInsets.all(16),
+                                embedBuilders: [
+                                  ...FlutterQuillEmbeds.editorBuilders(
+                                    imageEmbedConfig: QuillEditorImageEmbedConfig(
+                                      imageProviderBuilder: (context, imageUrl) {
+                                        if (imageUrl.startsWith('assets/')) {
+                                          return AssetImage(imageUrl);
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    videoEmbedConfig: QuillEditorVideoEmbedConfig(
+                                      customVideoBuilder: (videoUrl, readOnly) {
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  TimeStampEmbedBuilder(),
+                                ],
+                              ),
                             ),
-                            ChangeSource.local,
-                          );
-                        },
-                      ),
-                    ],
-                    buttonOptions: QuillSimpleToolbarButtonOptions(
-                      base: QuillToolbarBaseButtonOptions(
-                        afterButtonPressed: () {
-                          final isDesktop = {
-                            TargetPlatform.linux,
-                            TargetPlatform.windows,
-                            TargetPlatform.macOS
-                          }.contains(defaultTargetPlatform);
-                          if (isDesktop) {
-                            _editorFocusNode.requestFocus();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: QuillEditor(
-                    focusNode: _editorFocusNode,
-                    scrollController: _editorScrollController,
-                    controller: _controller,
-                    config: QuillEditorConfig(
-                      placeholder: 'Ndao e-contrat...',
-                      padding: const EdgeInsets.all(16),
-                      embedBuilders: [
-                        ...FlutterQuillEmbeds.editorBuilders(
-                          imageEmbedConfig: QuillEditorImageEmbedConfig(
-                            imageProviderBuilder: (context, imageUrl) {
-                              if (imageUrl.startsWith('assets/')) {
-                                return AssetImage(imageUrl);
-                              }
-                              return null;
-                            },
                           ),
-                          videoEmbedConfig: QuillEditorVideoEmbedConfig(
-                            customVideoBuilder: (videoUrl, readOnly) {
-                              return null;
-                            },
-                          ),
-                        ),
-                        TimeStampEmbedBuilder(),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ],
+            ),
+          
+            floatingActionButton: SizedBox(
+              width:20.w,
+              height: 10.h,
+              child: FloatingActionButton(
+              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40)
+                              ) ,
+                    onPressed: () {
+                      postData();
+                    },
+                    child: Icon(Icons.output,
+                    size: 30,),
+                    ),
             ),
           ),
         ],
