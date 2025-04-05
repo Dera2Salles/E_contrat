@@ -1,8 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sizer/sizer.dart';
+import 'package:e_contrat/page/template.dart';
+import 'package:e_contrat/page/favorite.dart';
 
 
 class Grid extends StatefulWidget{
@@ -13,41 +13,21 @@ class Grid extends StatefulWidget{
 }
 
 
+
 class _GridState extends State<Grid>{
  
-  final List<IconData> icons = [
-    Icons.home,
-    Icons.favorite,
-    Icons.star,
-    Icons.person,
-    Icons.settings,
-    Icons.camera,
-    Icons.music_note,
-    Icons.email,
-    Icons.phone,
-  ];
-  final List<String> labels = [
-    "Home",
-    "Favorite",
-    "Star",
-    "Person",
-    "Settings",
-    "Camera",
-    "Music",
-    "Email",
-    "Phone",
-  ];
+int _pageIndex = 0; // Index de la page actuelle
 
-  final List<String> destination = [
-    '/editor',
-    '/input',
-    '/pad',
-    '/editor',
-    '/editor',
-    '/editor',
-    '/editor',
-    '/editor',
+  // Liste des pages à afficher
+  final List<Widget> _pages = [
+    Template(),
+     Favorite(),
+     Favorite(),
+     Favorite(),
+     Favorite(),
+    
   ];
+ 
 
   final advancedDrawerController =AdvancedDrawerController();
 
@@ -55,10 +35,12 @@ class _GridState extends State<Grid>{
     advancedDrawerController.showDrawer();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return AdvancedDrawer(
       rtlOpening: false,
+      backdropColor: Colors.blueGrey,
       animationCurve: Curves.easeInBack,
       controller: advancedDrawerController,
       drawer: SafeArea(
@@ -67,106 +49,86 @@ class _GridState extends State<Grid>{
         ) 
         
         ),
-      child: Scaffold(
+      child: 
+    Scaffold(
         appBar: AppBar(
-          leading: IconButton(onPressed: (){drawerControl();}, icon: Icon(
-            Icons.menu_outlined,color: Colors.white,
-            
-          )
-          ),
           elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.menu,
+            color: Colors.white,
+            
+         ),
+            onPressed:(){
+              advancedDrawerController.showDrawer();
+            }
+            
+          ),
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
         ),
         backgroundColor: Colors.transparent,
          extendBodyBehindAppBar: true,
-        body: Stack(
+         extendBody: true, 
+        body:Stack(
           children: [
-            linear(),
-       Positioned(
-        top: 35.h,
-       right: 55.w,
-         child: Transform.scale(
-      scale: 3.0,
-       child: SvgPicture.asset(
-        'assets/svg/background.svg',
-        width: 35.w,
-        height:35.h,
-       ),
+            _pages[_pageIndex],
+
+            
+          ],
+        ),
+
+
+
+        bottomNavigationBar: CurvedNavigationBar(
+      backgroundColor: Colors.transparent,
+      animationDuration: Duration(milliseconds: 300),
+      items: [
+        Icon(Icons.layers_rounded,
+        color: Color.fromARGB(255, 83, 19, 194),
+        size: 35,
          ),
-       ) ,
-       
-       Align(
-        alignment: Alignment(0.9, -0.4),
-         child: SvgPicture.asset(
-      'assets/svg/Consent.svg',
-      width: 80.w ,
-      height:80.h,
-         ),
-       )  ,
+        Icon(
+          Icons.check_circle,
+          color: Color.fromARGB(255, 83, 19, 194),
+          size: 35,
+        ),
+        Icon(Icons.favorite,
+        color: Color.fromARGB(255, 83, 19, 194),
+        size: 35,
+        ),
+        Icon(Icons.settings,
+        color: Color.fromARGB(255, 83, 19, 194),
+        size: 35,
+        ),
+        
+        
+      ],
+      onTap: (index) {
+          setState(() {
+            _pageIndex = index; // Met à jour l'index et redessine
+          });
+        },
       
-      Align(
-        alignment: Alignment(0.05, 0.2),
-        child: SizedBox(
-      width: 70.w,
-      height: 70.h,
-      child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, // 3 colonnes
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 30,
-                    ),
-                    itemCount: 9, // 3x3 = 9 items
-                    itemBuilder: (context, index) {
-                      return  FloatingActionButton(
-                        heroTag: "fab_grid_$index",
-                        elevation: 1,
-                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40)
-                                ) ,
-                      onPressed: () {
-                       Navigator.pushNamed(context, destination[index]);
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(icons[index],
-                          size: 35,),
-                          Text(labels[index])
-                        ],
-                      ),
-                      );
-                    },
-                ),
-        ),
       ),
-        curvedTab(),    ],
-        ),
-       
-      ),
+      )
+
     );
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  
+ 
   }
 }
 
 
-Container linear(){
-  return  Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors:[
-           Color.fromARGB(255, 83, 19, 194),
-          Color(0xFFE9CBFD),
-          Color(0xFFE9CBFD),
-         
-          
-
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter
-        )
-    ),
-  );
-}
 
 
 // Column bottomTabbar(){
@@ -204,40 +166,3 @@ Container linear(){
 //  );
 // }
 
-
-
-Column curvedTab(){
- return 
- Column(
-  mainAxisSize:MainAxisSize.max ,
-  mainAxisAlignment: MainAxisAlignment.end,
-   children: [
-    CurvedNavigationBar(
-      backgroundColor: Colors.transparent,
-      animationDuration: Duration(milliseconds: 300),
-      items: [
-        Icon(Icons.layers_rounded,
-        color: Color.fromARGB(255, 83, 19, 194),
-        size: 35,
-         ),
-        Icon(
-          Icons.check_circle,
-          color: Color.fromARGB(255, 83, 19, 194),
-          size: 35,
-        ),
-        Icon(Icons.favorite,
-        color: Color.fromARGB(255, 83, 19, 194),
-        size: 35,
-        ),
-        Icon(Icons.settings,
-        color: Color.fromARGB(255, 83, 19, 194),
-        size: 35,
-        ),
-        
-        
-      ],)
-    
-            
-   ],
- );
-}
