@@ -1,6 +1,7 @@
 // MANDEHA de ty ampiasaina
 
 import 'dart:ui' as ui;
+import 'package:e_contrat/page/linear.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
@@ -41,6 +42,7 @@ class _MyHomePageState extends State<_MyHomePage> {
   if (signaturePadState != null) {
     final data = await signaturePadState.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
+    // ignore: use_build_context_synchronously
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -86,7 +88,7 @@ class _MyHomePageState extends State<_MyHomePage> {
         body: Stack(
           children: [
 
-         linear(),
+         Linear(),
            Positioned(
             top: 35.h,
            right: 55.w,
@@ -155,26 +157,6 @@ class _MyHomePageState extends State<_MyHomePage> {
         );
   }
 
-
-
-
-  Container linear(){
-  return  Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors:[
-          Color(0xFFE9CBFD),
-          Color(0xFFE9CBFD),
-         
-             Color.fromARGB(255, 83, 19, 194),
-
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter
-        )
-    ),
-  );
-}
 
 
 }

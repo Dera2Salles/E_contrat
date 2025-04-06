@@ -1,3 +1,4 @@
+import 'package:e_contrat/page/preview.dart';
 import 'package:e_contrat/page/quill.dart';
 import 'package:e_contrat/page/home.dart';
 import 'package:e_contrat/page/grid.dart';
@@ -46,15 +47,13 @@ class Econtrat extends StatelessWidget {
       ],
       routes: {
         '/grid':  (context)=> Grid(),
-        '/input' :  (context)=> InputPage(),
+        '/input' :  (context)=> FormScreen(),
         '/editor': (context)=> Editor(),
         '/pad': (context)=> SignaturePadApp(),
+        '/preview': (context)=> PreviewScreen()
       },
-      title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   fontFamily: 'Poppins',
-      //   scaffoldBackgroundColor: Colors.transparent
-      // ),
+      title: 'E-contrat',
+  
       home: const HomePage(),
     );
       }

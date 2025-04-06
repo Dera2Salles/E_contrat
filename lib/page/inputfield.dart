@@ -1,115 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:e_contrat/page/quill.dart';
 
-
-
-class InputPage extends StatefulWidget {
-  const InputPage({super.key}) ;
+class FormScreen extends StatefulWidget {
+  const FormScreen({super.key});
 
   @override
-  _InputPage createState() => _InputPage();
+  _FormScreenState createState() => _FormScreenState();
 }
 
-class _InputPage extends State<InputPage> {
-  int _counter = 0;
-  final TextEditingController _textController = TextEditingController();
-  String _displayText = 'g';
-
-  @override
-  void initState() {
-    super.initState();
-    _textController.addListener(() {
-      setState(() {
-        _displayText = _textController.text;
-      });
-    });
-  }
+class _FormScreenState extends State<FormScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final Map<String, TextEditingController> _controllers = {
+    "Nom": TextEditingController(),
+    "Date": TextEditingController(),
+    "Montant": TextEditingController(),
+  };
 
   @override
   void dispose() {
-    _textController.dispose();
+    _controllers.forEach((_, controller) => controller.dispose());
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    return 
- Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-      ),
-      backgroundColor: Colors.transparent,
-       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          linear(),
- Positioned(
-  top: 35.h,
- right: 55.w,
-   child: Transform.scale(
-    scale: 3.0,
-     child: SvgPicture.asset(
-      'assets/svg/background.svg',
-      width: 35.w,
-      height:35.h,
-     ),
-   ),
- ) ,
-  Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          
-          children: [
-            Positioned(
-              top:80.h,
-              child: TextField(
-                controller: _textController,
-                decoration: InputDecoration(
-                  labelText: 'Entrez votre nom',
-                  border: OutlineInputBorder(),
-                ),
+    return Scaffold(
+      appBar: AppBar(title: Text("Remplir les données")),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _controllers["Nom"],
+                decoration: InputDecoration(labelText: "Nom"),
+                validator: (value) => value!.isEmpty ? "Champ requis" : null,
               ),
-            ),
-            SizedBox(height: 20),
-            Text('Texte saisi : $_displayText'),
-            SizedBox(height: 20),
-            Text('Compteur : $_counter'),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _counter++;
-                });
-              },
-              child: Text('Incrémenter'),
-            ),
-          ],
+              TextFormField(
+                controller: _controllers["Date"],
+                decoration: InputDecoration(labelText: "Date"),
+                validator: (value) => value!.isEmpty ? "Champ requis" : null,
+              ),
+              TextFormField(
+                controller: _controllers["Montant"],
+                decoration: InputDecoration(labelText: "Montant"),
+                validator: (value) => value!.isEmpty ? "Champ requis" : null,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Map<String, String> formData = {};
+                    _controllers.forEach((key, controller) {
+                      formData[key] = controller.text;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Editor(formData: formData),
+                      ),
+                    );
+                  }
+                },
+                child: Text("Suivant : Rédiger le motif"),
+              ),
+            ],
+          ),
         ),
       ),
- 
-   ],
-      ),
-     
     );
   }
-
-Container linear(){
-  return  Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors:[
-           Color.fromARGB(255, 83, 19, 194),
-          Color(0xFFE9CBFD),
-          Color(0xFFE9CBFD),
-         
-          
-
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter
-        )
-    ),
-  );
-}
 }

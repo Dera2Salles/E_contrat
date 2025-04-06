@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io' as io show Directory, File;
+import 'package:e_contrat/page/linear.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -96,7 +97,13 @@ Future<void>postData() async{
 // }
 
 class Editor extends StatefulWidget {
-  const Editor({super.key});
+  
+  const Editor({super.key, this.formData});
+
+
+  final Map<String, String>? formData;
+
+
 
   @override
   State<Editor> createState() => _HomePageState();
@@ -132,28 +139,12 @@ class _HomePageState extends State<Editor> {
     super.initState();
     _controller.document = Document.fromJson(kQuillDefaultSample);
   }
-
-Container linear(){
-  return  Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors:[
-           Color.fromARGB(255, 83, 19, 194),
-          Color(0xFFE9CBFD),
-          Color(0xFFE9CBFD),
-         
-          
-
-        ],
-       
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter
-        )
-    ),
-  );
-}
   @override
   Widget build(BuildContext context) {
+
+    final formData = widget.formData ?? {};
+
+
     return Scaffold(
       resizeToAvoidBottomInset:false ,
        extendBodyBehindAppBar: true,
@@ -179,7 +170,7 @@ Container linear(){
       Stack(
 
         children: [
-            linear(),
+            Linear(),
             Positioned(
             top: 35.h,
            right: 55.w,
@@ -300,8 +291,21 @@ Container linear(){
                                 borderRadius: BorderRadius.circular(40)
                               ) ,
                     onPressed: () {
-                    
-                    },
+              var quillContentList = _controller.document.toDelta().toJson();
+     
+              var quillContent = {'ops': quillContentList};
+              // Si c'est une String, parse-la en Map
+             debugPrint("quillContent après encapsulation : $quillContent");
+              debugPrint("formData passé : $formData");
+              Navigator.pushNamed(
+                context,
+                '/preview',
+                arguments: {
+                  'formData': formData,
+                  'quillContent': quillContent,
+                },
+              );
+            },
                     child: Icon(Icons.check_circle,
                     size: 30,),
                     ),
