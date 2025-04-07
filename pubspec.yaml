@@ -60,6 +60,9 @@ dependencies:
   path_provider: ^2.1.5
   flutter_quill_to_pdf: ^2.3.7
   printing: ^5.14.2
+  share_plus: ^10.1.4
+  file_selector: ^1.0.3
+  animated_text_kit: ^4.2.3
 
 dev_dependencies:
   flutter_test:
@@ -104,13 +107,13 @@ flutter:
   fonts:
     - family: Poppins
       fonts:
-        - asset: fonts/Poppins-Bold.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
           weight: 700
-        - asset: fonts/Poppins-Medium.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
           weight: 500
-        - asset: fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
           weight: 400
-        - asset: fonts/Poppins-SemiBold.ttf
+        - asset: assets/fonts/Poppins-SemiBold.ttf
           weight: 600
       
       

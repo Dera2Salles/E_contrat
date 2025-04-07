@@ -1,3 +1,4 @@
+// import 'package:e_contrat/page/pdfquill.dart';
 import 'package:e_contrat/page/preview.dart';
 import 'package:e_contrat/page/quill.dart';
 import 'package:e_contrat/page/home.dart';
@@ -8,8 +9,12 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:sizer/sizer.dart';
 import 'package:e_contrat/page/inputfield.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:e_contrat/page/fonts_loader.dart'; 
 
-void main() {
+final FontsLoader loader = FontsLoader();
+  
+ main() async {
+
   runApp(const Econtrat());
 }
 
@@ -50,11 +55,11 @@ class Econtrat extends StatelessWidget {
         '/input' :  (context)=> FormScreen(),
         '/editor': (context)=> Editor(),
         '/pad': (context)=> SignaturePadApp(),
-        '/preview': (context)=> PreviewScreen()
+        '/preview': (context)=> PreviewScreen(),
       },
       title: 'E-contrat',
   
-      home: const HomePage(),
+      home: HomePage(),
     );
       }
     

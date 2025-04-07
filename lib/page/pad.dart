@@ -42,7 +42,6 @@ class _MyHomePageState extends State<_MyHomePage> {
   if (signaturePadState != null) {
     final data = await signaturePadState.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
-    // ignore: use_build_context_synchronously
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -157,6 +156,26 @@ class _MyHomePageState extends State<_MyHomePage> {
         );
   }
 
+
+
+
+  Container linear(){
+  return  Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors:[
+          Color(0xFFE9CBFD),
+          Color(0xFFE9CBFD),
+         
+             Color.fromARGB(255, 83, 19, 194),
+
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter
+        )
+    ),
+  );
+}
 
 
 }
