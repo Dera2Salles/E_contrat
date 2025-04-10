@@ -1,9 +1,10 @@
 // import 'package:e_contrat/page/pdfquill.dart';
 import 'package:e_contrat/page/preview.dart';
 import 'package:e_contrat/page/quill.dart';
-import 'package:e_contrat/page/home.dart';
+//import 'package:e_contrat/page/home.dart';
 import 'package:e_contrat/page/grid.dart';
 import 'package:e_contrat/page/pad.dart';
+import 'package:e_contrat/page/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:sizer/sizer.dart';
@@ -59,7 +60,7 @@ class Econtrat extends StatelessWidget {
       },
       title: 'E-contrat',
   
-      home: HomePage(),
+      home: Splash(),
     );
       }
     

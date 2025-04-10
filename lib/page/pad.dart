@@ -1,5 +1,4 @@
 // MANDEHA de ty ampiasaina
-
 import 'dart:ui' as ui;
 import 'package:e_contrat/page/linear.dart';
 import 'package:flutter/material.dart';
