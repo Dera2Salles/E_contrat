@@ -46,14 +46,17 @@ class _PreviewScreenState extends State<PreviewScreen> {
   late final FocusNode _focusNode;
   late final ScrollController _scrollController;
   final GlobalKey _stackKey = GlobalKey();
-  ui.Image? _signatureImage;
+  ui.Image? _signatureImage1;
+  ui.Image? _signatureImage2;
   bool _isGeneratingPdf = false;
-  GlobalKey<SfSignaturePadState>? _localSignaturePadKey;
+  GlobalKey<SfSignaturePadState>? _localSignaturePadKey1;
+  GlobalKey<SfSignaturePadState>? _localSignaturePadKey2;
 
   @override
   void initState() {
     super.initState();
-    _localSignaturePadKey = widget.signaturePadKey ?? GlobalKey<SfSignaturePadState>();
+    _localSignaturePadKey1 = widget.signaturePadKey ?? GlobalKey<SfSignaturePadState>();
+    _localSignaturePadKey2 = widget.signaturePadKey ?? GlobalKey<SfSignaturePadState>();
     _initializeQuillController();
     _focusNode = FocusNode();
     _scrollController = ScrollController();
@@ -99,9 +102,9 @@ class _PreviewScreenState extends State<PreviewScreen> {
     }
   }
 
-  double mmToPoints(double mm) {
-    return mm * 2.83465;
-  }
+  // double mmToPoints(double mm) {
+  //   return mm * 2.83465;
+  // }
 
   Future<void> sharePdf(Uint8List pdfBytes) async {
     final tempDir = await getTemporaryDirectory();
@@ -125,65 +128,88 @@ class _PreviewScreenState extends State<PreviewScreen> {
 
 
   Future<Uint8List> generatePdfBytes() async {
-    final pdfDoc = pw.Document();
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    final formData = args?['formData'] as Map<String, String>? ?? widget.formData ?? {};
+  final pdfDoc = pw.Document();
+  final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+  final formData = args?['formData'] as Map<String, String>? ?? widget.formData ?? {};
 
-    final signatureBytes = _signatureImage != null
-        ? (await _signatureImage!.toByteData(format: ui.ImageByteFormat.png))!
-            .buffer
-            .asUint8List()
-        : null;
+  final signatureBytes1 = _signatureImage1 != null
+      ? (await _signatureImage1!.toByteData(format: ui.ImageByteFormat.png))!
+          .buffer
+          .asUint8List()
+      : null;
 
-    final font = await loadPdfFont();
+      final signatureBytes2 = _signatureImage2 != null
+      ? (await _signatureImage2!.toByteData(format: ui.ImageByteFormat.png))!
+          .buffer
+          .asUint8List()
+      : null;
 
-    pdfDoc.addPage(
-      pw.Page(
-        pageFormat: pdf.PdfPageFormat.a4,
-        build: (pw.Context context) {
-          return pw.Stack(
-            children: [
-              ...formData.entries.map((entry) {
-                return pw.Positioned(
-                  left: mmToPoints(_elementPositions[entry.key]!.dx / _scaleFactor),
-                  top: mmToPoints(_elementPositions[entry.key]!.dy / _scaleFactor),
-                  child: pw.Text(
-                    "${entry.key}: ${entry.value}",
-                    style: pw.TextStyle(font: font, fontSize: 12),
-                  ),
-                );
-              }),
-              
-              pw.Positioned(
-                left: mmToPoints(_elementPositions["Motif"]!.dx / _scaleFactor),
-                top: mmToPoints(_elementPositions["Motif"]!.dy / _scaleFactor),
-                child: pw.Container(
-                  width: mmToPoints(300 / _scaleFactor),
-                  child: pw.Text(
-                    motifText,
-                    style: pw.TextStyle(font: font, fontSize: 12),
-                  ),
+  final font = await loadPdfFont();
+
+  // Facteur de conversion complet (écran -> PDF)
+  // _scaleFactor est utilisé pour l'affichage à l'écran (mm -> pixels)
+  // 2.83465 est le facteur mm -> points
+  // On combine les deux pour obtenir le facteur pixels écran -> points PDF
+  final double screenToPdfFactor = 0.9;
+
+  pdfDoc.addPage(
+    pw.Page(
+      pageFormat: pdf.PdfPageFormat.a4,
+      build: (pw.Context context) {
+        return pw.Stack(
+          children: [
+            ...formData.entries.map((entry) {
+              final position = _elementPositions[entry.key] ?? const Offset(20, 20);
+              return pw.Positioned(
+                left: position.dx * screenToPdfFactor,
+                top: position.dy * screenToPdfFactor,
+                child: pw.Text(
+                  "${entry.key}: ${entry.value}",
+                  style: pw.TextStyle(font: font, fontSize: 14), // Taille de police augmentée
+                ),
+              );
+            }),
+            
+            pw.Positioned(
+              left: _elementPositions["Motif"]!.dx * screenToPdfFactor,
+              top: _elementPositions["Motif"]!.dy * screenToPdfFactor,
+              child: pw.Container(
+                width: 500 * screenToPdfFactor,
+                child: pw.Text(
+                  motifText,
+                  style: pw.TextStyle(font: font, fontSize: 14),
                 ),
               ),
-              
-              if (signatureBytes != null)
-                pw.Positioned(
-                  left: mmToPoints(_elementPositions["Signature"]!.dx / _scaleFactor),
-                  top: mmToPoints(_elementPositions["Signature"]!.dy / _scaleFactor),
-                  child: pw.Image(
-                    pw.MemoryImage(signatureBytes),
-                    width: mmToPoints(200 / _scaleFactor),
-                    height: mmToPoints(100 / _scaleFactor),
-                  ),
+            ),
+            
+            if (signatureBytes1 != null)
+              pw.Positioned(
+                right: 10* screenToPdfFactor,
+                bottom: 10 * screenToPdfFactor,
+                child: pw.Image(
+                  pw.MemoryImage(signatureBytes1),
+                  width: 300 * screenToPdfFactor,
+                  height: 200 * screenToPdfFactor,
                 ),
-            ],
-          );
-        },
-      ),
-    );
+              ),
+              if (signatureBytes2 != null)
+              pw.Positioned(
+                left: 10* screenToPdfFactor,
+                bottom: 10 * screenToPdfFactor,
+                child: pw.Image(
+                  pw.MemoryImage(signatureBytes2),
+                  width: 300 * screenToPdfFactor,
+                  height: 200 * screenToPdfFactor,
+                ),
+              ),
+          ],
+        );
+      },
+    ),
+  );
 
-    return pdfDoc.save();
-  }
+  return pdfDoc.save();
+}
 
 
 
@@ -191,8 +217,9 @@ class _PreviewScreenState extends State<PreviewScreen> {
     setState(() => _isGeneratingPdf = true);
 
     try {
-      if (_localSignaturePadKey?.currentState != null) {
-        await _captureSignature();
+      if ( (_localSignaturePadKey1?.currentState != null) && (_localSignaturePadKey2?.currentState != null)) {
+        await _captureSignature1();
+        await _captureSignature2();
       }
 
       final pdfBytes = await generatePdfBytes();
@@ -204,7 +231,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
         setState(() => _isGeneratingPdf = false);
       }
     }
-  }
+  } 
     return Scaffold(
       appBar:AppBar(
            automaticallyImplyLeading: false,
@@ -241,14 +268,13 @@ class _PreviewScreenState extends State<PreviewScreen> {
       body: Column(
         children: [
           Expanded(
-            child: SingleChildScrollView(
-              child: Center(
+            child: Center(
                 child: Container(
                   width: _a4WidthMm * _scaleFactor,
                   height: _a4HeightMm * _scaleFactor,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(color: const ui.Color.fromARGB(255, 197, 164, 164)),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withAlpha(10),
@@ -262,14 +288,75 @@ class _PreviewScreenState extends State<PreviewScreen> {
                     children: [
 
                       ..._buildFormDataElements(formData),
-                      _buildQuillEditorElement(motifText),
-                      _buildSignatureElement(),
+                     Positioned(
+                      top: 200,
+                       child: Container(
+                               width: 400,
+                               padding: const EdgeInsets.all(6),
+                               child: Text(
+                               " $motifText",
+                               style: TextStyle(
+                                 color: Colors.black
+                               ),
+                             ),
+                             ),
+                     ),
+                       Positioned(
+                        right: 10,
+                        bottom: 10,
+                         child: GestureDetector(
+                                   onTap: _navigateToSignaturePage1,
+                                   child: SizedBox(
+                                     width: 200,
+                                     height: 100,
+                                     child: _signatureImage1 != null
+                                         ? RawImage(
+                                             image: _signatureImage1,
+                                             fit: BoxFit.contain,
+                                           )
+                                         : const Center(
+                                             child: Column(
+                                               mainAxisAlignment: MainAxisAlignment.center,
+                                               children: [
+                          Icon(Icons.edit, size: 30),
+                          Text("Ajouter une signature"),
+                                               ],
+                                             ),
+                                           ),
+                                   ),
+                                 ),
+                       ),
+                       Positioned(
+                        left: 10,
+                        bottom: 10,
+                         child: GestureDetector(
+                                   onTap: _navigateToSignaturePage2,
+                                   child: SizedBox(
+                                     width: 200,
+                                     height: 100,
+                                     child: _signatureImage2 != null
+                                         ? RawImage(
+                                             image: _signatureImage2,
+                                             fit: BoxFit.contain,
+                                           )
+                                         : const Center(
+                                             child: Column(
+                                               mainAxisAlignment: MainAxisAlignment.center,
+                                               children: [
+                          Icon(Icons.edit, size: 30),
+                          Text("Ajouter une signature"),
+                                               ],
+                                             ),
+                                           ),
+                                   ),
+                                 ),
+                       ),
                     ],
                   ),
                 ),
               ),
             ),
-          ),
+          
           if (_isGeneratingPdf)
             const LinearProgressIndicator(
               minHeight: 2,
@@ -279,19 +366,6 @@ class _PreviewScreenState extends State<PreviewScreen> {
       ),
     );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
 
   List<Widget> _buildFormDataElements(Map<String, String> formData) {
@@ -299,37 +373,21 @@ class _PreviewScreenState extends State<PreviewScreen> {
       return Positioned(
         left: _elementPositions[entry.key]!.dx,
         top: _elementPositions[entry.key]!.dy,
-        child: _buildDraggableElement(
-          key: entry.key,
-          child: _buildFormDataContainer(entry.key, entry.value),
-        ),
+        child: _buildFormDataContainer(entry.key, entry.value),
       );
     }).toList();
   }
-Widget _buildQuillEditorElement(  String motifText) {
-  return Positioned(
-    left: _elementPositions["Motif"]!.dx,
-    top: _elementPositions["Motif"]!.dy,
-    child: _buildDraggableElement(
-      key: "Motif",
-      child: Container(
-        width: 300,
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          border: Border.all(color: Colors.grey),
-        ),
-        child: Text(
-        " $motifText",
-        style: TextStyle(
-          color: Colors.blue[900],
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      ),
-    ),
-  );
-}
+
+// Widget _buildQuillEditorElement(  String motifText) {
+//   return Positioned(
+//     left: _elementPositions["Motif"]!.dx,
+//     top: _elementPositions["Motif"]!.dy,
+//     child: _buildDraggableElement(
+//       key: "Motif",
+//       child: 
+//     ),
+//   );
+// }
 
 void _initializeQuillController() {
   try {
@@ -351,71 +409,42 @@ void _initializeQuillController() {
   }
 }
 
-  Widget _buildSignatureElement() {
-    return Positioned(
-      left: _elementPositions["Signature"]!.dx,
-      top: _elementPositions["Signature"]!.dy,
-      child: _buildDraggableElement(
-        key: "Signature",
-        child: GestureDetector(
-          onTap: _navigateToSignaturePage,
-          child: Container(
-            width: 200,
-            height: 100,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              border: Border.all(color: Colors.grey),
-            ),
-            child: _signatureImage != null
-                ? RawImage(
-                    image: _signatureImage,
-                    fit: BoxFit.contain,
-                  )
-                : const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.edit, size: 30),
-                        Text("Ajouter une signature"),
-                      ],
-                    ),
-                  ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildSignatureElement() {
+  //   return Positioned(
+  //     left: _elementPositions["Signature"]!.dx,
+  //     top: _elementPositions["Signature"]!.dy,
+  //     child: _buildDraggableElement(
+  //       key: "Signature",
+  //       child:
+  //     ),
+  //   );
+  // }
 
-  Widget _buildDraggableElement({
-    required String key,
-    required Widget child,
-  }) {
-    return Draggable(
-      feedback: Material(
-        elevation: 4,
-        child: SizedBox(
-          width: key == "Motif" ? 300 : key == "Signature" ? 200 : null,
-          height: key == "Signature" ? 100 : null,
-          child: child,
-        ),
-      ),
-      childWhenDragging: Opacity(
-        opacity: 0.5,
-        child: child,
-      ),
-      child: child,
-      onDragEnd: (details) => _updateElementPosition(details, key),
-    );
-  }
+  // Widget _buildDraggableElement({
+  //   required String key,
+  //   required Widget child,
+  // }) {
+  //   return Draggable(
+  //     feedback: Material(
+  //       elevation: 4,
+  //       child: SizedBox(
+  //         width: key == "Signature" ? 200 : null,
+  //         height: key == "Signature" ? 100 : null,
+  //         child: child,
+  //       ),
+  //     ),
+  //     childWhenDragging: Opacity(
+  //       opacity: 0.5,
+  //       child: child,
+  //     ),
+  //     child: child,
+  //     onDragEnd: (details) => _updateElementPosition(details, key),
+  //   );
+  // }
 
   Widget _buildFormDataContainer(String label, String value) {
     return Container(
       padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.blue[100],
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: Colors.blue),
-      ),
       child: Text(
         "$label: $value",
         style: TextStyle(
@@ -425,30 +454,29 @@ void _initializeQuillController() {
       ),
     );
   }
+  //  void _updateElementPosition(DraggableDetails details, String key) {
+  //   final RenderBox stackBox = _stackKey.currentContext!.findRenderObject() as RenderBox;
+  //   final stackPosition = stackBox.localToGlobal(Offset.zero);
 
-  void _updateElementPosition(DraggableDetails details, String key) {
-    final RenderBox stackBox = _stackKey.currentContext!.findRenderObject() as RenderBox;
-    final stackPosition = stackBox.localToGlobal(Offset.zero);
+  //   setState(() {
+  //     double newDx = details.offset.dx - stackPosition.dx;
+  //     double newDy = details.offset.dy - stackPosition.dy;
 
-    setState(() {
-      double newDx = details.offset.dx - stackPosition.dx;
-      double newDy = details.offset.dy - stackPosition.dy;
+  //     double maxWidth = _a4WidthMm * _scaleFactor;
+  //     double maxHeight = _a4HeightMm * _scaleFactor;
+  //     double elementWidth = key == "Motif" ? 300 : key == "Signature" ? 200 : 100;
+  //     double elementHeight = key == "Signature" ? 100 : 50;
 
-      double maxWidth = _a4WidthMm * _scaleFactor;
-      double maxHeight = _a4HeightMm * _scaleFactor;
-      double elementWidth = key == "Motif" ? 300 : key == "Signature" ? 200 : 100;
-      double elementHeight = key == "Signature" ? 100 : 50;
+  //     _elementPositions[key] = Offset(
+  //       newDx.clamp(0, maxWidth - elementWidth),
+  //       newDy.clamp(0, maxHeight - elementHeight),
+  //     );
+  //   });
+  // }
 
-      _elementPositions[key] = Offset(
-        newDx.clamp(0, maxWidth - elementWidth),
-        newDy.clamp(0, maxHeight - elementHeight),
-      );
-    });
-  }
-
-  Future<void> _navigateToSignaturePage() async {
+  Future<void> _navigateToSignaturePage1() async {
      void handleClearButtonPressed() {
-    _localSignaturePadKey?.currentState!.clear();
+    _localSignaturePadKey1?.currentState!.clear();
   }
 
     
@@ -464,7 +492,7 @@ void _initializeQuillController() {
            backgroundColor: Colors.transparent,
 
          
-          title: Text('Signature',
+          title: Text('Signature du creancier',
           
           style: TextStyle(
              fontWeight: FontWeight.bold
@@ -473,10 +501,6 @@ void _initializeQuillController() {
          
   
         ),
-
-
-
-
         body: Stack(
           children: [
 
@@ -513,7 +537,7 @@ void _initializeQuillController() {
                     height: 80.h,
                     width: 91.w,
                       child: SfSignaturePad(
-                          key:_localSignaturePadKey,
+                          key:_localSignaturePadKey1,
                           backgroundColor: Colors.transparent,
                           strokeColor: Color(0xFF0D47A1),
                           minimumStrokeWidth: 1.0,
@@ -547,80 +571,160 @@ void _initializeQuillController() {
                     ),
               ])
         )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         // Scaffold(
-        //   appBar: AppBar(title: const Text('Signer le document')),
-        //   body: Column(
-        //     children: [
-        //       Expanded(
-        //         child: SfSignaturePad(
-        //           key: _localSignaturePadKey,
-        //           backgroundColor: Colors.white,
-        //         ),
-        //       ),
-        //       ElevatedButton(
-        //         onPressed: () {
-        //           Navigator.pop(context, true);
-        //         },
-        //         child: const Text('Valider la signature'),
-        //       ),
-        //     ],
-        //   ),
-        // ),
       ),
     );
 
     if (signature == true) {
-      await _captureSignature();
+      await _captureSignature1();
     }
   }
 
-  Future<void> _captureSignature() async {
-    if (_localSignaturePadKey?.currentState != null) {
-      final image = await _localSignaturePadKey!.currentState!
+  Future<void> _captureSignature1() async {
+    if (_localSignaturePadKey1?.currentState != null) {
+      final image = await _localSignaturePadKey1!.currentState!
           .toImage(pixelRatio: 3.0);
       
       setState(() {
-        _signatureImage = image;
+        _signatureImage1 = image;
       });
       
-      _localSignaturePadKey!.currentState!.clear();
+      _localSignaturePadKey1!.currentState!.clear();
+    }
+  }
+
+
+
+
+  Future<void> _navigateToSignaturePage2() async {
+     void handleClearButtonPressed() {
+    _localSignaturePadKey2?.currentState!.clear();
+  }
+
+    
+    final signature = await Navigator.push(
+      context,
+      MaterialPageRoute(
+         builder: (context) =>Scaffold(
+    extendBodyBehindAppBar: true,
+        appBar: AppBar(
+           automaticallyImplyLeading: false,
+            centerTitle: true,
+           elevation: 0,
+           backgroundColor: Colors.transparent,
+
+         
+          title: Text('Signature du Debiteur',
+          
+          style: TextStyle(
+             fontWeight: FontWeight.bold
+          ),
+          ),
+         
+  
+        ),
+        body: Stack(
+          children: [
+
+         Linear(),
+           Positioned(
+            top: 35.h,
+           right: 55.w,
+             child: Transform.scale(
+          scale: 3.0,
+           child: SvgPicture.asset(
+            'assets/svg/background.svg',
+            width: 35.w,
+            height:35.h,
+           ),
+             ),
+           ) ,
+
+          Align(
+         alignment: Alignment(-1,-10),
+           child: SvgPicture.asset(
+            'assets/svg/editor.svg',
+            width: 370.h,
+            height:370.w,
+           ),
+             ),
+           
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              Padding(
+                  padding: EdgeInsets.all(12),
+                  child: SizedBox(
+                    height: 80.h,
+                    width: 91.w,
+                      child: SfSignaturePad(
+                          key:_localSignaturePadKey2,
+                          backgroundColor: Colors.transparent,
+                          strokeColor: Color(0xFF0D47A1),
+                          minimumStrokeWidth: 1.0,
+                          maximumStrokeWidth: 4.0)
+                          )
+                          )  
+            ]
+            ),
+          ],
+        ),
+        floatingActionButton:  Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+        
+        children: <Widget>[
+                FloatingActionButton(
+                  heroTag: "clear",
+              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40)
+                              ) ,
+                    onPressed: handleClearButtonPressed,
+                    child: Icon(Icons.clear_outlined,
+                    size: 30,),
+                    ),
+               FloatingActionButton(
+                heroTag: "save",
+              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40)
+                              ) ,
+                     onPressed:(){Navigator.pop(context, true);}  ,
+                    child: Icon(Icons.save_as_rounded,
+                    size: 30),
+                    ),
+              ])
+        )
+      ),
+    );
+
+    if (signature == true) {
+      await _captureSignature2();
+    }
+  }
+
+  Future<void> _captureSignature2() async {
+    if (_localSignaturePadKey2?.currentState != null) {
+      final image = await _localSignaturePadKey2!.currentState!
+          .toImage(pixelRatio: 3.0);
+      
+      setState(() {
+        _signatureImage2 = image;
+      });
+      
+      _localSignaturePadKey2!.currentState!.clear();
     }
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

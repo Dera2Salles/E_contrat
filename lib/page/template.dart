@@ -10,10 +10,10 @@ class Template extends StatelessWidget {
 
 
   final List<IconData> icons = [
-    Icons.home,
-    Icons.favorite,
-    Icons.star,
-    Icons.person,
+    Icons.shopping_bag_rounded,
+    Icons.monetization_on,
+    Icons.other_houses_rounded,
+    Icons.other_houses_rounded,
     Icons.settings,
     Icons.camera,
     Icons.music_note,
@@ -21,10 +21,10 @@ class Template extends StatelessWidget {
     Icons.phone,
   ];
   final List<String> labels = [
-    "Home",
-    "Favorite",
-    "Star",
-    "Person",
+    "Vente",
+    "Emprunt",
+    "Bail",
+    "Loyer",
     "Settings",
     "Camera",
     "Music",
@@ -81,7 +81,7 @@ class Template extends StatelessWidget {
        )  ,
       
       Align(
-        alignment: Alignment(0.08, 0.2),
+        alignment: Alignment(-0.05, 0.01),
         child: SizedBox(
       width: 65.w,
       height: 65.h,

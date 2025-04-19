@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
 import 'package:e_contrat/page/inputfield.dart';
 import 'package:e_contrat/page/template.dart';
 import 'package:flutter/material.dart';
@@ -41,12 +42,13 @@ int _pageIndex = 0; // Index de la page actuelle
   Widget build(BuildContext context) {
     return AdvancedDrawer(
       rtlOpening: false,
-      backdropColor: Colors.blueGrey,
       animationCurve: Curves.easeInBack,
       controller: advancedDrawerController,
       drawer: SafeArea(
         child: Column(
-          children: [],
+          children: [
+      
+          ],
         ) 
         
         ),
@@ -97,12 +99,6 @@ int _pageIndex = 0; // Index de la page actuelle
         color: Color.fromARGB(255, 83, 19, 194),
         size: 35,
         ),
-        Icon(Icons.settings,
-        color: Color.fromARGB(255, 83, 19, 194),
-        size: 35,
-        ),
-        
-        
       ],
       onTap: (index) {
           setState(() {

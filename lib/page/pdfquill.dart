@@ -185,7 +185,7 @@ class _MyHomePageState extends State<PdfQuill> {
       body: Stack(
         clipBehavior: Clip.none,
         fit: StackFit.expand,
-        children: <Widget>[
+        children: [
           Positioned(
             top: 20,
             left: 0,
