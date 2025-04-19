@@ -359,8 +359,8 @@ class _PreviewScreenState extends State<PreviewScreen> {
           
           if (_isGeneratingPdf)
             const LinearProgressIndicator(
-              minHeight: 2,
-              backgroundColor: Colors.transparent,
+              minHeight: 4,
+              backgroundColor:  Color(0xFF3200d5),
             ),
         ],
       ),
