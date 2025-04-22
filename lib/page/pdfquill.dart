@@ -461,8 +461,65 @@ class _MyHomePageState extends State<PdfQuill> {
                   pageFormat: params,
                 );
                 try {
-                  // Créer le document PDF avec le contenu de l'éditeur
-                  final document = await pdfConverter.createDocument();
+                  // Créer un document PDF sécurisé en supprimant les formatages qui pourraient causer des erreurs
+                  // D'abord, créons une copie simplifiée du Delta qui contient uniquement le texte
+                  Delta safeDelta = Delta();
+                  final originalDelta = _quillController.document.toDelta();
+
+                  try {
+                    // Parcourir les opérations de l'original et créer une version simplifiée
+                    for (final op in originalDelta.operations) {
+                      if (op.value is String) {
+                        // Pour les insertions de texte, conserver uniquement le texte
+                        safeDelta.insert(op.value);
+                      } else if (op.value is Map) {
+                        final Map valueMap = op.value as Map;
+                        // Pour les autres types (images, etc.), les conserver mais simplifier les attributs
+                        if (valueMap.containsKey('insert')) {
+                          final Map<String, dynamic> attributes = {};
+                          // Conserver uniquement certains attributs essentiels et sécurisés
+                          if (op.attributes != null) {
+                            if (op.attributes!.containsKey('align')) {
+                              attributes['align'] = op.attributes!['align'];
+                            }
+                            if (op.attributes!.containsKey('header')) {
+                              attributes['header'] = op.attributes!['header'];
+                            }
+                          }
+                          safeDelta.insert(valueMap['insert'], attributes.isNotEmpty ? attributes : null);
+                        }
+                      }
+                    }
+                  } catch (e) {
+                    debugPrint('Erreur lors de la simplification du document: $e');
+                    // En cas d'échec, créer un Delta contenant uniquement le texte brut
+                    final plainText = _quillController.document.toPlainText();
+                    safeDelta = Delta()..insert(plainText);
+                  }
+
+                  // Utiliser la version sécurisée pour la conversion en PDF
+                  final safeConverter = PDFConverter(
+                    backMatterDelta: null,
+                    frontMatterDelta: null,
+                    isWeb: kIsWeb,
+                    document: safeDelta,
+                    fallbacks: [...loader.allFonts()],
+                    onRequestFontFamily: (FontFamilyRequest familyRequest) {
+                      // Utiliser une police de base pour tout
+                      final normalFont = loader.getFontByName(fontFamily: familyRequest.family);
+                      return FontFamilyResponse(
+                        fontNormalV: normalFont,
+                        boldFontV: normalFont,
+                        italicFontV: normalFont,
+                        boldItalicFontV: normalFont,
+                        fallbacks: [normalFont],
+                      );
+                    },
+                    pageFormat: params,
+                  );
+                  
+                  // Générer le document PDF avec le contenu simplifié
+                  final document = await safeConverter.createDocument();
                   if (document == null) {
                     _editorNode.unfocus();
                     _shouldShowToolbar.value = false;
@@ -481,9 +538,33 @@ class _MyHomePageState extends State<PdfQuill> {
                     return;
                   }
 
-                  // Générer les bytes du PDF
-                  final Uint8List originalPdfBytes = await document.save();
-                  await file.writeAsBytes(originalPdfBytes);
+                  // Générer les bytes du PDF en gérant les erreurs potentielles
+                  Uint8List originalPdfBytes;
+                  try {
+                    originalPdfBytes = await document.save();
+                    await file.writeAsBytes(originalPdfBytes);
+                  } catch(e) {
+                    debugPrint('Erreur lors de la génération du PDF: $e');
+                    // Créer un document PDF simplifié en cas d'échec
+                    final pw.Document fallbackDoc = pw.Document();
+                    final plainText = _quillController.document.toPlainText();
+                    
+                    fallbackDoc.addPage(
+                      pw.Page(
+                        build: (pw.Context context) {
+                          return pw.Center(
+                            child: pw.Text(
+                              plainText,
+                              style: pw.TextStyle(font:  loader.loraFont()),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                    
+                    originalPdfBytes = await fallbackDoc.save();
+                    await file.writeAsBytes(originalPdfBytes);
+                  }
 
                   // Méthode simplifiée pour inclure les signatures directement dans le PDF existant
                   if (signatureBytes1 != null || signatureBytes2 != null) {
