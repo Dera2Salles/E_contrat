@@ -1,18 +1,27 @@
 import 'dart:io';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:e_contrat/page/custom_quill_editor.dart';
-import 'package:e_contrat/page/constants.dart';
-import 'package:e_contrat/page/fonts_loader.dart';
-import 'package:file_selector/file_selector.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
-// ignore: implementation_imports
-import 'package:flutter_quill_to_pdf/src/constants.dart';
+import 'package:e_contrat/page/custom_quill_editor.dart';
+import 'package:e_contrat/page/constants.dart';
+import 'package:e_contrat/page/fonts_loader.dart';
+import 'package:e_contrat/page/linear.dart';
+import 'package:file_selector/file_selector.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:open_file/open_file.dart';
+import 'package:sizer/sizer.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:flutter_quill_to_pdf/flutter_quill_to_pdf.dart';
-import 'package:path/path.dart';
+import 'package:pdf/pdf.dart' as dartpdf;
+import 'package:pdf/widgets.dart' as pw;
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+
 
 
 final FontsLoader loader = FontsLoader();
@@ -40,6 +49,14 @@ class _MyHomePageState extends State<PdfQuill> {
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier<bool> _shouldShowToolbar = ValueNotifier<bool>(false);
   Delta? oldDelta;
+  
+  // Propriétés pour la gestion des signatures
+  ui.Image? _signatureImage1; // Signature du créancier
+  ui.Image? _signatureImage2; // Signature du débiteur
+  final GlobalKey<SfSignaturePadState> _signaturePadKey1 = GlobalKey<SfSignaturePadState>();
+  final GlobalKey<SfSignaturePadState> _signaturePadKey2 = GlobalKey<SfSignaturePadState>();
+  bool _hasCapturedSignature1 = false;
+  bool _hasCapturedSignature2 = false;
 
   @override
   void dispose() {
@@ -49,19 +66,283 @@ class _MyHomePageState extends State<PdfQuill> {
     _shouldShowToolbar.dispose();
     super.dispose();
   }
+  
+  // Méthode pour naviguer vers la page de signature du créancier
+  Future<void> _navigateToSignaturePage1() async {
+    void handleClearButtonPressed() {
+      _signaturePadKey1.currentState!.clear();
+    }
+
+    final signature = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Text(
+              'Signature du créancier',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          body: Stack(
+            children: [
+              Linear(),
+              Positioned(
+                top: 35.h,
+                right: 55.w,
+                child: Transform.scale(
+                  scale: 3.0,
+                  child: SvgPicture.asset(
+                    'assets/svg/background.svg',
+                    width: 35.w,
+                    height: 35.h,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment(-1, -10),
+                child: SvgPicture.asset(
+                  'assets/svg/editor.svg',
+                  width: 370.h,
+                  height: 370.w,
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(12),
+                    child: SizedBox(
+                      height: 80.h,
+                      width: 91.w,
+                      child: SfSignaturePad(
+                        key: _signaturePadKey1,
+                        backgroundColor: Colors.transparent,
+                        strokeColor: Color(0xFF0D47A1),
+                        minimumStrokeWidth: 1.0,
+                        maximumStrokeWidth: 4.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FloatingActionButton(
+                heroTag: "clear1",
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                onPressed: handleClearButtonPressed,
+                child: Icon(
+                  Icons.clear_outlined,
+                  size: 30,
+                ),
+              ),
+              FloatingActionButton(
+                heroTag: "save1",
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: Icon(
+                  Icons.save_as_rounded,
+                  size: 30,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (signature == true) {
+      await _captureSignature1();
+    }
+  }
+
+  // Méthode pour capturer la signature du créancier
+  Future<void> _captureSignature1() async {
+    if (_signaturePadKey1.currentState != null) {
+      final image = await _signaturePadKey1.currentState!.toImage(pixelRatio: 3.0);
+
+      setState(() {
+        _signatureImage1 = image;
+        _hasCapturedSignature1 = true;
+      });
+
+      _signaturePadKey1.currentState!.clear();
+    }
+  }
+
+  // Méthode pour naviguer vers la page de signature du débiteur
+  Future<void> _navigateToSignaturePage2() async {
+    void handleClearButtonPressed() {
+      _signaturePadKey2.currentState!.clear();
+    }
+
+    final signature = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Text(
+              'Signature du débiteur',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          body: Stack(
+            children: [
+              Linear(),
+              Positioned(
+                top: 35.h,
+                right: 55.w,
+                child: Transform.scale(
+                  scale: 3.0,
+                  child: SvgPicture.asset(
+                    'assets/svg/background.svg',
+                    width: 35.w,
+                    height: 35.h,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment(-1, -10),
+                child: SvgPicture.asset(
+                  'assets/svg/editor.svg',
+                  width: 370.h,
+                  height: 370.w,
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(12),
+                    child: SizedBox(
+                      height: 80.h,
+                      width: 91.w,
+                      child: SfSignaturePad(
+                        key: _signaturePadKey2,
+                        backgroundColor: Colors.transparent,
+                        strokeColor: Color(0xFF0D47A1),
+                        minimumStrokeWidth: 1.0,
+                        maximumStrokeWidth: 4.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FloatingActionButton(
+                heroTag: "clear2",
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                onPressed: handleClearButtonPressed,
+                child: Icon(
+                  Icons.clear_outlined,
+                  size: 30,
+                ),
+              ),
+              FloatingActionButton(
+                heroTag: "save2",
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: Icon(
+                  Icons.save_as_rounded,
+                  size: 30,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (signature == true) {
+      await _captureSignature2();
+    }
+  }
+
+  // Méthode pour capturer la signature du débiteur
+  Future<void> _captureSignature2() async {
+    if (_signaturePadKey2.currentState != null) {
+      final image = await _signaturePadKey2.currentState!.toImage(pixelRatio: 3.0);
+
+      setState(() {
+        _signatureImage2 = image;
+        _hasCapturedSignature2 = true;
+      });
+
+      _signaturePadKey2.currentState!.clear();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 107, 188, 255),
+        title: const Text('Éditeur de document'),
         actions: [
+          // Bouton pour la signature du créancier
           IconButton(
-              onPressed: () async {
-                try{
+            icon: const Icon(Icons.gesture, color: Colors.white),
+            tooltip: 'Signature du créancier',
+            onPressed: () {
+              if (mounted) {
+                _navigateToSignaturePage1();
+              }
+            },
+          ),
+          // Bouton pour la signature du débiteur
+          IconButton(
+            icon: const Icon(Icons.draw, color: Colors.white),
+            tooltip: 'Signature du débiteur',
+            onPressed: () {
+              if (mounted) {
+                _navigateToSignaturePage2();
+              }
+            },
+          ),
+          // Indicateurs de statut des signatures
+          if (_hasCapturedSignature1)
+            const Icon(Icons.check_circle, color: Colors.green, size: 20),
+          if (_hasCapturedSignature2)
+            const Icon(Icons.check_circle, color: Colors.green, size: 20),
+          IconButton(
+            icon: const Icon(Icons.picture_as_pdf),
+            tooltip: 'Générer PDF',
+            onPressed: () async {
+              try {
                 // S'assurer que les polices sont chargées avant de générer le PDF
                 await loader.loadFonts();
-                
+
                 final bool isAndroid = Platform.isAndroid;
                 // on android devices is not available getSaveLocation
                 final Object? result = isAndroid
@@ -82,8 +363,31 @@ class _MyHomePageState extends State<PdfQuill> {
                   return;
                 }
                 final File file = isAndroid
-                    ? File(result as String)
+                    ? File('${result as String}/document_${DateTime.now().millisecondsSinceEpoch}.pdf')
                     : File((result as FileSaveLocation).path);
+                
+                // Préparer les données des signatures pour les inclure dans le PDF
+                ui.Image? signature1 = _signatureImage1;
+                ui.Image? signature2 = _signatureImage2;
+                
+                Uint8List? signatureBytes1;
+                Uint8List? signatureBytes2;
+                
+                // Convertir les images de signature en bytes pour le PDF
+                if (signature1 != null) {
+                  final byteData1 = await signature1.toByteData(format: ui.ImageByteFormat.png);
+                  if (byteData1 != null) {
+                    signatureBytes1 = byteData1.buffer.asUint8List();
+                  }
+                }
+                
+                if (signature2 != null) {
+                  final byteData2 = await signature2.toByteData(format: ui.ImageByteFormat.png);
+                  if (byteData2 != null) {
+                    signatureBytes2 = byteData2.buffer.asUint8List();
+                  }
+                }
+                
                 PDFConverter pdfConverter = PDFConverter(
                   backMatterDelta: null,
                   frontMatterDelta: null,
@@ -120,69 +424,157 @@ class _MyHomePageState extends State<PdfQuill> {
                   },
                   pageFormat: params,
                 );
-                final document = await pdfConverter.createDocument();
-                if (document == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text(
-                            'The file cannot be generated by an unknown error')
+                try {
+                  // Créer le document PDF avec le contenu de l'éditeur
+                  final document = await pdfConverter.createDocument();
+                  if (document == null) {
+                    _editorNode.unfocus();
+                    _shouldShowToolbar.value = false;
+                    if (mounted) {
+                      final messenger = ScaffoldMessenger.of(context);
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (mounted) {
+                          messenger.showSnackBar(
+                            const SnackBar(
+                              content: Text('Le fichier ne peut pas être généré en raison d\'une erreur'),
                             ),
-                  );
-                  _editorNode.unfocus();
-                  _shouldShowToolbar.value = false;
-                  return;
+                          );
+                        }
+                      });
+                    }
+                    return;
+                  }
+
+                  // Générer les bytes du PDF
+                  final Uint8List originalPdfBytes = await document.save();
+                  await file.writeAsBytes(originalPdfBytes);
+
+                  // Si nous avons des signatures, modifier le PDF pour les inclure
+                  if (signatureBytes1 != null || signatureBytes2 != null) {
+                    try {
+                      final existingPdfBytes = await file.readAsBytes();
+                      final existingPdf = PdfDocument(inputBytes: existingPdfBytes);
+                      final pageCount = existingPdf.pages.count;
+                      final List<Uint8List> pageImages = [];
+                      for (int i = 0; i < pageCount; i++) {
+                        final page = existingPdf.pages[i];
+                        final pageImage = await page.render(width: page.size.width.toInt(), height: page.size.height.toInt());
+                        if (pageImage != null) {
+                          pageImages.add(pageImage.buffer.asUint8List());
+                        }
+                      }
+                      final pdfDoc = pw.Document();
+                      final pageFormat = dartpdf.PdfPageFormat.a4;
+                      for (int i = 0; i < pageImages.length; i++) {
+                        pdfDoc.addPage(
+                          pw.Page(
+                            pageFormat: pageFormat,
+                            build: (pw.Context context) {
+                              return pw.Stack(
+                                children: [
+                                  pw.Image(pw.MemoryImage(pageImages[i]), fit: pw.BoxFit.contain),
+                                  if (signatureBytes1 != null && i == pageCount - 1)
+                                    pw.Positioned(
+                                      left: 50,
+                                      bottom: 100,
+                                      child: pw.Column(
+                                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                        children: [
+                                          pw.Text('Signature du créancier:', style: pw.TextStyle(fontSize: 10)),
+                                          pw.SizedBox(height: 5),
+                                          pw.Image(
+                                            pw.MemoryImage(signatureBytes1),
+                                            height: 60,
+                                            width: 120,
+                                            fit: pw.BoxFit.contain,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  if (signatureBytes2 != null && i == pageCount - 1)
+                                    pw.Positioned(
+                                      right: 50,
+                                      bottom: 100,
+                                      child: pw.Column(
+                                        crossAxisAlignment: pw.CrossAxisAlignment.end,
+                                        children: [
+                                          pw.Text('Signature du débiteur:', style: pw.TextStyle(fontSize: 10)),
+                                          pw.SizedBox(height: 5),
+                                          pw.Image(
+                                            pw.MemoryImage(signatureBytes2),
+                                            height: 60,
+                                            width: 120,
+                                            fit: pw.BoxFit.contain,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                        );
+                      }
+                      final Uint8List finalPdfBytes = await pdfDoc.save();
+                      await file.writeAsBytes(finalPdfBytes);
+                      debugPrint('PDF généré avec succès avec les signatures incluses');
+                    } catch (e) {
+                      debugPrint('Erreur lors de l\'inclusion des signatures: $e');
+                    }
+                  }
+
+                  if (mounted) {
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    scaffoldMessenger.showSnackBar(
+                      SnackBar(
+                        content: Text('PDF généré avec succès'),
+                        action: SnackBarAction(
+                          label: 'Ouvrir',
+                          onPressed: () {
+                            if (file.existsSync()) {
+                              OpenFile.open(file.path);
+                            }
+                          },
+                        ),
+                      ),
+                    );
+                  }
+                } catch (e, stackTrace) {
+                  debugPrint("Erreur lors de la génération du PDF : $e");
+                  debugPrint("Stack trace : $stackTrace");
+                  if (mounted) {
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (mounted) {
+                        scaffoldMessenger.showSnackBar(SnackBar(
+                          content: Text('Erreur lors de l\'enregistrement du PDF: $e'),
+                        ));
+                      }
+                    });
+                  }
                 }
-                final String name =
-                    'document_demo_flutter_quill_to_pdf${DateTime.now().millisecondsSinceEpoch.toString()}.pdf';
-                final XFile textFile = XFile.fromData(
-                  await document.save(),
-                  mimeType: isAndroid
-                      ? 'application/pdf'
-                      : Platform.isMacOS || Platform.isIOS
-                          ? (result as FileSaveLocation)
-                                  .activeFilter
-                                  ?.uniformTypeIdentifiers
-                                  ?.single ??
-                              'com.adobe.pdf'
-                          : (result as FileSaveLocation)
-                                  .activeFilter
-                                  ?.mimeTypes
-                                  ?.single ??
-                              'application/pdf',
-                  name: name,
-                );
-                await textFile.saveTo(isAndroid
-                    ? join(result as String, name)
-                    : (result as FileSaveLocation).path);
-                _editorNode.unfocus();
-                _shouldShowToolbar.value = false;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content:
-                          Text('Generated document at path: ${file.path}')),
-                );
-              }catch (e, stackTrace) {
-      debugPrint("Erreur lors de la génération du PDF : $e");
-      debugPrint("Stack trace : $stackTrace");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erreur : $e')),
-      );
-    }
+              } catch (e, stackTrace) {
+                debugPrint("Erreur lors de la génération du PDF : $e");
+                debugPrint("Stack trace : $stackTrace");
+                if (mounted) {
+                  final messenger = ScaffoldMessenger.of(context);
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (mounted) {
+                      messenger.showSnackBar(
+                        SnackBar(content: Text('Erreur : $e')),
+                      );
+                    }
+                  });
+                }
+              }
               },
               icon: const Icon(
                 Icons.print,
                 color: Colors.white,
-              )),
+              ),
+            ),
         ],
         centerTitle: true,
-        title: const Text(
-          'PDF Demo',
-          style: TextStyle(
-              fontFamily: 'Noto Sans',
-              fontSize: 24.5,
-              fontWeight: FontWeight.w900,
-              color: Colors.white),
-        ),
       ),
       body: Stack(
         clipBehavior: Clip.none,
