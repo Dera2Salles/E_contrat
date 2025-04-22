@@ -48,6 +48,8 @@ class _PreviewScreenState extends State<PreviewScreen> {
   final GlobalKey _stackKey = GlobalKey();
   ui.Image? _signatureImage1;
   ui.Image? _signatureImage2;
+  Uint8List? _signatureBytes1; // Pour stocker la signature en format Uint8List
+  Uint8List? _signatureBytes2; // Pour stocker la signature en format Uint8List
   bool _isGeneratingPdf = false;
   GlobalKey<SfSignaturePadState>? _localSignaturePadKey1;
   GlobalKey<SfSignaturePadState>? _localSignaturePadKey2;
@@ -132,17 +134,18 @@ class _PreviewScreenState extends State<PreviewScreen> {
   final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
   final formData = args?['formData'] as Map<String, String>? ?? widget.formData ?? {};
 
-  final signatureBytes1 = _signatureImage1 != null
+  // Utilise directement les bytes stockés s'ils existent, sinon convertit l'image
+  final signatureBytes1 = _signatureBytes1 ?? (_signatureImage1 != null
       ? (await _signatureImage1!.toByteData(format: ui.ImageByteFormat.png))!
           .buffer
           .asUint8List()
-      : null;
+      : null);
 
-      final signatureBytes2 = _signatureImage2 != null
+  final signatureBytes2 = _signatureBytes2 ?? (_signatureImage2 != null
       ? (await _signatureImage2!.toByteData(format: ui.ImageByteFormat.png))!
           .buffer
           .asUint8List()
-      : null;
+      : null);
 
   final font = await loadPdfFont();
 
@@ -182,24 +185,52 @@ class _PreviewScreenState extends State<PreviewScreen> {
               ),
             ),
             
+            // Signature du créancier avec légende
             if (signatureBytes1 != null)
               pw.Positioned(
                 right: 10* screenToPdfFactor,
                 bottom: 10 * screenToPdfFactor,
-                child: pw.Image(
-                  pw.MemoryImage(signatureBytes1),
-                  width: 300 * screenToPdfFactor,
-                  height: 200 * screenToPdfFactor,
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
+                  children: [
+                    pw.Container(
+                      alignment: pw.Alignment.center,
+                      child: pw.Text(
+                        "Signature du créancier",
+                        style: pw.TextStyle(font: font, fontSize: 10, fontWeight: pw.FontWeight.bold),
+                      ),
+                    ),
+                    pw.SizedBox(height: 5 * screenToPdfFactor),
+                    pw.Image(
+                      pw.MemoryImage(signatureBytes1),
+                      width: 300 * screenToPdfFactor,
+                      height: 200 * screenToPdfFactor,
+                    ),
+                  ],
                 ),
               ),
-              if (signatureBytes2 != null)
+            // Signature du débiteur avec légende
+            if (signatureBytes2 != null)
               pw.Positioned(
                 left: 10* screenToPdfFactor,
                 bottom: 10 * screenToPdfFactor,
-                child: pw.Image(
-                  pw.MemoryImage(signatureBytes2),
-                  width: 300 * screenToPdfFactor,
-                  height: 200 * screenToPdfFactor,
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
+                  children: [
+                    pw.Container(
+                      alignment: pw.Alignment.center,
+                      child: pw.Text(
+                        "Signature du débiteur",
+                        style: pw.TextStyle(font: font, fontSize: 10, fontWeight: pw.FontWeight.bold),
+                      ),
+                    ),
+                    pw.SizedBox(height: 5 * screenToPdfFactor),
+                    pw.Image(
+                      pw.MemoryImage(signatureBytes2),
+                      width: 300 * screenToPdfFactor,
+                      height: 200 * screenToPdfFactor,
+                    ),
+                  ],
                 ),
               ),
           ],
@@ -286,6 +317,14 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   child: Stack(
                     key: _stackKey,
                     children: [
+                       Align(
+         alignment: Alignment(-1,-10),
+           child: SvgPicture.asset(
+            'assets/svg/Consent2.svg',
+            width: 370.h,
+            height:370.w,
+           ),
+             ),
 
                       ..._buildFormDataElements(formData),
                      Positioned(
@@ -584,9 +623,19 @@ void _initializeQuillController() {
       final image = await _localSignaturePadKey1!.currentState!
           .toImage(pixelRatio: 3.0);
       
+      // Convertir l'image en Uint8List pour le PDF
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      final Uint8List pngBytes = byteData!.buffer.asUint8List();
+      
       setState(() {
         _signatureImage1 = image;
+        _signatureBytes1 = pngBytes;
       });
+      
+      // Message de confirmation
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Signature du créancier capturée avec succès')),
+      );
       
       _localSignaturePadKey1!.currentState!.clear();
     }
@@ -705,9 +754,19 @@ void _initializeQuillController() {
       final image = await _localSignaturePadKey2!.currentState!
           .toImage(pixelRatio: 3.0);
       
+      // Convertir l'image en Uint8List pour le PDF
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      final Uint8List pngBytes = byteData!.buffer.asUint8List();
+      
       setState(() {
         _signatureImage2 = image;
+        _signatureBytes2 = pngBytes;
       });
+      
+      // Message de confirmation
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Signature du débiteur capturée avec succès')),
+      );
       
       _localSignaturePadKey2!.currentState!.clear();
     }

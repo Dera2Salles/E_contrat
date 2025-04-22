@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:typed_data';
+// dart:typed_data est déjà fourni par flutter/services.dart
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,6 +57,8 @@ class _MyHomePageState extends State<PdfQuill> {
   final GlobalKey<SfSignaturePadState> _signaturePadKey2 = GlobalKey<SfSignaturePadState>();
   bool _hasCapturedSignature1 = false;
   bool _hasCapturedSignature2 = false;
+  Uint8List? _signatureBytes1; // Bytes de la signature du créancier pour le PDF
+  Uint8List? _signatureBytes2; // Bytes de la signature du débiteur pour le PDF
 
   @override
   void dispose() {
@@ -70,7 +72,10 @@ class _MyHomePageState extends State<PdfQuill> {
   // Méthode pour naviguer vers la page de signature du créancier
   Future<void> _navigateToSignaturePage1() async {
     void handleClearButtonPressed() {
-      _signaturePadKey1.currentState!.clear();
+      // Vérification de null avant d'appeler clear
+      if (_signaturePadKey1.currentState != null) {
+        _signaturePadKey1.currentState!.clear();
+      }
     }
 
     final signature = await Navigator.push(
@@ -175,20 +180,36 @@ class _MyHomePageState extends State<PdfQuill> {
   Future<void> _captureSignature1() async {
     if (_signaturePadKey1.currentState != null) {
       final image = await _signaturePadKey1.currentState!.toImage(pixelRatio: 3.0);
+      
+      // Convertir l'image en Uint8List pour le PDF
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      final Uint8List pngBytes = byteData!.buffer.asUint8List();
 
       setState(() {
         _signatureImage1 = image;
+        _signatureBytes1 = pngBytes;
         _hasCapturedSignature1 = true;
       });
 
-      _signaturePadKey1.currentState!.clear();
+      // Afficher message de confirmation
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Signature du créancier capturée avec succès')),
+      );
+
+      // Vérification de null avant d'appeler clear
+      if (_signaturePadKey1.currentState != null) {
+        _signaturePadKey1.currentState!.clear();
+      }
     }
   }
 
   // Méthode pour naviguer vers la page de signature du débiteur
   Future<void> _navigateToSignaturePage2() async {
     void handleClearButtonPressed() {
-      _signaturePadKey2.currentState!.clear();
+      // Vérification de null avant d'appeler clear
+      if (_signaturePadKey2.currentState != null) {
+        _signaturePadKey2.currentState!.clear();
+      }
     }
 
     final signature = await Navigator.push(
@@ -293,13 +314,26 @@ class _MyHomePageState extends State<PdfQuill> {
   Future<void> _captureSignature2() async {
     if (_signaturePadKey2.currentState != null) {
       final image = await _signaturePadKey2.currentState!.toImage(pixelRatio: 3.0);
+      
+      // Convertir l'image en Uint8List pour le PDF
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      final Uint8List pngBytes = byteData!.buffer.asUint8List();
 
       setState(() {
         _signatureImage2 = image;
+        _signatureBytes2 = pngBytes;
         _hasCapturedSignature2 = true;
       });
 
-      _signaturePadKey2.currentState!.clear();
+      // Afficher message de confirmation
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Signature du débiteur capturée avec succès')),
+      );
+
+      // Vérification de null avant d'appeler clear
+      if (_signaturePadKey2.currentState != null) {
+        _signaturePadKey2.currentState!.clear();
+      }
     }
   }
 
@@ -336,7 +370,6 @@ class _MyHomePageState extends State<PdfQuill> {
           if (_hasCapturedSignature2)
             const Icon(Icons.check_circle, color: Colors.green, size: 20),
           IconButton(
-            icon: const Icon(Icons.picture_as_pdf),
             tooltip: 'Générer PDF',
             onPressed: () async {
               try {
@@ -366,27 +399,30 @@ class _MyHomePageState extends State<PdfQuill> {
                     ? File('${result as String}/document_${DateTime.now().millisecondsSinceEpoch}.pdf')
                     : File((result as FileSaveLocation).path);
                 
-                // Préparer les données des signatures pour les inclure dans le PDF
-                ui.Image? signature1 = _signatureImage1;
-                ui.Image? signature2 = _signatureImage2;
+                // Utiliser les bytes des signatures déjà stockés
+                Uint8List? signatureBytes1 = _signatureBytes1;
+                Uint8List? signatureBytes2 = _signatureBytes2;
                 
-                Uint8List? signatureBytes1;
-                Uint8List? signatureBytes2;
-                
-                // Convertir les images de signature en bytes pour le PDF
-                if (signature1 != null) {
-                  final byteData1 = await signature1.toByteData(format: ui.ImageByteFormat.png);
+                // Si les bytes ne sont pas disponibles mais que les images le sont, convertir les images
+                if (signatureBytes1 == null && _signatureImage1 != null) {
+                  final byteData1 = await _signatureImage1!.toByteData(format: ui.ImageByteFormat.png);
                   if (byteData1 != null) {
                     signatureBytes1 = byteData1.buffer.asUint8List();
+                    // Stocker pour future utilisation
+                    _signatureBytes1 = signatureBytes1;
                   }
                 }
                 
-                if (signature2 != null) {
-                  final byteData2 = await signature2.toByteData(format: ui.ImageByteFormat.png);
+                if (signatureBytes2 == null && _signatureImage2 != null) {
+                  final byteData2 = await _signatureImage2!.toByteData(format: ui.ImageByteFormat.png);
                   if (byteData2 != null) {
                     signatureBytes2 = byteData2.buffer.asUint8List();
+                    // Stocker pour future utilisation
+                    _signatureBytes2 = signatureBytes2;
                   }
                 }
+                
+                debugPrint('État des signatures: Signature1: ${signatureBytes1 != null}, Signature2: ${signatureBytes2 != null}');
                 
                 PDFConverter pdfConverter = PDFConverter(
                   backMatterDelta: null,
@@ -449,77 +485,64 @@ class _MyHomePageState extends State<PdfQuill> {
                   final Uint8List originalPdfBytes = await document.save();
                   await file.writeAsBytes(originalPdfBytes);
 
-                  // Si nous avons des signatures, modifier le PDF pour les inclure
+                  // Méthode simplifiée pour inclure les signatures directement dans le PDF existant
                   if (signatureBytes1 != null || signatureBytes2 != null) {
                     try {
+                      debugPrint('Ajout des signatures au PDF...');
+                      // Ouvrir le PDF existant et y ajouter directement les signatures
                       final existingPdfBytes = await file.readAsBytes();
                       final existingPdf = PdfDocument(inputBytes: existingPdfBytes);
-                      final pageCount = existingPdf.pages.count;
-                      final List<Uint8List> pageImages = [];
-                      for (int i = 0; i < pageCount; i++) {
-                        final page = existingPdf.pages[i];
-                        final pageImage = await page.render(width: page.size.width.toInt(), height: page.size.height.toInt());
-                        if (pageImage != null) {
-                          pageImages.add(pageImage.buffer.asUint8List());
+                      
+                      // Travailler sur la dernière page
+                      if (existingPdf.pages.count > 0) {
+                        PdfPage lastPage = existingPdf.pages[existingPdf.pages.count - 1];
+                        PdfGraphics graphics = lastPage.graphics;
+                        final pageHeight = lastPage.size.height;
+                        final pageWidth = lastPage.size.width;
+                        
+                        // Définir une police pour les légendes
+                        PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 10);
+                        
+                        // Ajouter la signature du créancier (à droite)
+                        if (signatureBytes1 != null) {
+                          debugPrint('Ajout signature créancier');
+                          PdfBitmap signature1 = PdfBitmap(signatureBytes1);
+                          
+                          // Ajouter la légende
+                          graphics.drawString('Signature du créancier', font, 
+                              brush: PdfSolidBrush(PdfColor(0, 0, 0)),
+                              bounds: Rect.fromLTWH(pageWidth - 170, pageHeight - 150, 150, 20));
+                          
+                          // Ajouter l'image de la signature
+                          graphics.drawImage(signature1, 
+                              Rect.fromLTWH(pageWidth - 170, pageHeight - 140, 150, 80));
+                        }
+                        
+                        // Ajouter la signature du débiteur (à gauche)
+                        if (signatureBytes2 != null) {
+                          debugPrint('Ajout signature débiteur');
+                          PdfBitmap signature2 = PdfBitmap(signatureBytes2);
+                          
+                          // Ajouter la légende
+                          graphics.drawString('Signature du débiteur', font, 
+                              brush: PdfSolidBrush(PdfColor(0, 0, 0)),
+                              bounds: Rect.fromLTWH(20, pageHeight - 150, 150, 20));
+                          
+                          // Ajouter l'image de la signature
+                          graphics.drawImage(signature2, 
+                              Rect.fromLTWH(20, pageHeight - 140, 150, 80));
                         }
                       }
-                      final pdfDoc = pw.Document();
-                      final pageFormat = dartpdf.PdfPageFormat.a4;
-                      for (int i = 0; i < pageImages.length; i++) {
-                        pdfDoc.addPage(
-                          pw.Page(
-                            pageFormat: pageFormat,
-                            build: (pw.Context context) {
-                              return pw.Stack(
-                                children: [
-                                  pw.Image(pw.MemoryImage(pageImages[i]), fit: pw.BoxFit.contain),
-                                  if (signatureBytes1 != null && i == pageCount - 1)
-                                    pw.Positioned(
-                                      left: 50,
-                                      bottom: 100,
-                                      child: pw.Column(
-                                        crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                        children: [
-                                          pw.Text('Signature du créancier:', style: pw.TextStyle(fontSize: 10)),
-                                          pw.SizedBox(height: 5),
-                                          pw.Image(
-                                            pw.MemoryImage(signatureBytes1),
-                                            height: 60,
-                                            width: 120,
-                                            fit: pw.BoxFit.contain,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  if (signatureBytes2 != null && i == pageCount - 1)
-                                    pw.Positioned(
-                                      right: 50,
-                                      bottom: 100,
-                                      child: pw.Column(
-                                        crossAxisAlignment: pw.CrossAxisAlignment.end,
-                                        children: [
-                                          pw.Text('Signature du débiteur:', style: pw.TextStyle(fontSize: 10)),
-                                          pw.SizedBox(height: 5),
-                                          pw.Image(
-                                            pw.MemoryImage(signatureBytes2),
-                                            height: 60,
-                                            width: 120,
-                                            fit: pw.BoxFit.contain,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                ],
-                              );
-                            },
-                          ),
-                        );
-                      }
-                      final Uint8List finalPdfBytes = await pdfDoc.save();
-                      await file.writeAsBytes(finalPdfBytes);
+                      
+                      // Sauvegarder le PDF modifié
+                      final List<int> modifiedPdfBytes = await existingPdf.save();
+                      await file.writeAsBytes(modifiedPdfBytes);
+                      existingPdf.dispose(); // Libérer les ressources
+                      
                       debugPrint('PDF généré avec succès avec les signatures incluses');
-                    } catch (e) {
+                    } catch (e, stack) {
                       debugPrint('Erreur lors de l\'inclusion des signatures: $e');
+                      debugPrint('Stack trace: $stack');
                     }
                   }
 
@@ -568,10 +591,8 @@ class _MyHomePageState extends State<PdfQuill> {
                 }
               }
               },
-              icon: const Icon(
-                Icons.print,
-                color: Colors.white,
-              ),
+              // Utilise seulement l'icône une fois
+              icon: const Icon(Icons.print, color: Colors.white),
             ),
         ],
         centerTitle: true,
@@ -638,7 +659,7 @@ class _MyHomePageState extends State<PdfQuill> {
                         child: CustomQuillEditor(
                           node: _editorNode,
                           controller: _quillController,
-                          defaultFontFamily: Constant.DEFAULT_FONT_FAMILY,
+                          defaultFontFamily: 'Arial', // Utilise une police fixe à la place de Constant.DEFAULT_FONT_FAMILY
                           scrollController: _scrollController,
                           onChange: (Document document) {
                             if (oldDelta == document.toDelta()) return;

@@ -5,74 +5,73 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
-import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Définir un document par défaut
 final kQuillDefaultSample = [
-  {'insert': ' je soussigne nana nanana      nannan annnann    nanana  nanana annanananan nanananna\n'}
+  {'insert': '\n'}
 ];
 // Mandeha ny POST
 
-final url = Uri.parse('http://192.168.229.144:1627/todo');
-Future<void>getData() async{
+// final url = Uri.parse('http://192.168.229.144:1627/todo');
+// Future<void>getData() async{
  
  
 
- try{
-  final response = await http.get(url);
-  final data = jsonDecode(response.body);
-  debugPrint('Donnee : $data');
+//  try{
+//   final response = await http.get(url);
+//   final data = jsonDecode(response.body);
+//   debugPrint('Donnee : $data');
 
 
-  if (response.statusCode ==200 ){
+//   if (response.statusCode ==200 ){
 
-  }
- }
- catch(e){
+//   }
+//  }
+//  catch(e){
 
-  debugPrint('Erreur $e');
- }
-}
-
-
-
+//   debugPrint('Erreur $e');
+//  }
+// }
 
 
 
-Future<void>postData() async{
+
+
+
+// Future<void>postData() async{
 
   
 
-  final data = {
-    'titre':'Fetch',
-    'description': 'Dera'
-  };
+//   final data = {
+//     'titre':'Fetch',
+//     'description': 'Dera'
+//   };
 
 
-  try {
-    final response = await http.post(
-      url,
-      headers:{'Content-Type':'application/json'},
-      body:jsonEncode(data),
+//   try {
+//     final response = await http.post(
+//       url,
+//       headers:{'Content-Type':'application/json'},
+//       body:jsonEncode(data),
 
 
-    );
+//     );
 
-    if (response.statusCode==201 || response.statusCode == 200){
-      debugPrint('succes: ${response.body}');
-    }
-    else{
-      debugPrint('Erreur ${response.statusCode}');
-    }
-  }
-  catch(e){
-    debugPrint('Exception: $e');
-  }
+//     if (response.statusCode==201 || response.statusCode == 200){
+//       debugPrint('succes: ${response.body}');
+//     }
+//     else{
+//       debugPrint('Erreur ${response.statusCode}');
+//     }
+//   }
+//   catch(e){
+//     debugPrint('Exception: $e');
+//   }
 
-}
+// }
 
 
 // class Edit extends StatelessWidget {
@@ -186,7 +185,7 @@ class _HomePageState extends State<Editor> {
           Align(
          alignment: Alignment(-1,-10),
            child: SvgPicture.asset(
-            'assets/svg/editor.svg',
+            'assets/svg/Consent2.svg',
             width: 370.h,
             height:370.w,
            ),
@@ -199,10 +198,10 @@ class _HomePageState extends State<Editor> {
             body: Stack(
               children: [
                 Align(
-                  alignment: Alignment(0.2, 0.2),
+                  alignment: Alignment(0, 0.2),
                   child: SafeArea(
                     child: SizedBox(
-                      width: 85.w,
+                      width: 80.w,
                       child: Column(
                         children: [
                           QuillSimpleToolbar(
@@ -306,7 +305,7 @@ class _HomePageState extends State<Editor> {
                 },
               );
             },
-                    child: Icon(Icons.check_circle,
+                    child: Icon(Icons.check,
                     size: 30,),
                     ),
             ),
