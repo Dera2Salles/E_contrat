@@ -59,6 +59,8 @@ class _MyHomePageState extends State<PdfQuill> {
           IconButton(
               onPressed: () async {
                 try{
+                // S'assurer que les polices sont chargées avant de générer le PDF
+                await loader.loadFonts();
                 
                 final bool isAndroid = Platform.isAndroid;
                 // on android devices is not available getSaveLocation

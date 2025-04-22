@@ -51,7 +51,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
       config: QuillEditorConfig(
         textCapitalization: TextCapitalization.sentences,
         detectWordBoundary: true,
-        placeholder: 'Write something',
+        placeholder: 'Ndao e-contrat',
         padding: const EdgeInsets.only(bottom: 20),
         autoFocus: false,
         enableSelectionToolbar: true,

@@ -448,7 +448,7 @@ void _initializeQuillController() {
       child: Text(
         "$label: $value",
         style: TextStyle(
-          color: Colors.blue[900],
+          color: Colors.black,
           fontWeight: FontWeight.bold,
         ),
       ),

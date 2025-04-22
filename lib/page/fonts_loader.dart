@@ -431,98 +431,50 @@ class FontsLoader {
   }
 
   Future<void> loadFonts() async {
-    //LORA
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/lora/Lora-Regular.ttf")));
-    _pdffonts.add(
-        pw.Font.ttf(await rootBundle.load("assets/fonts/lora/Lora-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/lora/Lora-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/lora/Lora-BoldItalic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Courier/CourierPrime-Regular.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Courier/CourierPrime-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Courier/CourierPrime-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Courier/CourierPrime-BoldItalic.ttf")));
-    _pdffonts.add(
-        pw.Font.ttf(await rootBundle.load("assets/fonts/crimson/crimson.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/crimson/crimson-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/crimson/crimson-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/crimson/crimson-BoldItalic.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/philosopher/philosopher.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/philosopher/philosopher-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/philosopher/philosopher-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/philosopher/philosopher-BoldItalic.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/lobster/lobsterTwo.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/lobster/lobsterTwo-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/lobster/lobsterTwo-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/lobster/lobsterTwo-BoldItalic.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Tinos/Tinos-Regular.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Tinos/Tinos-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Tinos/Tinos-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Tinos/Tinos-BoldItalic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Noto_Sans/static/NotoSans-Regular.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Noto_Sans/static/NotoSans-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Noto_Sans/static/NotoSans-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Noto_Sans/static/NotoSans-BoldItalic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Open_Sans/static/OpenSans-Regular.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Open_Sans/static/OpenSans-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Open_Sans/static/OpenSans-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Open_Sans/static/OpenSans-BoldItalic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Inria_Serif/InriaSerif-Regular.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Inria_Serif/InriaSerif-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Inria_Serif/InriaSerif-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Inria_Serif/InriaSerif-BoldItalic.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Lato/Lato-Regular.ttf")));
-    _pdffonts.add(
-        pw.Font.ttf(await rootBundle.load("assets/fonts/Lato/Lato-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Lato/Lato-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Lato/Lato-BoldItalic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Raleway/Raleway-VariableFont_wght.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf")));
-    _pdffonts.add(pw.Font.ttf(
-        await rootBundle.load("assets/fonts/Ubuntu_Mono/UbuntuMono-Bold.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Ubuntu_Mono/UbuntuMono-Italic.ttf")));
-    _pdffonts.add(pw.Font.ttf(await rootBundle
-        .load("assets/fonts/Ubuntu_Mono/UbuntuMono-BoldItalic.ttf")));
-    _configured = true;
+    try {
+      // Chargement des polices disponibles
+      
+      // LORA (existant)
+      _pdffonts.add(pw.Font.ttf(
+          await rootBundle.load("assets/fonts/Lora/static/Lora-Regular.ttf")));
+      _pdffonts.add(
+          pw.Font.ttf(await rootBundle.load("assets/fonts/Lora/static/Lora-Bold.ttf")));
+      _pdffonts.add(pw.Font.ttf(
+          await rootBundle.load("assets/fonts/Lora/static/Lora-Italic.ttf")));
+      _pdffonts.add(pw.Font.ttf(
+          await rootBundle.load("assets/fonts/Lora/static/Lora-BoldItalic.ttf")));
+      
+      // NOTO SANS (existant)
+      _pdffonts.add(pw.Font.ttf(await rootBundle
+          .load("assets/fonts/Noto_Sans/static/NotoSans-Regular.ttf")));
+      _pdffonts.add(pw.Font.ttf(await rootBundle
+          .load("assets/fonts/Noto_Sans/static/NotoSans-Bold.ttf")));
+      _pdffonts.add(pw.Font.ttf(await rootBundle
+          .load("assets/fonts/Noto_Sans/static/NotoSans-Italic.ttf")));
+      _pdffonts.add(pw.Font.ttf(await rootBundle
+          .load("assets/fonts/Noto_Sans/static/NotoSans-BoldItalic.ttf")));
+      
+      // POPPINS (disponible à la racine du dossier fonts)
+      _pdffonts.add(pw.Font.ttf(
+          await rootBundle.load("assets/fonts/Poppins-Regular.ttf")));
+      _pdffonts.add(pw.Font.ttf(
+          await rootBundle.load("assets/fonts/Poppins-Bold.ttf")));
+      _pdffonts.add(pw.Font.ttf(
+          await rootBundle.load("assets/fonts/Poppins-Italic.ttf")));
+      _pdffonts.add(pw.Font.ttf(
+          await rootBundle.load("assets/fonts/Poppins-BoldItalic.ttf")));
+      _pdffonts.add(pw.Font.ttf(
+          await rootBundle.load("assets/fonts/Poppins-Medium.ttf")));
+      _pdffonts.add(pw.Font.ttf(
+          await rootBundle.load("assets/fonts/Poppins-Light.ttf")));
+      
+    } catch (e) {
+      print("Erreur lors du chargement des polices: $e");
+    } finally {
+      // Marquer comme configuré même en cas d'erreur pour éviter les crashs
+      // Nous aurons au moins certaines polices chargées
+      _configured = true;
+    }
   }
 }
 

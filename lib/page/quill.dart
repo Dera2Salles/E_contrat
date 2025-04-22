@@ -12,7 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Définir un document par défaut
 final kQuillDefaultSample = [
-  {'insert': '\n'}
+  {'insert': ' je soussigne nana nanana      nannan annnann    nanana  nanana annanananan nanananna\n'}
 ];
 // Mandeha ny POST
 

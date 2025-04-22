@@ -120,6 +120,10 @@ flutter:
           weight: 400
         - asset: assets/fonts/Poppins-SemiBold.ttf
           weight: 600
+
+    - family: NotoEmoji
+      fonts:
+        - asset: assets/fonts/unicodes/Noto_Emoji/NotoEmoji-VariableFont_wght.ttf
       
       
   #   - family: Trajan Pro
