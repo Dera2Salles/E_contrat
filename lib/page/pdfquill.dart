@@ -30,7 +30,8 @@ final FontsLoader loader = FontsLoader();
 
 
 class PdfQuill extends StatefulWidget {
-  const PdfQuill({super.key});
+  final List<dynamic>? documentModel; // Modèle de document à utiliser
+  const PdfQuill({super.key, this.documentModel});
 
   @override
   State<PdfQuill> createState() => _MyHomePageState();
@@ -38,15 +39,60 @@ class PdfQuill extends StatefulWidget {
 
 class _MyHomePageState extends State<PdfQuill> {
 
+  // Exemples de modèles de document par défaut
+  static final List<dynamic> kContratSample = [
+    {'insert': 'CONTRAT DE PRÊT\n', 'attributes': {'header': 1}},
+    {'insert': '\nEntre les soussignés :\n'},
+    {'insert': 'Monsieur/Madame [Nom du Créancier]', 'attributes': {'bold': true}},
+    {'insert': ', domicilié(e) à [Adresse du Créancier], ci-après dénommé(e) "le Créancier",\n\nEt\n\n'},
+    {'insert': 'Monsieur/Madame [Nom du Débiteur]', 'attributes': {'bold': true}},
+    {'insert': ', domicilié(e) à [Adresse du Débiteur], ci-après dénommé(e) "le Débiteur",\n\nIl a été convenu ce qui suit :\n\n'},
+    {'insert': 'Article 1 - Objet du contrat\n', 'attributes': {'bold': true, 'header': 2}},
+    {'insert': 'Le Créancier consent un prêt d\'une somme de [Montant] euros au Débiteur qui l\'accepte.\n\n'},
+    {'insert': 'Article 2 - Durée\n', 'attributes': {'bold': true, 'header': 2}},
+    {'insert': 'Le prêt est consenti pour une durée de [Durée] mois à compter de la signature du présent contrat.\n\n'},
+    {'insert': 'Article 3 - Remboursement\n', 'attributes': {'bold': true, 'header': 2}},
+    {'insert': 'Le Débiteur s\'engage à rembourser au Créancier la somme prêtée selon les modalités suivantes : [Modalités de remboursement].\n\n'},
+    {'insert': 'Article 4 - Signatures\n', 'attributes': {'bold': true, 'header': 2}},
+ 
+  ];
+  
+  static final List<dynamic> kReconnaissanceDetteSample = [
+    {'insert': 'RECONNAISSANCE DE DETTE\n', 'attributes': {'header': 1}},
+    {'insert': '\nJe soussigné(e), '},
+    {'insert': '[Nom du Débiteur]', 'attributes': {'bold': true}},
+    {'insert': ', domicilié(e) à [Adresse du Débiteur], reconnais par la présente devoir à '},
+    {'insert': '[Nom du Créancier]', 'attributes': {'bold': true}},
+    {'insert': ', domicilié(e) à [Adresse du Créancier], la somme de [Montant en chiffres] euros ([Montant en lettres] euros).\n\nCette somme représente : [Origine de la dette]\n\nJe m\'engage à rembourser cette somme selon les modalités suivantes : [Modalités de remboursement]\n\nFait à [Lieu], le [Date]\n\nSignature du Débiteur:\n\n\n\n\nSignature du Créancier:\n'}
+  ];
+  
+  // Autres modèles de document peuvent être ajoutés ici
+  static final Map<String, List<dynamic>> documentModels = {
+    'contrat_pret': kContratSample,
+    'reconnaissance_dette': kReconnaissanceDetteSample,
+    'vide': [{'insert': '\n'}]
+  };
+  
 //   final kQuillDefaultSample = [
 //   {'insert': '\n'}
 // ];
   bool _isGeneratingPdf = false;
   bool firstEntry = false;
   final PDFPageFormat params = PDFPageFormat.a4;
-  final QuillController _quillController = QuillController(
-      document: Document(),
-      selection: const TextSelection.collapsed(offset: 0));
+  late final QuillController _quillController;
+  
+  @override
+  void initState() {
+    super.initState();
+    
+    // Initialiser le QuillController avec le modèle fourni ou un document vide
+    final documentData = documentModels["contrat_pret"] ?? [{'insert': '\n'}];
+    _quillController = QuillController(
+      document: Document.fromJson(documentData),
+      selection: const TextSelection.collapsed(offset: 0)
+    );
+  }
+  
   final FocusNode _editorNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier<bool> _shouldShowToolbar = ValueNotifier<bool>(false);
@@ -61,7 +107,7 @@ class _MyHomePageState extends State<PdfQuill> {
   bool _hasCapturedSignature2 = false;
   Uint8List? _signatureBytes1; // Bytes de la signature du créancier pour le PDF
   Uint8List? _signatureBytes2; // Bytes de la signature du débiteur pour le PDF
-
+  
   @override
   void dispose() {
     _quillController.dispose();
@@ -836,6 +882,24 @@ class _MyHomePageState extends State<PdfQuill> {
         ],
       ),
     );
+  }
+  
+  // Méthode pour charger un modèle de document spécifique
+  void loadDocumentModel(String modelKey) {
+    if (documentModels.containsKey(modelKey)) {
+      setState(() {
+        final newDocument = Document.fromJson(documentModels[modelKey]!);
+        _quillController.document = newDocument;
+      });
+    }
+  }
+  
+  // Méthode pour charger un modèle de document personnalisé
+  void loadCustomDocumentModel(List<dynamic> documentData) {
+    setState(() {
+      final newDocument = Document.fromJson(documentData);
+      _quillController.document = newDocument;
+    });
   }
 }
 
