@@ -10,9 +10,7 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Définir un document par défaut
-final kQuillDefaultSample = [
-  {'insert': '\n'}
-];
+
 // Mandeha ny POST
 
 // final url = Uri.parse('http://192.168.229.144:1627/todo');
@@ -109,6 +107,9 @@ class Editor extends StatefulWidget {
 }
 
 class _HomePageState extends State<Editor> {
+  final kQuillDefaultSample = [
+  {'insert': '\n'}
+];
   final QuillController _controller = () {
     return QuillController.basic(
         config: QuillControllerConfig(

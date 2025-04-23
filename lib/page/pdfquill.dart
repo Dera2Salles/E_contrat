@@ -17,7 +17,6 @@ import 'package:open_file/open_file.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:flutter_quill_to_pdf/flutter_quill_to_pdf.dart';
-import 'package:pdf/pdf.dart' as dartpdf;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -26,9 +25,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
 final FontsLoader loader = FontsLoader();
 
-final kQuillDefaultSample = [
-  {'insert': '\n'}
-];
+
 // Mandeha ny POST
 
 
@@ -40,6 +37,11 @@ class PdfQuill extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<PdfQuill> {
+
+//   final kQuillDefaultSample = [
+//   {'insert': '\n'}
+// ];
+  bool _isGeneratingPdf = false;
   bool firstEntry = false;
   final PDFPageFormat params = PDFPageFormat.a4;
   final QuillController _quillController = QuillController(
@@ -83,6 +85,7 @@ class _MyHomePageState extends State<PdfQuill> {
       MaterialPageRoute(
         builder: (context) => Scaffold(
           extendBodyBehindAppBar: true,
+           resizeToAvoidBottomInset:false ,
           appBar: AppBar(
             automaticallyImplyLeading: false,
             centerTitle: true,
@@ -90,7 +93,7 @@ class _MyHomePageState extends State<PdfQuill> {
             backgroundColor: Colors.transparent,
             title: Text(
               'Signature du créancier',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF3200d5)),
             ),
           ),
           body: Stack(
@@ -217,6 +220,7 @@ class _MyHomePageState extends State<PdfQuill> {
       MaterialPageRoute(
         builder: (context) => Scaffold(
           extendBodyBehindAppBar: true,
+           resizeToAvoidBottomInset:false ,
           appBar: AppBar(
             automaticallyImplyLeading: false,
             centerTitle: true,
@@ -224,7 +228,7 @@ class _MyHomePageState extends State<PdfQuill> {
             backgroundColor: Colors.transparent,
             title: Text(
               'Signature du débiteur',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF3200d5)),
             ),
           ),
           body: Stack(
@@ -340,38 +344,43 @@ class _MyHomePageState extends State<PdfQuill> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       resizeToAvoidBottomInset:false ,
+       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 107, 188, 255),
-        title: const Text('Éditeur de document'),
+        title: Text('  E-contrat', style: TextStyle(
+          color: Color(0xFF3200d5),
+          fontSize: 25,
+           fontWeight: FontWeight.bold
+
+        ),
+        ),
+          automaticallyImplyLeading: false,
+        backgroundColor:  Colors.transparent,
         actions: [
           // Bouton pour la signature du créancier
           IconButton(
-            icon: const Icon(Icons.gesture, color: Colors.white),
-            tooltip: 'Signature du créancier',
-            onPressed: () {
-              if (mounted) {
-                _navigateToSignaturePage1();
-              }
-            },
-          ),
-          // Bouton pour la signature du débiteur
-          IconButton(
-            icon: const Icon(Icons.draw, color: Colors.white),
-            tooltip: 'Signature du débiteur',
+            icon: _hasCapturedSignature2 ?  const Icon(Icons.check_circle, color: Colors.green, size: 20) :   const Icon(Icons.gesture, color: Color(0xFF3200d5),),
+            tooltip: 'Signature du debiteur',
             onPressed: () {
               if (mounted) {
                 _navigateToSignaturePage2();
               }
             },
           ),
-          // Indicateurs de statut des signatures
-          if (_hasCapturedSignature1)
-            const Icon(Icons.check_circle, color: Colors.green, size: 20),
-          if (_hasCapturedSignature2)
-            const Icon(Icons.check_circle, color: Colors.green, size: 20),
+          // Bouton pour la signature du débiteur
+          IconButton(
+            icon: _hasCapturedSignature1 ?  const Icon(Icons.check_circle, color: Colors.green, size: 20) : const Icon(Icons.draw, color: Color(0xFF3200d5)),
+            tooltip: 'Signature du creancier',
+            onPressed: () {
+              if (mounted) {
+                _navigateToSignaturePage1();
+              }
+            },
+          ),
           IconButton(
             tooltip: 'Générer PDF',
-            onPressed: () async {
+            onPressed:_isGeneratingPdf ? null : () async {
+             
               try {
                 // S'assurer que les polices sont chargées avant de générer le PDF
                 await loader.loadFonts();
@@ -396,7 +405,7 @@ class _MyHomePageState extends State<PdfQuill> {
                   return;
                 }
                 final File file = isAndroid
-                    ? File('${result as String}/document_${DateTime.now().millisecondsSinceEpoch}.pdf')
+                    ? File('${result as String}/document_${DateTime.now().millisecondsSinceEpoch}.pdf') // Nom du Document
                     : File((result as FileSaveLocation).path);
                 
                 // Utiliser les bytes des signatures déjà stockés
@@ -421,45 +430,45 @@ class _MyHomePageState extends State<PdfQuill> {
                     _signatureBytes2 = signatureBytes2;
                   }
                 }
-                
+                 setState(() => _isGeneratingPdf = true);
                 debugPrint('État des signatures: Signature1: ${signatureBytes1 != null}, Signature2: ${signatureBytes2 != null}');
                 
-                PDFConverter pdfConverter = PDFConverter(
-                  backMatterDelta: null,
-                  frontMatterDelta: null,
-                  isWeb: kIsWeb,
-                  document: _quillController.document.toDelta(),
-                  fallbacks: [...loader.allFonts()],
-                  onRequestFontFamily: (FontFamilyRequest familyRequest) {
-                    final normalFont =
-                        loader.getFontByName(fontFamily: familyRequest.family);
-                    final boldFont = loader.getFontByName(
-                      fontFamily: familyRequest.family,
-                      bold: familyRequest.isBold,
-                    );
-                    final italicFont = loader.getFontByName(
-                      fontFamily: familyRequest.family,
-                      italic: familyRequest.isItalic,
-                    );
-                    final boldItalicFont = loader.getFontByName(
-                      fontFamily: familyRequest.family,
-                      bold: familyRequest.isBold,
-                      italic: familyRequest.isItalic,
-                    );
-                    return FontFamilyResponse(
-                      fontNormalV: normalFont,
-                      boldFontV: boldFont,
-                      italicFontV: italicFont,
-                      boldItalicFontV: boldItalicFont,
-                      fallbacks: [
-                        normalFont,
-                        italicFont,
-                        boldItalicFont,
-                      ],
-                    );
-                  },
-                  pageFormat: params,
-                );
+                // PDFConverter pdfConverter = PDFConverter(
+                //   backMatterDelta: null,
+                //   frontMatterDelta: null,
+                //   isWeb: kIsWeb,
+                //   document: _quillController.document.toDelta(),
+                //   fallbacks: [...loader.allFonts()],
+                //   onRequestFontFamily: (FontFamilyRequest familyRequest) {
+                //     final normalFont =
+                //         loader.getFontByName(fontFamily: familyRequest.family);
+                //     final boldFont = loader.getFontByName(
+                //       fontFamily: familyRequest.family,
+                //       bold: familyRequest.isBold,
+                //     );
+                //     final italicFont = loader.getFontByName(
+                //       fontFamily: familyRequest.family,
+                //       italic: familyRequest.isItalic,
+                //     );
+                //     final boldItalicFont = loader.getFontByName(
+                //       fontFamily: familyRequest.family,
+                //       bold: familyRequest.isBold,
+                //       italic: familyRequest.isItalic,
+                //     );
+                //     return FontFamilyResponse(
+                //       fontNormalV: normalFont,
+                //       boldFontV: boldFont,
+                //       italicFontV: italicFont,
+                //       boldItalicFontV: boldItalicFont,
+                //       fallbacks: [
+                //         normalFont,
+                //         italicFont,
+                //         boldItalicFont,
+                //       ],
+                //     );
+                //   },
+                //   pageFormat: params,
+                // );
                 try {
                   // Créer un document PDF sécurisé en supprimant les formatages qui pourraient causer des erreurs
                   // D'abord, créons une copie simplifiée du Delta qui contient uniquement le texte
@@ -524,6 +533,7 @@ class _MyHomePageState extends State<PdfQuill> {
                     _editorNode.unfocus();
                     _shouldShowToolbar.value = false;
                     if (mounted) {
+                      // ignore: use_build_context_synchronously
                       final messenger = ScaffoldMessenger.of(context);
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         if (mounted) {
@@ -601,17 +611,17 @@ class _MyHomePageState extends State<PdfQuill> {
                         
                         // Ajouter la signature du débiteur (à gauche)
                         if (signatureBytes2 != null) {
-                          debugPrint('Ajout signature débiteur');
+                          debugPrint('Ajout signature débiteur $pageWidth');
                           PdfBitmap signature2 = PdfBitmap(signatureBytes2);
                           
                           // Ajouter la légende
                           graphics.drawString('Signature du débiteur', font, 
                               brush: PdfSolidBrush(PdfColor(0, 0, 0)),
-                              bounds: Rect.fromLTWH(20, pageHeight - 150, 150, 20));
+                              bounds: Rect.fromLTWH(655-pageWidth , pageHeight - 150, 150, 20));
                           
                           // Ajouter l'image de la signature
                           graphics.drawImage(signature2, 
-                              Rect.fromLTWH(20, pageHeight - 140, 150, 80));
+                              Rect.fromLTWH(30, pageHeight - 140, 150, 80));
                         }
                       }
                       
@@ -628,6 +638,7 @@ class _MyHomePageState extends State<PdfQuill> {
                   }
 
                   if (mounted) {
+                     setState(() => _isGeneratingPdf = false);
                     final scaffoldMessenger = ScaffoldMessenger.of(context);
                     scaffoldMessenger.showSnackBar(
                       SnackBar(
@@ -641,7 +652,9 @@ class _MyHomePageState extends State<PdfQuill> {
                           },
                         ),
                       ),
+                      
                     );
+                    //  Navigator.pushNamed(context, '/grid');
                   }
                 } catch (e, stackTrace) {
                   debugPrint("Erreur lors de la génération du PDF : $e");
@@ -673,122 +686,160 @@ class _MyHomePageState extends State<PdfQuill> {
               }
               },
               // Utilise seulement l'icône une fois
-              icon: const Icon(Icons.print, color: Colors.white),
+              icon: const Icon(Icons.print, color: Color(0xFF3200d5),),
             ),
         ],
-        centerTitle: true,
+        
       ),
       body: Stack(
         clipBehavior: Clip.none,
         fit: StackFit.expand,
         children: [
+          
+        
+           Linear(),
+            Positioned(
+            top: 35.h,
+           right: 55.w,
+             child: Transform.scale(
+          scale: 3.0,
+           child: SvgPicture.asset(
+            'assets/svg/background.svg',
+            width: 35.w,
+            height:35.h,
+           ),
+             ),
+           ) ,
           Positioned(
-            top: 20,
+            top:1.h,
+            left: -3.w,
+         
+           child: SvgPicture.asset(
+            'assets/svg/editor.svg',
+            width: 216.h,
+            height:216.w,
+           ),
+             ),
+              if (_isGeneratingPdf)
+            Column(
+              children: [
+                const LinearProgressIndicator(
+                  minHeight: 4,
+                  backgroundColor: Color(0xFF3200d5),
+                ),
+              ],
+            ),
+          Positioned( // position du ndao e contrat
+            top: 13.h,
             left: 0,
             right: 0,
             bottom: 0,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 0),
-              child: Scrollbar(
-                controller: _scrollController,
-                notificationPredicate: (ScrollNotification notification) {
-                  if (mounted && firstEntry) {
-                    firstEntry =
-                        false; //avoid issue with column (Ln225,Col49) that mnakes false scroll
-                    setState(() {});
-                  }
-                  return notification.depth == 0;
-                },
-                interactive: true,
-                radius: const Radius.circular(10),
-                child: Column(
-                  children: <Widget>[
-                    if (Platform.isMacOS ||
-                        Platform.isWindows ||
-                        Platform.isLinux)
-                      QuillSimpleToolbar(
-                        controller: _quillController,
-                        config: QuillSimpleToolbarConfig(
-                          toolbarSize: 55,
-                          linkStyleType: LinkStyleType.original,
-                          headerStyleType: HeaderStyleType.buttons,
-                          showAlignmentButtons: true,
-                          multiRowsDisplay: true,
-                          showLineHeightButton: true,
-                          showDirection: true,
-                          buttonOptions: const QuillSimpleToolbarButtonOptions(
-                            selectLineHeightStyleDropdownButton:
-                                QuillToolbarSelectLineHeightStyleDropdownButtonOptions(),
-                            fontSize: QuillToolbarFontSizeButtonOptions(
-                              items: fontSizes,
-                              initialValue: 'Normal',
-                              defaultDisplayText: 'Normal',
-                            ),
-                            fontFamily: QuillToolbarFontFamilyButtonOptions(
-                              items: fontFamilies,
-                              defaultDisplayText: 'Arial',
-                              initialValue: 'Arial',
-                            ),
-                          ),
-                          embedButtons: FlutterQuillEmbeds.toolbarButtons(),
-                        ),
-                      ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 0),
-                        child: CustomQuillEditor(
-                          node: _editorNode,
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: Scrollbar(
+                  controller: _scrollController,
+                  notificationPredicate: (ScrollNotification notification) {
+                    if (mounted && firstEntry) {
+                      firstEntry =
+                          false; //avoid issue with column (Ln225,Col49) that mnakes false scroll
+                      setState(() {});
+                    }
+                    return notification.depth == 0;
+                  },
+                  interactive: true,
+                  radius: const Radius.circular(10),
+                  child: Column(
+                    children: <Widget>[
+                      if (Platform.isMacOS ||
+                          Platform.isWindows ||
+                          Platform.isLinux)
+                        QuillSimpleToolbar(
                           controller: _quillController,
-                          defaultFontFamily: 'Arial', // Utilise une police fixe à la place de Constant.DEFAULT_FONT_FAMILY
-                          scrollController: _scrollController,
-                          onChange: (Document document) {
-                            if (oldDelta == document.toDelta()) return;
-                            oldDelta = document.toDelta();
-                            if (mounted) {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                if (!_shouldShowToolbar.value) {
-                                  _shouldShowToolbar.value = true;
-                                }
-                              });
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                    if (Platform.isIOS ||
-                        Platform.isAndroid ||
-                        Platform.isFuchsia)
-                      ValueListenableBuilder<bool>(
-                        valueListenable: _shouldShowToolbar,
-                        builder: (BuildContext _, bool value, __) => Visibility(
-                          visible: value,
-                          child: QuillSimpleToolbar(
-                            controller: _quillController,
-                            config: QuillSimpleToolbarConfig(
-                              multiRowsDisplay: false,
-                              toolbarSize: 55,
-                              linkStyleType: LinkStyleType.original,
-                              headerStyleType: HeaderStyleType.buttons,
-                              buttonOptions:
-                                  const QuillSimpleToolbarButtonOptions(
-                                fontSize: QuillToolbarFontSizeButtonOptions(
-                                  items: fontSizes,
-                                  initialValue: 'Normal',
-                                  defaultDisplayText: 'Normal',
-                                ),
-                                fontFamily: QuillToolbarFontFamilyButtonOptions(
-                                  items: fontFamilies,
-                                  defaultDisplayText: 'Arial',
-                                  initialValue: 'Arial',
-                                ),
+                          config: QuillSimpleToolbarConfig(
+                            toolbarSize: 55,
+                            linkStyleType: LinkStyleType.original,
+                            headerStyleType: HeaderStyleType.buttons,
+                            showAlignmentButtons: true,
+                            multiRowsDisplay: true,
+                            showLineHeightButton: true,
+                            showDirection: true,
+                            buttonOptions: const QuillSimpleToolbarButtonOptions(
+                              selectLineHeightStyleDropdownButton:
+                                  QuillToolbarSelectLineHeightStyleDropdownButtonOptions(),
+                              fontSize: QuillToolbarFontSizeButtonOptions(
+                                items: fontSizes,
+                                initialValue: 'Normal',
+                                defaultDisplayText: 'Normal',
                               ),
-                              embedButtons: FlutterQuillEmbeds.toolbarButtons(),
+                              fontFamily: QuillToolbarFontFamilyButtonOptions(
+                                items: fontFamilies,
+                                defaultDisplayText: 'Arial',
+                                initialValue: 'Arial',
+                              ),
                             ),
+                            embedButtons: FlutterQuillEmbeds.toolbarButtons(),
+                          ),
+                        ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 0),
+                          child: CustomQuillEditor(
+                            node: _editorNode,
+                            controller: _quillController,
+                            defaultFontFamily: 'Arial', // Utilise une police fixe à la place de Constant.DEFAULT_FONT_FAMILY
+                            scrollController: _scrollController,
+                            onChange: (Document document) {
+                              if (oldDelta == document.toDelta()) return;
+                              oldDelta = document.toDelta();
+                              if (mounted) {
+                                WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  if (!_shouldShowToolbar.value) {
+                                    _shouldShowToolbar.value = true;
+                                  }
+                                });
+                              }
+                            },
                           ),
                         ),
                       ),
-                  ],
+                      if (Platform.isIOS ||
+                          Platform.isAndroid ||
+                          Platform.isFuchsia)
+                        ValueListenableBuilder<bool>(
+                          valueListenable: _shouldShowToolbar,
+                          builder: (BuildContext _, bool value, __) => Visibility(
+                            visible: value,
+                            child: QuillSimpleToolbar(
+                              controller: _quillController,
+                              config: QuillSimpleToolbarConfig(
+                                color: Colors.transparent,
+                                multiRowsDisplay: false,
+                                toolbarSize: 55,
+                                linkStyleType: LinkStyleType.original,
+                                headerStyleType: HeaderStyleType.buttons,
+                                buttonOptions:
+                                    const QuillSimpleToolbarButtonOptions(
+                                  fontSize: QuillToolbarFontSizeButtonOptions(
+                                    items: fontSizes,
+                                    initialValue: 'Normal',
+                                    defaultDisplayText: 'Normal',
+                                  ),
+                                  fontFamily: QuillToolbarFontFamilyButtonOptions(
+                                    items: fontFamilies,
+                                    defaultDisplayText: 'Arial',
+                                    initialValue: 'Arial',
+                                  ),
+                                ),
+                                embedButtons: FlutterQuillEmbeds.toolbarButtons(),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
