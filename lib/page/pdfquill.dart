@@ -194,11 +194,6 @@ class _MyHomePageState extends State<PdfQuill> {
         _hasCapturedSignature1 = true;
       });
 
-      // Afficher message de confirmation
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Signature du créancier capturée avec succès')),
-      );
-
       // Vérification de null avant d'appeler clear
       if (_signaturePadKey1.currentState != null) {
         _signaturePadKey1.currentState!.clear();
@@ -328,12 +323,6 @@ class _MyHomePageState extends State<PdfQuill> {
         _signatureBytes2 = pngBytes;
         _hasCapturedSignature2 = true;
       });
-
-      // Afficher message de confirmation
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Signature du débiteur capturée avec succès')),
-      );
-
       // Vérification de null avant d'appeler clear
       if (_signaturePadKey2.currentState != null) {
         _signaturePadKey2.currentState!.clear();
