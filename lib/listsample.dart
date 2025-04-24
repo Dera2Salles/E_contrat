@@ -1,16 +1,7 @@
 import 'package:e_contrat/page/inputfield.dart';
 import 'package:flutter/material.dart';
 
-class Listsample extends StatelessWidget {
-  const Listsample({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ContractListScreen(),
-    );
-  }
-}
 
 // Sample contract data (based on your kContratSample)
 final List<Map<String, dynamic>> contractTemplates = [

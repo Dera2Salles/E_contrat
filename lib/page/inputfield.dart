@@ -21,15 +21,6 @@ class _FormScreenState extends State<FormScreen> {
     "Date": TextEditingController(),
     "Montant": TextEditingController(),
   };
-
-     static final List<dynamic> kReconnaissanceDetteSample = [
-    {'insert': 'RECONNAISSANCE DE DETTE\n', 'attributes': {'header': 3}},
-    {'insert': '\nJe soussigné(e), '},
-    {'insert': '[Nom]', 'attributes': {'bold': true}},
-    {'insert': ', domicilié(e) à [Adresse du Débiteur], reconnais par la présente devoir à '},
-    {'insert': '[Nom]', 'attributes': {'bold': true}},
-    {'insert': ', domicilié(e) à [Adresse du Créancier], la somme de [Montant] euros ([Montant en lettres] euros).\n\nCette somme représente : [Origine de la dette]\n\nJe m\'engage à rembourser cette somme selon les modalités suivantes : [Modalités de remboursement]\n\nFait à [Lieu], le [Date]\n\nSignature du Débiteur:\n\n\n\n\nSignature du Créancier:\n'}
-  ];
   @override
   void dispose() {
     _controllers.forEach((_, controller) => controller.dispose());
@@ -129,7 +120,7 @@ class _FormScreenState extends State<FormScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PdfQuill(formData: formData, documentModel: kReconnaissanceDetteSample,),
+                                builder: (context) => PdfQuill(formData: formData, documentModel: widget.template,),
                               ),
                             );
                           }

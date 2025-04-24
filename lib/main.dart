@@ -1,6 +1,7 @@
 // import 'package:e_contrat/page/pdfquill.dart';
 import 'package:e_contrat/listsample.dart';
 import 'package:e_contrat/page/home.dart';
+import 'package:e_contrat/page/pdfquill.dart';
 import 'package:e_contrat/page/preview.dart';
 import 'package:e_contrat/page/quill.dart';
 //import 'package:e_contrat/page/home.dart';
@@ -56,7 +57,8 @@ class Econtrat extends StatelessWidget {
         '/editor': (context)=> Editor(),
         '/pad': (context)=> SignaturePadApp(),
         '/preview': (context)=> PreviewScreen(),
-        '/list': (context)=> Listsample(),
+        '/list': (context)=> ContractListScreen(),
+        '/pdf': (context)=> PdfQuill(documentModel: [], formData: {}),
 
       },
       title: 'E-contrat',
