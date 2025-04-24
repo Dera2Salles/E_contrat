@@ -1,4 +1,5 @@
 import 'package:e_contrat/listsample.dart';
+import 'package:e_contrat/page/grid.dart';
 import 'package:e_contrat/page/home.dart';
 import 'package:e_contrat/page/pdfquill.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,7 @@ class Econtrat extends StatelessWidget {
         FlutterQuillLocalizations.delegate,
       ],
       routes: {
+         '/grid':  (context)=> Grid(),
         '/list': (context)=> ContractListScreen( data: [],),
         '/pdf': (context)=> PdfQuill(documentModel: [], formData: {}),
 
