@@ -4,11 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 
-
-
-
-
-
 class ContractListScreen extends StatelessWidget {
 
   final List<Map<String, dynamic>> data;
@@ -62,7 +57,7 @@ class ContractItem extends StatelessWidget {
   final int index;
   final List<dynamic> data;
 
- ContractItem({super.key, required this.data, required this.index});
+ const ContractItem({super.key, required this.data, required this.index});
 
 
     String getPreviewText() {
@@ -115,12 +110,6 @@ class ContractItem extends StatelessWidget {
                            maxLines: 29, // Limit lines for readability
                           overflow: TextOverflow.ellipsis,
                         ),
-                     
-                        // SizedBox(
-                        //   width: 30.w,
-                        //   height: 7.h,
-                        //   child:
-                        // ),
                       ],
                     ),
                   ),

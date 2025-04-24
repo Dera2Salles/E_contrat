@@ -440,7 +440,7 @@ class FontsLoader {
       _pdffonts.add(
           pw.Font.ttf(await rootBundle.load("assets/fonts/Lora/static/Lora-Bold.ttf")));
       _pdffonts.add(pw.Font.ttf(
-          await rootBundle.load("assets/fonts/Lora/static/Lora-Italic.ttf")));
+          await rootBundle.load("/assets/fonts/Lora/static/Lora-Italic.ttf")));
       _pdffonts.add(pw.Font.ttf(
           await rootBundle.load("assets/fonts/Lora/static/Lora-BoldItalic.ttf")));
       
