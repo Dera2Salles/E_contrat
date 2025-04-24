@@ -74,7 +74,7 @@ class _FormScreenState extends State<FormScreen> {
           Align(
          alignment: Alignment(-1,3),
            child: SvgPicture.asset(
-            'assets/svg/Consent2.svg',
+            'assets/svg/editor.svg',
             width: 375.h,
             height:375.w,
            ),

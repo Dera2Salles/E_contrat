@@ -1,5 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="431.054" height="889.497" viewBox="0 0 431.054 889.497">
-  <g id="Consent-pana" transform="translate(-816.408 340.046)">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="449.054" height="901.497" viewBox="0 0 449.054 901.497">
+  <defs>
+    <filter id="Path_84" x="0" y="17.393" width="449.054" height="884.104" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.639"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Consent-pana" transform="translate(-807.408 340.046)">
     <g id="freepik--Character--inject-21" transform="translate(816.545 -343.355)">
       <g id="Group_9" data-name="Group 9" transform="translate(9.545 661.294)" opacity="0.6">
         <path id="Path_151" data-name="Path 151" d="M82.6,446.1a1.45,1.45,0,0,1,.38,2,1.58,1.58,0,0,1-2,.37,1.52,1.52,0,0,1-.39-2.08,1.62,1.62,0,0,1,2.17-.16" transform="translate(-80.337 -445.887)" fill="#fff"/>
@@ -8,7 +17,9 @@
         <path id="Path_216" data-name="Path 216" d="M170.72,218.29l1.06,2.98v1.45h-1.2Z" transform="translate(-170.58 -218.29)"/>
       </g>
       <g id="freepik--Clipboard--inject-21" transform="translate(14.882) rotate(0.974)">
-        <path id="Path_84" data-name="Path 84" d="M400.237,851.035,25.015,859.288c-4.389.1-8.624-2.38-11.767-6.881a30.653,30.653,0,0,1-4.978-17.1L.023,33.1C-.114,19.734,7.152,8.732,16.257,8.522L391.495.269c4.387-.09,8.617,2.39,11.756,6.89a30.659,30.659,0,0,1,4.972,17.091l8.247,802.205C416.608,839.823,409.342,850.825,400.237,851.035Z" transform="translate(0.017 26.435)" fill="#e0e0e0"/>
+        <g transform="matrix(1, -0.02, 0.02, 1, -23.96, 3.72)" filter="url(#Path_84)">
+          <path id="Path_84-2" data-name="Path 84" d="M400.237,851.035,25.015,859.288c-4.389.1-8.624-2.38-11.767-6.881a30.653,30.653,0,0,1-4.978-17.1L.023,33.1C-.114,19.734,7.152,8.732,16.257,8.522L391.495.269c4.387-.09,8.617,2.39,11.756,6.89a30.659,30.659,0,0,1,4.972,17.091l8.247,802.205C416.608,839.823,409.342,850.825,400.237,851.035Z" transform="translate(23.59 23.13) rotate(0.97)" fill="#e0e0e0"/>
+        </g>
         <g id="Group_3" data-name="Group 3" transform="translate(46.535 810.514)" opacity="0.3">
           <path id="Path_86" data-name="Path 86" d="M3.92,0Z"/>
         </g>

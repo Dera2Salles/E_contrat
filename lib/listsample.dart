@@ -47,7 +47,7 @@ class ContractListScreen extends StatelessWidget {
               final contract = data[index];
               return ContractItem(
                 index: index,
-                title: contract['title'],
+             
                 data: contract['data'],
               );
             },
@@ -60,10 +60,9 @@ class ContractListScreen extends StatelessWidget {
 
 class ContractItem extends StatelessWidget {
   final int index;
-  final String title;
   final List<dynamic> data;
 
- ContractItem({super.key, required this.title, required this.data, required this.index});
+ ContractItem({super.key, required this.data, required this.index});
 
 
     String getPreviewText() {
@@ -83,79 +82,92 @@ class ContractItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-     
-          child: Card(
-            elevation: 4,
-            margin: EdgeInsets.all(16),
-            child: Stack(
-              children: [
-                 SvgPicture.asset(
-              'assets/svg/Consent2.svg',
-              width: 2.w,
-              height: 2.h,
-                 
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+       
+               child:  Stack(
+                children: [
+                   SvgPicture.asset(
+              'assets/svg/editor.svg',
+              width: 220.h,
+              height:220.w,
              ),
-               
-          
-          
-                Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      
-                      Text(
-                        title,
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 15),
-                      // Display a preview or placeholder for the Delta data
-                      Text(
-                        getPreviewText(),
-                        style: TextStyle(fontSize: 16),
-                        // textAlign: TextAlign.center,
-                         maxLines: 25, // Limit lines for readability
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                   
-                      SizedBox(
-                        width: 30.w,
-                        height: 7.h,
-                        child: FloatingActionButton(
-                          heroTag: index,
-                          shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)
-                                ) ,
-                          
-                          onPressed: () {
-                            // Navigate to a detailed view or editor
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => FormScreen(
-                                  template: data,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Text('Choisir',
-                            style: TextStyle(
-                                   color:  Color(0xFF3200d5),
-                              
-                                   fontWeight: FontWeight.bold
-                                ),),
+                 
+            
+            
+                  Padding(
+                    padding: EdgeInsets.all(50),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        
+                        Text(
+                          'Modele  ${index+1}',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold , color :Color(0xFF3200d5),),
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 15),
+                        // Display a preview or placeholder for the Delta data
+                        Text(
+                          getPreviewText(),
+                          style: TextStyle(fontSize: 14),
+                          // textAlign: TextAlign.center,
+                           maxLines: 29, // Limit lines for readability
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                     
+                        // SizedBox(
+                        //   width: 30.w,
+                        //   height: 7.h,
+                        //   child:
+                        // ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
+                ],
+              ),
+            
+          
         
-      
-      
+        
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          SizedBox(
+            width: 5.w,
+          ),
+          SizedBox(
+                    width: 30.w,
+                    height: 7.h,
+            child: FloatingActionButton(
+                                  heroTag: index,
+                                  shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(30)
+                                        ) ,
+                                  
+                                  onPressed: () {
+                                    // Navigate to a detailed view or editor
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FormScreen(
+                                          template: data,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Text('Choisir',
+                                    style: TextStyle(
+                                           color:  Color(0xFF3200d5),
+                                      
+                                           fontWeight: FontWeight.bold
+                                        ),),
+                                ),
+          ),
+        ],
+      ) ,
     );
   }
 }
