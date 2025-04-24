@@ -1,9 +1,12 @@
+import 'package:e_contrat/listsample.dart';
 import 'package:e_contrat/page/linear.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:e_contrat/page/sample.dart';
 
 class Template extends StatelessWidget {
+  
     Template({super.key});
 
 
@@ -42,6 +45,19 @@ class Template extends StatelessWidget {
           '/list',
            '/list',
             '/list',
+    
+  ];
+
+   final List<List<Map<String, dynamic>>> template = [
+      contractTemplates,
+      contractTemplates,
+      contractTemplates,
+      contractTemplates,
+      contractTemplates,
+      contractTemplates,
+      contractTemplates,
+      contractTemplates,
+      contractTemplates,
     
   ];
 
@@ -101,7 +117,12 @@ class Template extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(40)
                                 ) ,
                       onPressed: () {
-                       Navigator.pushNamed(context, destination[index]);
+                       Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ContractListScreen(data: template[index]),
+                              ),
+                            );
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

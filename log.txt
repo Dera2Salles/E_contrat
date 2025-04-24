@@ -1,0 +1,1 @@
+Skipped 39 frames!  The application may be doing too much work on its main thread.

@@ -22,6 +22,8 @@ int _pageIndex = 0; // Index de la page actuelle
   // Liste des pages à afficher
   final List<Widget> _pages = [
     Template(),
+    Template(),
+    Template(),
   
   ];
  
