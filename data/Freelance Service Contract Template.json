@@ -1,0 +1,16 @@
+[
+    {"insert": "CONTRAT DE PRESTATION DE SERVICES\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom du Prestataire]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Prestataire], ci-après dénommé(e) 'le Prestataire',\n\nEt\n\n"},
+    {"insert": "[Nom du Client]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Client], ci-après dénommé(e) 'le Client',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet du contrat\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Prestataire s’engage à fournir au Client les services suivants : [Description des services].\n\n"},
+    {"insert": "Article 2 - Durée\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "La prestation est conclue pour une durée de [Durée] à compter du [Date de début].\n\n"},
+    {"insert": "Article 3 - Rémunération\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Client versera au Prestataire une rémunération de [Montant] selon les modalités suivantes : [Modalités de paiement].\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nLe Prestataire : ____________________\nLe Client : ____________________\n"}
+]

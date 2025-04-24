@@ -1,13 +1,16 @@
 import 'package:e_contrat/page/linear.dart';
+import 'package:e_contrat/page/pdfquill.dart';
 import 'package:flutter/material.dart';
-import 'package:e_contrat/page/quill.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 
 class FormScreen extends StatefulWidget {
-  const FormScreen({super.key});
+
+  final List<dynamic> template;
+  const FormScreen({super.key , required this.template});
 
   @override
+  // ignore: library_private_types_in_public_api
   _FormScreenState createState() => _FormScreenState();
 }
 
@@ -19,6 +22,14 @@ class _FormScreenState extends State<FormScreen> {
     "Montant": TextEditingController(),
   };
 
+     static final List<dynamic> kReconnaissanceDetteSample = [
+    {'insert': 'RECONNAISSANCE DE DETTE\n', 'attributes': {'header': 3}},
+    {'insert': '\nJe soussigné(e), '},
+    {'insert': '[Nom]', 'attributes': {'bold': true}},
+    {'insert': ', domicilié(e) à [Adresse du Débiteur], reconnais par la présente devoir à '},
+    {'insert': '[Nom]', 'attributes': {'bold': true}},
+    {'insert': ', domicilié(e) à [Adresse du Créancier], la somme de [Montant] euros ([Montant en lettres] euros).\n\nCette somme représente : [Origine de la dette]\n\nJe m\'engage à rembourser cette somme selon les modalités suivantes : [Modalités de remboursement]\n\nFait à [Lieu], le [Date]\n\nSignature du Débiteur:\n\n\n\n\nSignature du Créancier:\n'}
+  ];
   @override
   void dispose() {
     _controllers.forEach((_, controller) => controller.dispose());
@@ -118,7 +129,7 @@ class _FormScreenState extends State<FormScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Editor(formData: formData),
+                                builder: (context) => PdfQuill(formData: formData, documentModel: kReconnaissanceDetteSample,),
                               ),
                             );
                           }

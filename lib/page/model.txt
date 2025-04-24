@@ -1,0 +1,203 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ContractListScreen(),
+    );
+  }
+}
+
+// Sample contract data (based on your kContratSample)
+final List<Map<String, dynamic>> contractTemplates = [
+  {
+    'title': 'Standard Apartment Lease',
+    'data': [
+      {'insert': 'CONTRAT DE BAIL D’APPARTEMENT\n', 'attributes': {'header': 1}},
+      // Add more Delta operations as needed
+    ],
+  },
+  {
+    'title': 'Family Loan Contract',
+    'data': [
+      {'insert': 'CONTRAT DE PRÊT FAMILIAL\n', 'attributes': {'header': 1}},
+      // Add more Delta operations
+    ],
+  },
+  {
+    'title': 'Dog Walking Contract',
+    'data': [
+      {'insert': 'CONTRAT DE PROMENADE DE CHIEN\n', 'attributes': {'header': 1}},
+      // Add more Delta operations
+    ],
+  },
+  // Add more templates as needed
+];
+
+class ContractListScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Contract Templates')),
+      body: PageView.builder(
+        scrollDirection: Axis.vertical, // Vertical scrolling
+        itemCount: contractTemplates.length,
+        itemBuilder: (context, index) {
+          final contract = contractTemplates[index];
+          return ContractItem(
+            title: contract['title'],
+            data: contract['data'],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ContractItem extends StatelessWidget {
+  final String title;
+  final List<dynamic> data;
+
+  const ContractItem({required this.title, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height, // Full screen height
+      color: Colors.grey[200],
+      child: Center(
+        child: Card(
+          elevation: 4,
+          margin: EdgeInsets.all(16),
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 16),
+                // Display a preview or placeholder for the Delta data
+                Text(
+                  'Preview: ${data.first['insert']}',
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    // Navigate to a detailed view or editor
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ContractDetailScreen(
+                          title: title,
+                          data: data,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text('View Contract'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ContractDetailScreen extends StatelessWidget {
+  final String title;
+  final List<dynamic> data;
+
+  const ContractDetailScreen({required this.title, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(
+        child: Text('Contract Data: ${data.toString()}'),
+        // Integrate flutter_quill here to display/edit the contract
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+import 'package:flutter_quill/flutter_quill.dart';
+
+class ContractDetailScreen extends StatefulWidget {
+  final String title;
+  final List<dynamic> data;
+
+  const ContractDetailScreen({required this.title, required this.data});
+
+  @override
+  _ContractDetailScreenState createState() => _ContractDetailScreenState();
+}
+
+class _ContractDetailScreenState extends State<ContractDetailScreen> {
+  final QuillController _quillController = QuillController.basic();
+
+  @override
+  void initState() {
+    super.initState();
+    // Load the Delta data into the QuillController
+    final delta = Delta.fromJson(widget.data);
+    _quillController.document = Document.fromDelta(delta);
+  }
+
+  @override
+  void dispose() {
+    _quillController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.title)),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            QuillToolbar.basic(controller: _quillController), // Optional toolbar
+            Expanded(
+              child: QuillEditor(
+                controller: _quillController,
+                readOnly: true, // Set to false for editing
+                autoFocus: false,
+                expands: true,
+                padding: EdgeInsets.zero,
+                scrollController: ScrollController(),
+                scrollable: true,
+                focusNode: FocusNode(),
+                embedBuilders: [],
+                customStyles: DefaultStyles(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

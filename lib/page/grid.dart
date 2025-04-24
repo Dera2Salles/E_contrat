@@ -1,6 +1,4 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:e_contrat/page/inputfield.dart';
-import 'package:e_contrat/page/pdfquill.dart' as pdfquill_page;
 import 'package:e_contrat/page/template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -24,9 +22,7 @@ int _pageIndex = 0; // Index de la page actuelle
   // Liste des pages à afficher
   final List<Widget> _pages = [
     Template(),
-    pdfquill_page.PdfQuill(),
-     FormScreen(),
-      FormScreen(),
+  
   ];
  
 

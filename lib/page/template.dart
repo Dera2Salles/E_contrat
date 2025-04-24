@@ -33,15 +33,16 @@ class Template extends StatelessWidget {
   ];
 
   final List<String> destination = [
-    '/pdfquill',
-    '/input',
-    '/input',
-    '/input',
-    '/input',
-    '/input',
-    '/input',
-    '/input',
-    '/input',
+    '/list',
+     '/list',
+      '/list',
+       '/list',
+        '/list',
+         '/list',
+          '/list',
+           '/list',
+            '/list',
+    
   ];
 
 

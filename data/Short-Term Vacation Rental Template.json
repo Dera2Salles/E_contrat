@@ -1,0 +1,16 @@
+[
+    {"insert": "CONTRAT DE LOCATION SAISONNIÈRE\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom du Bailleur]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Bailleur], ci-après dénommé(e) 'le Bailleur',\n\nEt\n\n"},
+    {"insert": "[Nom du Locataire]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Locataire], ci-après dénommé(e) 'le Locataire',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet du contrat\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Bailleur loue au Locataire le logement situé à [Adresse du logement] du [Date de début] au [Date de fin].\n\n"},
+    {"insert": "Article 2 - Prix\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le prix total de la location s’élève à [Montant] euros, payable à la signature.\n\n"},
+    {"insert": "Article 3 - Conditions\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Locataire s’engage à respecter les règles de la propriété, notamment [Règles spécifiques].\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nLe Bailleur : ____________________\nLe Locataire : ____________________\n"}
+]

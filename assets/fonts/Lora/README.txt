@@ -7,20 +7,20 @@ Lora is a variable font with this axis:
   wght
 
 This means all the styles are contained in these files:
-  Lora/Lora-VariableFont_wght.ttf
-  Lora/Lora-Italic-VariableFont_wght.ttf
+  Lora-VariableFont_wght.ttf
+  Lora-Italic-VariableFont_wght.ttf
 
 If your app fully supports variable fonts, you can now pick intermediate styles
 that aren’t available as static fonts. Not all apps support variable fonts, and
 in those cases you can use the static font files for Lora:
-  Lora/static/Lora-Regular.ttf
-  Lora/static/Lora-Medium.ttf
-  Lora/static/Lora-SemiBold.ttf
-  Lora/static/Lora-Bold.ttf
-  Lora/static/Lora-Italic.ttf
-  Lora/static/Lora-MediumItalic.ttf
-  Lora/static/Lora-SemiBoldItalic.ttf
-  Lora/static/Lora-BoldItalic.ttf
+  static/Lora-Regular.ttf
+  static/Lora-Medium.ttf
+  static/Lora-SemiBold.ttf
+  static/Lora-Bold.ttf
+  static/Lora-Italic.ttf
+  static/Lora-MediumItalic.ttf
+  static/Lora-SemiBoldItalic.ttf
+  static/Lora-BoldItalic.ttf
 
 Get started
 -----------

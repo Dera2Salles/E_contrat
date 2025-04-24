@@ -1,0 +1,16 @@
+[
+    {"insert": "CONTRAT DE TOILETTAGE D’ANIMAL\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom du Toiletteur]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Toiletteur], ci-après dénommé(e) 'le Toiletteur',\n\nEt\n\n"},
+    {"insert": "[Nom du Propriétaire]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Propriétaire], ci-après dénommé(e) 'le Propriétaire',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet du contrat\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Toiletteur s’engage à toiletter l’animal suivant : [Nom, Espèce] le [Date].\n\n"},
+    {"insert": "Article 2 - Services\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Les services incluent : [Coupe, brossage, etc.].\n\n"},
+    {"insert": "Article 3 - Rémunération\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Propriétaire paiera [Montant] euros à la fin de la session.\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nLe Toiletteur : ____________________\nLe Propriétaire : ____________________\n"}
+]

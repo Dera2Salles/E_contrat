@@ -1,0 +1,16 @@
+[
+    {"insert": "ACCORD DE CONFIDENTIALITÉ\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom de la Partie Divulgante]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse de la Partie Divulgante], ci-après dénommé(e) 'la Partie Divulgante',\n\nEt\n\n"},
+    {"insert": "[Nom de la Partie Réceptrice]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse de la Partie Réceptrice], ci-après dénommé(e) 'la Partie Réceptrice',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Les informations confidentielles échangées incluent : [Description des informations].\n\n"},
+    {"insert": "Article 2 - Obligations\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "La Partie Réceptrice s’engage à ne pas divulguer les informations confidentielles à des tiers.\n\n"},
+    {"insert": "Article 3 - Durée\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Cet accord est valable pour une durée de [Durée] à compter de la signature.\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nPartie Divulgante : ____________________\nPartie Réceptrice : ____________________\n"}
+]

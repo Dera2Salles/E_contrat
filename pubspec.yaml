@@ -127,6 +127,12 @@ flutter:
     - family: NotoEmoji
       fonts:
         - asset: assets/fonts/unicodes/Noto_Emoji/NotoEmoji-VariableFont_wght.ttf
+
+    
+    - family: Lora
+      fonts:
+        - asset: assets/fonts/Lora/static/Lora-Regular.ttf
+        - asset: assets/fonts/Lora/static/Lora-Bold.ttf
       
       
   #   - family: Trajan Pro
