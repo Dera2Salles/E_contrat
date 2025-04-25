@@ -98,14 +98,14 @@ class ContractItem extends StatelessWidget {
                       children: [
                         
                         Text(
-                          'Modele  ${index+1}',
+                          'E-contrat',
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold , color :Color(0xFF3200d5),),
                         ),
                         SizedBox(height: 15),
                         // Display a preview or placeholder for the Delta data
                         Text(
                           getPreviewText(),
-                          style: TextStyle(fontSize: 14),
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),
                           // textAlign: TextAlign.center,
                            maxLines: 29, // Limit lines for readability
                           overflow: TextOverflow.ellipsis,

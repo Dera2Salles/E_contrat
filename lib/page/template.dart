@@ -25,10 +25,10 @@ class Template extends StatelessWidget {
   ];
   final List<String> labels = [
     "Vente",
-    "Emprunt",
-    "Bail",
-    "Loyer",
-    "Settings",
+    "Prestation",
+    "Service",
+    "Pret",
+    "Location",
     "Camera",
     "Music",
     "Email",
@@ -49,15 +49,15 @@ class Template extends StatelessWidget {
   ];
 
    final List<List<Map<String, dynamic>>> template = [
-      contractTemplates,
-      contractTemplates,
-      contractTemplates,
-      contractTemplates,
-      contractTemplates,
-      contractTemplates,
-      contractTemplates,
-      contractTemplates,
-      contractTemplates,
+      contractVente,
+      contractEvent,
+      contractService,
+      contractPret,
+      contractMaison,
+      contractVente,
+      contractVente,
+      contractVente,
+      contractVente
     
   ];
 
@@ -100,8 +100,8 @@ class Template extends StatelessWidget {
       Align(
         alignment: Alignment(-0.05, 0.01),
         child: SizedBox(
-      width: 65.w,
-      height: 65.h,
+      width: 67.w,
+      height: 67.h,
       child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3, // 3 colonnes
@@ -128,7 +128,7 @@ class Template extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(icons[index],
-                          size: 35,),
+                          size: 34,),
                           Text(labels[index])
                         ],
                       ),

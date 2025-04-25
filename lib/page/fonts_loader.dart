@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, implementation_imports
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter_quill_to_pdf/src/extensions/string_extension.dart';
@@ -469,7 +470,7 @@ class FontsLoader {
           await rootBundle.load("assets/fonts/Poppins-Light.ttf")));
       
     } catch (e) {
-      print("Erreur lors du chargement des polices: $e");
+      debugPrint("Erreur lors du chargement des polices: $e");
     } finally {
       // Marquer comme configuré même en cas d'erreur pour éviter les crashs
       // Nous aurons au moins certaines polices chargées
