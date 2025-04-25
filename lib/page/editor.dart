@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Text extends StatelessWidget {
-  const Text({super.key});
+  const Text(pdf, {super.key});
 
   @override
   Widget build(BuildContext context) {

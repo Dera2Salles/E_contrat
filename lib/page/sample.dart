@@ -20,6 +20,8 @@ final List<Map<String, dynamic>> contractVente = [
       
       // Add more Delta operations as needed
     ],
+    'placeholders': ['Nom du Vendeur', 'Adresse du Vendeur', 'Nom de l\'Acheteur ', 'Adresse de l\'Acheteur', 'Marque, Modèle, Année, Numéro d’immatriculation', 'Montant', 'Date de paiement', 'Date de transfert', 'Lieu', 'Date'],
+    'partie':['Vendeur', 'Acheteur']
   },
   {
    
@@ -39,6 +41,8 @@ final List<Map<String, dynamic>> contractVente = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nLe Vendeur : ____________________\nL’Acheteur : ____________________\n"}
     ],
+    'placeholders': ['Nom du Vendeur', 'Adresse du Vendeur', 'Nom de l’Acheteur', 'Adresse de l’Acheteur', 'Description du bien', 'Montant', 'Modalités de paiement', 'Lieu de livraison', 'Date de livraison', 'Lieu', 'Date'],
+    'partie':['Vendeur', 'Acheteur']
   },
 
 ];
@@ -61,11 +65,25 @@ final List<Map<String, dynamic>> contractEvent = [
     {"insert": "Article 2 - Délai\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Le contenu sera livré d’ici le [Date de livraison].\n\n"},
     {"insert": "Article 3 - Rémunération\n", "attributes": {"bold": true, "header": 2}},
-    {"insert": "Le Client paiera [Montant] euros par [mot/projet].\n\n"},
+    {"insert": "Le Client paiera [Montant] Ariary par [mot/projet].\n\n"},
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
-    {"insert": "Fait à [Lieu], le [Date].\n\nLe Rédacteur : ____________________\nLe Client : ____________________\n"}
+    {"insert": "Fait à [Lieu], le [Date].\n\n\n"}
       // Add more Delta operations as needed
     ],
+    'placeholders':[
+      'Nom du Rédacteur',
+      'Adresse du Rédacteur',
+      'Nom du Client',
+      'Adresse du Client',
+      'Description, ex. articles, contenu web',
+      'Date de livraison',
+      'Montant',
+      'mot/projet',
+      'Lieu',
+      'Date'
+
+    ],
+    'partie':[' Rédacteur', 'Client']
   },
   {
  
@@ -77,15 +95,34 @@ final List<Map<String, dynamic>> contractEvent = [
     {"insert": "[Nom du Client]", "attributes": {"bold": true}},
     {"insert": ", domicilié(e) à [Adresse du Client], ci-après dénommé(e) 'le Client',\n\nIl a été convenu ce qui suit :\n\n"},
     {"insert": "Article 1 - Objet du contrat\n", "attributes": {"bold": true, "header": 2}},
-    {"insert": "Le Photographe couvrira le mariage du [Date] à [Lieu].\n\n"},
+    {"insert": "Le Photographe couvrira le mariage du [Date du Mariage] à [Lieu du Mariage].\n\n"},
     {"insert": "Article 2 - Services\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Les services incluent [Nombre] heures de couverture et [Nombre] photos éditées.\n\n"},
     {"insert": "Article 3 - Rémunération\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Le Client paiera [Montant] euros selon [Modalités].\n\n"},
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
-    {"insert": "Fait à [Lieu], le [Date].\n\nLe Photographe : ____________________\nLe Client : ____________________\n"}
+    {"insert": "Fait à [Lieu], le [Date].\n\n\n"}
 
     ],
+    'placeholders':[
+      'Nom du Photographe',
+      'Nom du Photographe',
+      'Nom du Client',
+      'Nom du Client',
+      'Date du Mariage',
+      'Lieu du Mariage',
+      'Nombre',
+      'Montant',
+      'Modalités',
+      'Lieu',
+      'Date'
+
+
+
+
+
+    ],
+    'partie':['Photographe', 'Client']
   },
    {
     
@@ -106,6 +143,7 @@ final List<Map<String, dynamic>> contractEvent = [
     {"insert": "Fait à [Lieu], le [Date].\n\nL’Organisateur : ____________________\nLe Client : ____________________\n"}
 
     ],
+     'partie':['Vendeur', 'Acheteur']
   }, {
   
     'data': [
@@ -125,6 +163,7 @@ final List<Map<String, dynamic>> contractEvent = [
     {"insert": "Fait à [Lieu], le [Date].\n\nLe Photographe : ____________________\nLe Client : ____________________\n"}
 
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
 
 ];
@@ -153,6 +192,7 @@ final List<Map<String, dynamic>> contractService = [
       
       // Add more Delta operations as needed
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
   {
  
@@ -172,6 +212,7 @@ final List<Map<String, dynamic>> contractService = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nLe Plombier : ____________________\nLe Client : ____________________\n"}
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
 
 ];
@@ -200,6 +241,7 @@ final List<Map<String, dynamic>> contractPret = [
       
       // Add more Delta operations as needed
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
   {
    
@@ -219,6 +261,7 @@ final List<Map<String, dynamic>> contractPret = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nLe Prêteur : ____________________\nL’Emprunteur : ____________________\n"}
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
     {
    
@@ -239,6 +282,7 @@ final List<Map<String, dynamic>> contractPret = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nLe Prêteur : ____________________\nL’Emprunteur : ____________________\n"}
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
 
 ];
@@ -265,6 +309,7 @@ final List<Map<String, dynamic>> contractMaison = [
       
       // Add more Delta operations as needed
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
   {
    
@@ -284,6 +329,7 @@ final List<Map<String, dynamic>> contractMaison = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nColocataire 1 : ____________________\nColocataire 2 : ____________________\n"}
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
     {
 
@@ -303,6 +349,7 @@ final List<Map<String, dynamic>> contractMaison = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nLe Bailleur : ____________________\nLe Locataire : ____________________\n"}
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
 
   {
@@ -323,6 +370,7 @@ final List<Map<String, dynamic>> contractMaison = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nColocataire 1 : ____________________\nColocataire 2 : ____________________\n"}
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
 
 
@@ -344,6 +392,7 @@ final List<Map<String, dynamic>> contractMaison = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nColocataire 1 : ____________________\nColocataire 2 : ____________________\n"}
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
 
   {
@@ -364,6 +413,7 @@ final List<Map<String, dynamic>> contractMaison = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nLe Bailleur : ____________________\nLe Locataire : ____________________\n"}
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
 
 
@@ -385,5 +435,6 @@ final List<Map<String, dynamic>> contractMaison = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nLe Bailleur : ____________________\nLe Locataire : ____________________\n"}
     ],
+    'partie':['Vendeur', 'Acheteur']
   },
 ];

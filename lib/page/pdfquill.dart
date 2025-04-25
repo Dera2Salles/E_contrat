@@ -20,6 +20,8 @@ import 'package:flutter_quill_to_pdf/flutter_quill_to_pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:e_contrat/page/savepdf.dart';
+
 
 
 
@@ -27,8 +29,9 @@ final FontsLoader loader = FontsLoader();
 class PdfQuill extends StatefulWidget {
 
    final Map<String, String> formData;
-  final List<dynamic> documentModel; // Modèle de document à utiliser
-  const PdfQuill({super.key, required this.documentModel, required this.formData,});
+  final List<dynamic> documentModel;
+   final List<String> partie; // Modèle de document à utiliser
+  const PdfQuill({super.key, required this.documentModel, required this.formData, required this.partie});
 
   @override
   State<PdfQuill> createState() => _MyHomePageState();
@@ -116,7 +119,7 @@ class _MyHomePageState extends State<PdfQuill> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             title: Text(
-              'Signature du créancier',
+              'Signature du ${widget.partie[0]}',
               style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF3200d5)),
             ),
           ),
@@ -246,7 +249,7 @@ class _MyHomePageState extends State<PdfQuill> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             title: Text(
-              'Signature du débiteur',
+              'Signature du ${widget.partie[1]}',
               style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF3200d5)),
             ),
           ),
@@ -640,6 +643,8 @@ class _MyHomePageState extends State<PdfQuill> {
                       
                       // Sauvegarder le PDF modifié
                       final List<int> modifiedPdfBytes = await existingPdf.save();
+
+                      await savePdf(modifiedPdfBytes, 'doc');
                       await file.writeAsBytes(modifiedPdfBytes);
                       existingPdf.dispose(); // Libérer les ressources
                       
@@ -725,7 +730,7 @@ class _MyHomePageState extends State<PdfQuill> {
            ) ,
           Positioned(
             top:1.h,
-            left: -3.w,
+            left: -4.5.w,
          
            child: SvgPicture.asset(
             'assets/svg/editor.svg',
