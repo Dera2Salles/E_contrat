@@ -11,9 +11,7 @@ import 'package:e_contrat/page/custom_quill_editor.dart';
 import 'package:e_contrat/page/constants.dart';
 import 'package:e_contrat/page/fonts_loader.dart';
 import 'package:e_contrat/page/linear.dart';
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:open_file/open_file.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:flutter_quill_to_pdf/flutter_quill_to_pdf.dart';
@@ -30,8 +28,9 @@ class PdfQuill extends StatefulWidget {
 
    final Map<String, String> formData;
   final List<dynamic> documentModel;
+  final List<String> placeholder;
    final List<String> partie; // Modèle de document à utiliser
-  const PdfQuill({super.key, required this.documentModel, required this.formData, required this.partie});
+  const PdfQuill({super.key, required this.documentModel, required this.formData, required this.partie, required this.placeholder});
 
   @override
   State<PdfQuill> createState() => _MyHomePageState();
@@ -401,28 +400,8 @@ class _MyHomePageState extends State<PdfQuill> {
                 // S'assurer que les polices sont chargées avant de générer le PDF
                 await loader.loadFonts();
 
-                final bool isAndroid = Platform.isAndroid;
-                // on android devices is not available getSaveLocation
-                final Object? result = isAndroid
-                    ? await getDirectoryPath(
-                        confirmButtonText: 'Select directory')
-                    : await getSaveLocation(
-                        suggestedName: 'document_pdf',
-                        acceptedTypeGroups: [
-                          XTypeGroup(
-                            label: 'Pdf',
-                            extensions: ['pdf'],
-                            mimeTypes: ['application/pdf'],
-                            uniformTypeIdentifiers: ['com.adobe.pdf'],
-                          ),
-                        ],
-                      );
-                if (result == null) {
-                  return;
-                }
-                final File file = isAndroid
-                    ? File('${result as String}/document_${DateTime.now().millisecondsSinceEpoch}.pdf') // Nom du Document
-                    : File((result as FileSaveLocation).path);
+                final File file = File('/data/user/0/com.example.e_contrat/app_flutter/document_${DateTime.now().millisecondsSinceEpoch}.pdf') ;// Nom du Document
+                    
                 
                 // Utiliser les bytes des signatures déjà stockés
                 Uint8List? signatureBytes1 = _signatureBytes1;
@@ -569,6 +548,7 @@ class _MyHomePageState extends State<PdfQuill> {
                   try {
                     originalPdfBytes = await document.save();
                     await file.writeAsBytes(originalPdfBytes);
+                    
                   } catch(e) {
                     debugPrint('Erreur lors de la génération du PDF: $e');
                     // Créer un document PDF simplifié en cas d'échec
@@ -644,11 +624,19 @@ class _MyHomePageState extends State<PdfQuill> {
                       // Sauvegarder le PDF modifié
                       final List<int> modifiedPdfBytes = await existingPdf.save();
 
-                      await savePdf(modifiedPdfBytes, 'doc');
-                      await file.writeAsBytes(modifiedPdfBytes);
+                      await savePdf(modifiedPdfBytes, '${widget.documentModel.first['insert']} entre ${widget.formData[widget.placeholder[0]]} et ${widget.formData[widget.placeholder[2]]}');
+                      
+                      if ( await file.exists()){
+                          file.delete();
+                          debugPrint('PDF généré Temporaire supprime');
+
+                      }
+                    
+      
                       existingPdf.dispose(); // Libérer les ressources
                       
                       debugPrint('PDF généré avec succès avec les signatures incluses');
+                      debugPrint(' formData : ${widget.formData}');
                     } catch (e, stack) {
                       debugPrint('Erreur lors de l\'inclusion des signatures: $e');
                       debugPrint('Stack trace: $stack');
@@ -661,14 +649,7 @@ class _MyHomePageState extends State<PdfQuill> {
                     scaffoldMessenger.showSnackBar(
                       SnackBar(
                         content: Text('PDF généré avec succès'),
-                        action: SnackBarAction(
-                          label: 'Ouvrir',
-                          onPressed: () {
-                            if (file.existsSync()) {
-                              OpenFile.open(file.path);
-                            }
-                          },
-                        ),
+                       
                       ),
                       
                     );

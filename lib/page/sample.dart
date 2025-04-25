@@ -1,7 +1,6 @@
 
 final List<Map<String, dynamic>> contractVente = [
   {
-  
     'data': [
       {"insert": "         CONTRAT DE VENTE DE VÉHICULE D’OCCASION\n", "attributes": {"header": 1}},
     {"insert": "\nEntre les soussignés :\n"},
@@ -18,9 +17,9 @@ final List<Map<String, dynamic>> contractVente = [
     {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
     {"insert": "Fait à [Lieu], le [Date].\n\nLe Vendeur : ____________________\nL’Acheteur : ____________________\n"}
       
-      // Add more Delta operations as needed
+
     ],
-    'placeholders': ['Nom du Vendeur', 'Adresse du Vendeur', 'Nom de l\'Acheteur ', 'Adresse de l\'Acheteur', 'Marque, Modèle, Année, Numéro d’immatriculation', 'Montant', 'Date de paiement', 'Date de transfert', 'Lieu', 'Date'],
+    'placeholders': ['Nom du Vendeur', 'Adresse du Vendeur', 'Nom de l’Acheteur', 'Adresse de l’Acheteur', 'Marque, Modèle, Année, Numéro d’immatriculation', 'Montant', 'Date de paiement', 'Date de transfert', 'Lieu', 'Date'],
     'partie':['Vendeur', 'Acheteur']
   },
   {

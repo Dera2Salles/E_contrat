@@ -9,6 +9,15 @@ class DatabaseHelper {
     _db = await initDb();
     return _db!;
   }
+  
+  static Future<int> deletePdf(int id) async {
+  final db = await  database;
+  return await db.delete(
+    'pdfs',
+    where: 'id = ?',
+    whereArgs: [id],
+  );
+}
 
   static Future<Database> initDb() async {
     final dbPath = await getDatabasesPath();

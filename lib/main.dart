@@ -51,7 +51,7 @@ class Econtrat extends StatelessWidget {
       routes: {
          '/grid':  (context)=> Grid(),
         '/list': (context)=> ContractListScreen( data: [],),
-        '/pdf': (context)=> PdfQuill(documentModel: [], formData: {}, partie: [],),
+        '/pdf': (context)=> PdfQuill(documentModel: [], formData: {}, partie: [],placeholder: [],),
 
       },
       title: 'E-contrat',

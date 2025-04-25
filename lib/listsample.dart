@@ -185,7 +185,7 @@ class _ContractItemState extends State<ContractItem> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => PdfQuill(formData: formData, documentModel: widget.data, partie: widget.partie),
+                                                  builder: (context) => PdfQuill(formData: formData, documentModel: widget.data, partie: widget.partie , placeholder:widget.placeholders),
                                                 ),
                                               );
                                             }
