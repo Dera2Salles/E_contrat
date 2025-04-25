@@ -1,7 +1,11 @@
 import 'dart:io';
 import 'package:e_contrat/page/databasehelper.dart';
+import 'package:e_contrat/page/home.dart';
+import 'package:e_contrat/page/linear.dart';
 import 'package:e_contrat/page/pdfviewscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:sizer/sizer.dart';
 
 class PdfListScreen extends StatefulWidget {
   const PdfListScreen({super.key});
@@ -39,16 +43,40 @@ class _PdfListScreenState extends State<PdfListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Liste des PDFs')),
-      body: _pdfs.isEmpty
-          ? const Center(child: Text('Aucun PDF trouvé.'))
-          : ListView.builder(
+      
+      body: _pdfs.isNotEmpty
+          ?  Stack(
+                  children: [
+                        Linear(),
+       Positioned(
+        top: 35.h,
+       right: 55.w,
+         child: Transform.scale(
+      scale: 3.0,
+       child: SvgPicture.asset(
+        'assets/svg/background.svg',
+        width: 35.w,
+        height:35.h,
+       ),
+         ),
+       ) ,
+
+                ListView.builder(
               itemCount: _pdfs.length,
               itemBuilder: (context, index) {
                 final pdf = _pdfs[index];
-                return ListTile(
-                  title: Text(pdf['name']),
-                  subtitle: Text(pdf['path']),
+                return  ListTile(
+                  leading: Icon(
+                    Icons.picture_as_pdf_rounded,
+                    color: Color(0xFF3200d5),
+                    size: 35,
+                  ),
+                  title: Text(pdf['name'],
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold
+                  ),
+                  ),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
                     onPressed: () async {
@@ -63,9 +91,38 @@ class _PdfListScreenState extends State<PdfListScreen> {
                       ),
                     );
                   },
+                  
                 );
+                
               },
             ),
+               
+               
+               ]
+               ) 
+          :   Stack(
+                  children: [
+                          Linear(),
+       Positioned(
+        top: 35.h,
+       right: 55.w,
+         child: Transform.scale(
+      scale: 3.0,
+       child: SvgPicture.asset(
+        'assets/svg/background.svg',
+        width: 35.w,
+        height:35.h,
+       ),
+         ),
+       ) ,
+ ]
+  )         
     );
   }
 }
+
+
+           
+
+
+
