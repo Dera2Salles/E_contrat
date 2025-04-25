@@ -1,6 +1,7 @@
 import 'dart:io';
 // dart:typed_data est déjà fourni par flutter/services.dart
 import 'dart:ui' as ui;
+import 'package:e_contrat/page/confirm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
@@ -394,8 +395,15 @@ class _MyHomePageState extends State<PdfQuill> {
           ),
           IconButton(
             tooltip: 'Générer PDF',
-            onPressed:_isGeneratingPdf ? null : () async {
-             
+            onPressed:_isGeneratingPdf ? null : ()  {
+              ConfirmationDialog.show(
+                        context,
+                        icon:Icons.print,
+                        confirmColor:Color(0xFF3200d5) ,
+                        title: 'Voulez-vous vraiment enregistrer ?',
+                        message: 'Aucune modification n\'est possible apres cette action',
+                      onConfirm: ()async{
+
               try {
                 // S'assurer que les polices sont chargées avant de générer le PDF
                 await loader.loadFonts();
@@ -683,6 +691,16 @@ class _MyHomePageState extends State<PdfQuill> {
                   });
                 }
               }
+
+
+                    
+
+                        
+                      }
+                      );
+             
+
+
               },
               // Utilise seulement l'icône une fois
               icon: const Icon(Icons.print, color: Color(0xFF3200d5),),

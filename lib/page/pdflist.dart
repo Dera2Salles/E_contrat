@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:e_contrat/page/confirm.dart';
 import 'package:e_contrat/page/databasehelper.dart';
-import 'package:e_contrat/page/home.dart';
 import 'package:e_contrat/page/linear.dart';
 import 'package:e_contrat/page/pdfviewscreen.dart';
 import 'package:flutter/material.dart';
@@ -79,8 +79,18 @@ class _PdfListScreenState extends State<PdfListScreen> {
                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () async {
+                    onPressed: ()  {
+                      ConfirmationDialog.show(
+                        context,
+                        title: 'Voulez-vous Vraiment supprimer ce fichier ?',
+                        message: 'Action irreversible',
+                      onConfirm: ()async{
                       await _deletePdf(pdf['id'], pdf['path']);
+
+                        
+                      }
+                      );
+                     
                     },
                   ),
                   onTap: () {
