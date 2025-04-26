@@ -1,5 +1,5 @@
 import 'package:e_contrat/page/linear.dart';
-import 'package:e_contrat/page/pdfquill.dart';
+import 'package:e_contrat/page/wizard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
@@ -91,9 +91,6 @@ class _ContractItemState extends State<ContractItem> {
         .trim();
   }
 
-
-
- final _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> _controllers = {};
 
 
@@ -122,89 +119,11 @@ class _ContractItemState extends State<ContractItem> {
          onTap: () { 
           showModalBottomSheet(
                                       isScrollControlled: true,
-                                       backgroundColor: Colors.transparent,
                                       
                                       
   context: context,
   builder: (BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * 0.9,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                  ),
-     
-                           child:  Padding(
-                            padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom, // Ajuste pour le clavier
-                      left: 16,
-                      right: 16,
-                      top: 16,
-                    ),
-                             child: SingleChildScrollView(
-                               child: Form(
-                                      key: _formKey,
-                                      child: Column(
-                                        children: [
-                                     
-                                      Text( 'Veuillez remplir',
-                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold , color :Color(0xFF3200d5),),
-                                                         ),
-                                                         SizedBox(height: 15),
-                                      ...widget.placeholders.map((placeholder) {
-                                                     return Padding(
-                                                         padding:EdgeInsets.all(10),
-                                                         child: TextFormField(
-                                controller: _controllers[placeholder],
-                                decoration: InputDecoration(
-                                  labelText: placeholder,
-                                  border: OutlineInputBorder(),
-                                ),
-                                validator: (value) => value!.isEmpty ? 'Champ requis' : null,
-                                                         ),
-                                                       
-                                                     );
-                                                   }),
-                                      SizedBox(height: 20),
-                                      SizedBox(
-                                        width: 55.w,
-                                        height: 7.h,
-                                        child: FloatingActionButton(
-                                          elevation: 2,
-                                           shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(30)
-                                                        ) ,
-                                          onPressed: () {
-                                            if (_formKey.currentState!.validate()) {
-                                              Map<String, String> formData = {};
-                                              _controllers.forEach((key, controller) {
-                                                formData[key] = controller.text;
-                                              });
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => PdfQuill(formData: formData, documentModel: widget.data, partie: widget.partie , placeholder:widget.placeholders),
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          child: Text("Suivant : Rédiger le motif",
-                                          style: TextStyle(
-                                                           color:  Color(0xFF3200d5),
-                                                      
-                                                           fontWeight: FontWeight.bold
-                                                        ),),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20),
-                                        ],
-                                           ),                      
-                                       ),
-                             ),
-                           ),
-    );
+    return WizardForm(placeholders: widget.placeholders, data: widget.data, partie: widget.partie,);
   },
 );
                       },
