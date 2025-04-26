@@ -2,6 +2,7 @@ import 'dart:io';
 // dart:typed_data est déjà fourni par flutter/services.dart
 import 'dart:ui' as ui;
 import 'package:e_contrat/page/confirm.dart';
+import 'package:e_contrat/page/grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
@@ -405,6 +406,7 @@ class _MyHomePageState extends State<PdfQuill> {
                       onConfirm: ()async{
 
               try {
+
                 // S'assurer que les polices sont chargées avant de générer le PDF
                 await loader.loadFonts();
 
@@ -661,7 +663,11 @@ class _MyHomePageState extends State<PdfQuill> {
                       ),
                       
                     );
-                    //  Navigator.pushNamed(context, '/grid');
+                     // ignore: use_build_context_synchronously
+                     Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context)=>Grid()),
+                      (route)=> false,
+                      );
                   }
                 } catch (e, stackTrace) {
                   debugPrint("Erreur lors de la génération du PDF : $e");

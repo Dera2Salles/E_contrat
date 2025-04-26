@@ -441,7 +441,7 @@ class FontsLoader {
       _pdffonts.add(
           pw.Font.ttf(await rootBundle.load("assets/fonts/Lora/static/Lora-Bold.ttf")));
       _pdffonts.add(pw.Font.ttf(
-          await rootBundle.load("/assets/fonts/Lora/static/Lora-Italic.ttf")));
+          await rootBundle.load("assets/fonts/Lora/static/Lora-Italic.ttf")));
       _pdffonts.add(pw.Font.ttf(
           await rootBundle.load("assets/fonts/Lora/static/Lora-BoldItalic.ttf")));
       
@@ -487,8 +487,7 @@ class EmojisFonts {
   }
   void init() async {
     keyFont = "NotoEmojis";
-    emojisFonts = pw.Font.ttf(await rootBundle.load(
-        "assets/fonts/unicodes/Noto_Emoji/NotoEmoji-VariableFont_wght.ttf"));
+    emojisFonts = pw.Font.ttf(await rootBundle.load("assets/fonts/unicodes/Noto_Emoji/NotoEmoji-VariableFont_wght.ttf"));
   }
 }
 
