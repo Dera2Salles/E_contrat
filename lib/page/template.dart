@@ -50,14 +50,14 @@ class Template extends StatelessWidget {
 
    final List<List<Map<String, dynamic>>> template = [
       contractVente,
-      contractEvent,
-      contractService,
       contractPret,
-      contractMaison,
-      contractVente,
-      contractVente,
-      contractVente,
-      contractVente
+      contractLocation,
+      contractService,
+      contractTravail,
+      contractPartenariat,
+      contractPrestation,
+      contractDon,
+      contractCession,
     
   ];
 
@@ -120,7 +120,7 @@ class Template extends StatelessWidget {
                        Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ContractListScreen(data: template[index]),
+                                builder: (context) => ContractListScreen(data: template[index], title: labels[index],),
                               ),
                             );
                       },

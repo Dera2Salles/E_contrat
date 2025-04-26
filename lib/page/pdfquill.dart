@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:e_contrat/page/confirm.dart';
 import 'package:e_contrat/page/grid.dart';
+import 'package:e_contrat/page/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
@@ -406,7 +407,12 @@ class _MyHomePageState extends State<PdfQuill> {
                       onConfirm: ()async{
 
               try {
-
+              
+               Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoadingScreen(),
+      ),);
                 // S'assurer que les polices sont chargées avant de générer le PDF
                 await loader.loadFonts();
 
@@ -655,10 +661,20 @@ class _MyHomePageState extends State<PdfQuill> {
 
                   if (mounted) {
                      setState(() => _isGeneratingPdf = false);
+                     // ignore: use_build_context_synchronously
+                     Navigator.pop(context);
+                    // ignore: use_build_context_synchronously
                     final scaffoldMessenger = ScaffoldMessenger.of(context);
                     scaffoldMessenger.showSnackBar(
                       SnackBar(
-                        content: Text('PDF généré avec succès'),
+                        content: Text('PDF généré avec succès',    textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,color: const ui.Color.fromARGB(255, 0, 233, 8)
+                          
+                        ),
+                        ),
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
                        
                       ),
                       
@@ -711,6 +727,7 @@ class _MyHomePageState extends State<PdfQuill> {
               // Utilise seulement l'icône une fois
               icon: const Icon(Icons.print, color: Color(0xFF3200d5),),
             ),
+            SizedBox(width: 3.w,)
         ],
         
       ),
@@ -760,7 +777,7 @@ class _MyHomePageState extends State<PdfQuill> {
             child: Scaffold(
               backgroundColor: Colors.transparent,
               body: Padding(
-                padding: const EdgeInsets.only(top: 0),
+                padding: const EdgeInsets.all(15),
                 child: Scrollbar(
                   controller: _scrollController,
                   notificationPredicate: (ScrollNotification notification) {

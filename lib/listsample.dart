@@ -6,8 +6,9 @@ import 'package:sizer/sizer.dart';
 
 class ContractListScreen extends StatelessWidget {
 
+  final String title;
   final List<Map<String, dynamic>> data;
-  const ContractListScreen({super.key,required this.data});
+  const ContractListScreen({super.key,required this.data , required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,8 @@ class ContractListScreen extends StatelessWidget {
                 index: index,
                 placeholders: List<String>.from(contract['placeholders']),
                 data: contract['data'],
-                partie:contract['partie']
+                partie:contract['partie'],
+                title: title ,
               );
             },
           ),
@@ -56,13 +58,14 @@ class ContractListScreen extends StatelessWidget {
 
 
 class ContractItem extends StatefulWidget {
-
+  
+   final String title;
    final int index;
   final List<dynamic> data;
    final List<String> placeholders;
    final List<String> partie;
 
- const ContractItem({super.key, required this.data, required this.index, required this.placeholders , required this.partie});
+ const ContractItem({super.key, required this.data, required this.index, required this.placeholders , required this.partie, required this.title});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -146,7 +149,7 @@ class _ContractItemState extends State<ContractItem> {
                         children: [
                           
                           Text(
-                            'E-contrat',
+                            'E-contrat ${widget.title}',
                             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold , color :Color(0xFF3200d5),),
                           ),
                           SizedBox(height: 15),

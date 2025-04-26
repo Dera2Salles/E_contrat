@@ -21,7 +21,7 @@ class _WizardFormState extends State<WizardForm> {
   final Map<String, TextEditingController> _controllers = {};
   int _currentStep = 0;
 
-  int get fieldsPerStep => 3;
+  int get fieldsPerStep => 2;
   int get totalSteps =>
       (widget.placeholders.length / fieldsPerStep).ceil();
 
@@ -135,6 +135,7 @@ class _WizardFormState extends State<WizardForm> {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: buildField(p),
                       )),
+                      const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -146,7 +147,7 @@ class _WizardFormState extends State<WizardForm> {
                             shape: RoundedRectangleBorder(
                                                             borderRadius: BorderRadius.circular(30)
                                                           ) ,
-                            elevation: 2,
+                            elevation: 1,
                             onPressed: previousStep,
                             child: const Text('Précédent',
                             style:TextStyle(
@@ -160,7 +161,7 @@ class _WizardFormState extends State<WizardForm> {
                         width: 30.w,
                         height: 7.h,
                         child: FloatingActionButton(
-                          elevation: 2,
+                          elevation: 1,
                           shape: RoundedRectangleBorder(
                                                             borderRadius: BorderRadius.circular(30)
                                                           ) ,

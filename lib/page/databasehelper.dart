@@ -45,6 +45,6 @@ class DatabaseHelper {
 
   static Future<List<Map<String, dynamic>>> getAllPdfs() async {
     final db = await database;
-    return await db.query('pdfs');
+    return await db.query('pdfs', orderBy: 'id DESC');
   }
 }
