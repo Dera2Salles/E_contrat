@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:e_contrat/page/pdfquill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sizer/sizer.dart';
 
 class WizardForm extends StatefulWidget {
   final List<String> placeholders;
@@ -121,8 +122,13 @@ class _WizardFormState extends State<WizardForm> {
               key: _formKey,
               child: Column(
                 children: [
+                  Text( 'Veuillez remplir',
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold , color :Color(0xFF3200d5),),
+                                                         ),
+                                                         SizedBox(height: 15),
                   LinearProgressIndicator(
                     value: (_currentStep + 1) / totalSteps,
+                    color:Color(0xFF3200d5) ,
                   ),
                   const SizedBox(height: 20),
                   ...currentFields.map((p) => Padding(
@@ -133,27 +139,55 @@ class _WizardFormState extends State<WizardForm> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       if (_currentStep > 0)
-                        OutlinedButton(
-                          onPressed: previousStep,
-                          child: const Text('Précédent'),
+                        SizedBox(
+                          width: 30.w,
+                        height: 7.h,
+                          child: FloatingActionButton(
+                            shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(30)
+                                                          ) ,
+                            elevation: 2,
+                            onPressed: previousStep,
+                            child: const Text('Précédent',
+                            style:TextStyle(
+                                                             color:  Color(0xFF3200d5),
+                                                        
+                                                             fontWeight: FontWeight.bold
+                                                          )),
+                          ),
                         ),
-                      ElevatedButton(
-                        onPressed: _currentStep == totalSteps - 1 ? (){
-                          if (_formKey.currentState!.validate()) {
-                                              Map<String, String> formData = {};
-                                              _controllers.forEach((key, controller) {
-                                                formData[key] = controller.text;
-                                              });
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => PdfQuill(formData: formData, documentModel: widget.data, partie: widget.partie , placeholder:widget.placeholders),
-                                                ),
-                                              );
-                                            }
-                        }: nextStep,
-                        child: Text(
-                            _currentStep == totalSteps - 1 ? 'Terminer' : 'Suivant'),
+                      SizedBox(
+                        width: 30.w,
+                        height: 7.h,
+                        child: FloatingActionButton(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(30)
+                                                          ) ,
+                        
+                          onPressed: _currentStep == totalSteps - 1 ? (){
+                            if (_formKey.currentState!.validate()) {
+                                                Map<String, String> formData = {};
+                                                _controllers.forEach((key, controller) {
+                                                  formData[key] = controller.text;
+                                                });
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => PdfQuill(formData: formData, documentModel: widget.data, partie: widget.partie , placeholder:widget.placeholders),
+                                                  ),
+                                                );
+                                              }
+                          }: nextStep,
+                          child: Text(
+                              _currentStep == totalSteps - 1 ? 'Rédiger le motif' : 'Suivant',
+                              style:TextStyle(
+                                                             color:  Color(0xFF3200d5),
+                                                        
+                                                             fontWeight: FontWeight.bold
+                                                          ) 
+                              ,),
+                        ),
                       ),
                     ],
                   ),
