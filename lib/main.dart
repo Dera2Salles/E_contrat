@@ -1,20 +1,23 @@
-import 'package:e_contrat/listsample.dart';
 import 'package:e_contrat/page/grid.dart';
 import 'package:e_contrat/page/home.dart';
-import 'package:e_contrat/page/pdfquill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:sizer/sizer.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:e_contrat/page/fonts_loader.dart'; 
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 final FontsLoader loader = FontsLoader();
   
  main() async {
+   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   runApp(const Econtrat());
+  
 }
+
 
 class Econtrat extends StatelessWidget {
   const Econtrat({super.key});
@@ -50,13 +53,11 @@ class Econtrat extends StatelessWidget {
       ],
       routes: {
          '/grid':  (context)=> Grid(),
-        '/list': (context)=> ContractListScreen( data: [], title: '',),
-        '/pdf': (context)=> PdfQuill(documentModel: [], formData: {}, partie: [],placeholder: [],),
 
       },
       title: 'E-contrat',
   
-      home: HomePage(),
+      home: MyHomePage(),
     );
       }
     

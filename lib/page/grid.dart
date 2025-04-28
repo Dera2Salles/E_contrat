@@ -24,6 +24,7 @@ int _pageIndex = 0; // Index de la page actuelle
   final List<Widget> _pages = [
     Template(),
     PdfListScreen(),
+    PdfListScreen(),
     
   
   ];

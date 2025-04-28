@@ -55,7 +55,7 @@ class _MyHomePageState extends State<PdfQuill> {
 
     setState(() {
        final documentData = widget.documentModel.map((op) {
-      if (op['insert'] is String) {
+      if (op['insert'] is String){
         String text = op['insert'];
         // Replace placeholders with formData values
         widget.formData.forEach((key, value) {
@@ -443,43 +443,6 @@ class _MyHomePageState extends State<PdfQuill> {
                 }
                  setState(() => _isGeneratingPdf = true);
                 debugPrint('État des signatures: Signature1: ${signatureBytes1 != null}, Signature2: ${signatureBytes2 != null}');
-                
-                // PDFConverter pdfConverter = PDFConverter(
-                //   backMatterDelta: null,
-                //   frontMatterDelta: null,
-                //   isWeb: kIsWeb,
-                //   document: _quillController.document.toDelta(),
-                //   fallbacks: [...loader.allFonts()],
-                //   onRequestFontFamily: (FontFamilyRequest familyRequest) {
-                //     final normalFont =
-                //         loader.getFontByName(fontFamily: familyRequest.family);
-                //     final boldFont = loader.getFontByName(
-                //       fontFamily: familyRequest.family,
-                //       bold: familyRequest.isBold,
-                //     );
-                //     final italicFont = loader.getFontByName(
-                //       fontFamily: familyRequest.family,
-                //       italic: familyRequest.isItalic,
-                //     );
-                //     final boldItalicFont = loader.getFontByName(
-                //       fontFamily: familyRequest.family,
-                //       bold: familyRequest.isBold,
-                //       italic: familyRequest.isItalic,
-                //     );
-                //     return FontFamilyResponse(
-                //       fontNormalV: normalFont,
-                //       boldFontV: boldFont,
-                //       italicFontV: italicFont,
-                //       boldItalicFontV: boldItalicFont,
-                //       fallbacks: [
-                //         normalFont,
-                //         italicFont,
-                //         boldItalicFont,
-                //       ],
-                //     );
-                //   },
-                //   pageFormat: params,
-                // );
                 try {
                   // Créer un document PDF sécurisé en supprimant les formatages qui pourraient causer des erreurs
                   // D'abord, créons une copie simplifiée du Delta qui contient uniquement le texte
@@ -612,7 +575,7 @@ class _MyHomePageState extends State<PdfQuill> {
                           PdfBitmap signature1 = PdfBitmap(signatureBytes1);
                           
                           // Ajouter la légende
-                          graphics.drawString('Signature du créancier', font, 
+                          graphics.drawString('        ${widget.partie[1]}', font, 
                               brush: PdfSolidBrush(PdfColor(0, 0, 0)),
                               bounds: Rect.fromLTWH(pageWidth - 170, pageHeight - 150, 150, 20));
                           
@@ -627,7 +590,7 @@ class _MyHomePageState extends State<PdfQuill> {
                           PdfBitmap signature2 = PdfBitmap(signatureBytes2);
                           
                           // Ajouter la légende
-                          graphics.drawString('Signature du débiteur', font, 
+                          graphics.drawString('      ${widget.partie[0]}', font, 
                               brush: PdfSolidBrush(PdfColor(0, 0, 0)),
                               bounds: Rect.fromLTWH(655-pageWidth , pageHeight - 150, 150, 20));
                           
@@ -689,6 +652,7 @@ class _MyHomePageState extends State<PdfQuill> {
                   debugPrint("Erreur lors de la génération du PDF : $e");
                   debugPrint("Stack trace : $stackTrace");
                   if (mounted) {
+                    // ignore: use_build_context_synchronously
                     final scaffoldMessenger = ScaffoldMessenger.of(context);
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       if (mounted) {
@@ -703,6 +667,7 @@ class _MyHomePageState extends State<PdfQuill> {
                 debugPrint("Erreur lors de la génération du PDF : $e");
                 debugPrint("Stack trace : $stackTrace");
                 if (mounted) {
+                  // ignore: use_build_context_synchronously
                   final messenger = ScaffoldMessenger.of(context);
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     if (mounted) {
@@ -712,18 +677,10 @@ class _MyHomePageState extends State<PdfQuill> {
                     }
                   });
                 }
-              }
-
-
-                    
-
-                        
-                      }
-                      );
-             
-
-
-              },
+              }                            
+            }
+        );
+},
               // Utilise seulement l'icône une fois
               icon: const Icon(Icons.print, color: Color(0xFF3200d5),),
             ),
