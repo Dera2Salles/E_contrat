@@ -570,9 +570,9 @@ class _MyHomePageState extends State<PdfQuill> {
                         PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 10);
                         
                         // Ajouter la signature du créancier (à droite)
-                        if (signatureBytes1 != null) {
+                        if (signatureBytes2 != null) {
                           debugPrint('Ajout signature créancier');
-                          PdfBitmap signature1 = PdfBitmap(signatureBytes1);
+                          PdfBitmap signature2 = PdfBitmap(signatureBytes2);
                           
                           // Ajouter la légende
                           graphics.drawString('        ${widget.partie[1]}', font, 
@@ -580,14 +580,14 @@ class _MyHomePageState extends State<PdfQuill> {
                               bounds: Rect.fromLTWH(pageWidth - 170, pageHeight - 150, 150, 20));
                           
                           // Ajouter l'image de la signature
-                          graphics.drawImage(signature1, 
+                          graphics.drawImage(signature2, 
                               Rect.fromLTWH(pageWidth - 170, pageHeight - 140, 150, 80));
                         }
                         
                         // Ajouter la signature du débiteur (à gauche)
-                        if (signatureBytes2 != null) {
+                        if (signatureBytes1 != null) {
                           debugPrint('Ajout signature débiteur $pageWidth');
-                          PdfBitmap signature2 = PdfBitmap(signatureBytes2);
+                          PdfBitmap signature1 = PdfBitmap(signatureBytes1);
                           
                           // Ajouter la légende
                           graphics.drawString('      ${widget.partie[0]}', font, 
@@ -595,7 +595,7 @@ class _MyHomePageState extends State<PdfQuill> {
                               bounds: Rect.fromLTWH(655-pageWidth , pageHeight - 150, 150, 20));
                           
                           // Ajouter l'image de la signature
-                          graphics.drawImage(signature2, 
+                          graphics.drawImage(signature1, 
                               Rect.fromLTWH(30, pageHeight - 140, 150, 80));
                         }
                       }
