@@ -611,9 +611,11 @@ class _MyHomePageState extends State<PdfQuill> {
                       }
                     
       
-                      existingPdf.dispose(); // Libérer les ressources
+                      existingPdf.dispose();
+                       // Libérer les ressources
                       
                       debugPrint('PDF généré avec succès avec les signatures incluses');
+                      dispose();
                       debugPrint(' formData : ${widget.formData}');
                     } catch (e, stack) {
                       debugPrint('Erreur lors de l\'inclusion des signatures: $e');
