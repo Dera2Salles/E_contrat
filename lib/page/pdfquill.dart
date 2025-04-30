@@ -375,23 +375,22 @@ class _MyHomePageState extends State<PdfQuill> {
           automaticallyImplyLeading: false,
         backgroundColor:  Colors.transparent,
         actions: [
-          // Bouton pour la signature du créancier
-          IconButton(
-            icon: _hasCapturedSignature2 ?  const Icon(Icons.check_circle, color: Colors.green, size: 20) :   const Icon(Icons.gesture, color: Color(0xFF3200d5),),
-            tooltip: 'Signature du debiteur',
-            onPressed: () {
-              if (mounted) {
-                _navigateToSignaturePage2();
-              }
-            },
-          ),
-          // Bouton pour la signature du débiteur
+          // Bouton pour la signature du créancier // Bouton pour la signature du débiteur
           IconButton(
             icon: _hasCapturedSignature1 ?  const Icon(Icons.check_circle, color: Colors.green, size: 20) : const Icon(Icons.draw, color: Color(0xFF3200d5)),
             tooltip: 'Signature du creancier',
             onPressed: () {
               if (mounted) {
                 _navigateToSignaturePage1();
+              }
+            },
+          ),
+           IconButton(
+            icon: _hasCapturedSignature2 ?  const Icon(Icons.check_circle, color: Colors.green, size: 20) :   const Icon(Icons.gesture, color: Color(0xFF3200d5),),
+            tooltip: 'Signature du debiteur',
+            onPressed: () {
+              if (mounted) {
+                _navigateToSignaturePage2();
               }
             },
           ),
