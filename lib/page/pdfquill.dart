@@ -378,7 +378,7 @@ class _MyHomePageState extends State<PdfQuill> {
           // Bouton pour la signature du créancier // Bouton pour la signature du débiteur
           IconButton(
             icon: _hasCapturedSignature1 ?  const Icon(Icons.check_circle, color: Colors.green, size: 20) : const Icon(Icons.draw, color: Color(0xFF3200d5)),
-            tooltip: 'Signature du creancier',
+            tooltip: 'Signature du ${widget.partie[0]}',
             onPressed: () {
               if (mounted) {
                 _navigateToSignaturePage1();
@@ -387,7 +387,7 @@ class _MyHomePageState extends State<PdfQuill> {
           ),
            IconButton(
             icon: _hasCapturedSignature2 ?  const Icon(Icons.check_circle, color: Colors.green, size: 20) :   const Icon(Icons.gesture, color: Color(0xFF3200d5),),
-            tooltip: 'Signature du debiteur',
+            tooltip: 'Signature du ${widget.partie[1]}',
             onPressed: () {
               if (mounted) {
                 _navigateToSignaturePage2();
