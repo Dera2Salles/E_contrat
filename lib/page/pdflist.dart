@@ -103,7 +103,7 @@ class _PdfListScreenState extends State<PdfListScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => PdfViewScreen(path: pdf['path']),
+                          builder: (_) => PdfViewScreen(path: pdf['path'], title:pdf['name']),
                         ),
                       );
                     },
