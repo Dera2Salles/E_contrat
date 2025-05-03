@@ -31,7 +31,7 @@ class Econtrat extends StatelessWidget {
       builder: (context, orientation,deviceType){
 
         return  MaterialApp(
-          debugShowCheckedModeBanner: true,
+          debugShowCheckedModeBanner: false,
           //  theme: ThemeData.light(useMaterial3: true),
                 theme: ThemeData(
         fontFamily: 'Poppins',
@@ -50,6 +50,9 @@ class Econtrat extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         FlutterQuillLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('fr','FR')
       ],
       routes: {
          '/grid':  (context)=> Grid(),

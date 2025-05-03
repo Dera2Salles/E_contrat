@@ -619,7 +619,6 @@ class _MyHomePageState extends State<PdfQuill> {
                        // Libérer les ressources
                       
                       debugPrint('PDF généré avec succès avec les signatures incluses');
-                      dispose();
                       debugPrint(' formData : ${widget.formData}');
                     } catch (e, stack) {
                       debugPrint('Erreur lors de l\'inclusion des signatures: $e');
@@ -646,12 +645,14 @@ class _MyHomePageState extends State<PdfQuill> {
                        
                       ),
                       
+                      
                     );
                      // ignore: use_build_context_synchronously
                      Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context)=>Grid()),
                       (route)=> false,
                       );
+                       
                   }
                 } catch (e, stackTrace) {
                   debugPrint("Erreur lors de la génération du PDF : $e");

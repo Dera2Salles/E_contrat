@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:e_contrat/page/pdfquill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 class WizardForm extends StatefulWidget {
@@ -79,7 +80,7 @@ class _WizardFormState extends State<WizardForm> {
             lastDate: DateTime(2100),
           );
           if (date != null) {
-            controller.text = date.toIso8601String().split('T').first;
+            controller.text = DateFormat('dd-MM-yyyy').format(date);
           }
         },
         validator: (value) =>
