@@ -90,7 +90,7 @@ FontAwesomeIcons.handHoldingDollar,
          ),
        ), 
       Align(
-        alignment: Alignment(-0.05.w, 0.02.h),
+        alignment: Alignment(-0.05.w, 0.04.h),
         child: SizedBox(
       width: 70.w,
       height: 70.h,
@@ -106,12 +106,12 @@ FontAwesomeIcons.handHoldingDollar,
                         children: [
                           SizedBox(
                             width: 17.w,
-                            height: 8.h,
+                            height: 7.h,
                             child: FloatingActionButton(
                               heroTag: "fab_grid_$index",
                               elevation: 1,
                                             shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50)
+                                        borderRadius: BorderRadius.circular(40)
                                       ) ,
                             onPressed: () {
                              Navigator.push(
@@ -128,7 +128,6 @@ FontAwesomeIcons.handHoldingDollar,
                               
                             ),
                           ),
-                          SizedBox(height: 0.5.h,),
                           Text(labels[index],
                           style: TextStyle(
            color:  Color(0xFF3200d5),

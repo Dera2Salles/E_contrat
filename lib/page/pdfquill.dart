@@ -709,13 +709,13 @@ class _MyHomePageState extends State<PdfQuill> {
              ),
            ) ,
           Positioned(
-            top:1.h,
-            left: -4.5.w,
+            top:-1.1.h,
+            left: -7.w,
          
            child: SvgPicture.asset(
             'assets/svg/editor.svg',
-            width: 216.h,
-            height:216.w,
+            width: 100.w,
+            height:100.h,
            ),
              ),
               if (_isGeneratingPdf)
@@ -728,14 +728,14 @@ class _MyHomePageState extends State<PdfQuill> {
               ],
             ),
           Positioned( // position du ndao e contrat
-            top: 13.h,
+            top: 8.h,
             left: 0,
             right: 0,
             bottom: 0,
             child: Scaffold(
               backgroundColor: Colors.transparent,
               body: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(5),
                 child: Scrollbar(
                   controller: _scrollController,
                   notificationPredicate: (ScrollNotification notification) {
