@@ -140,14 +140,16 @@ class _MyHomePageState extends State<PdfQuill> {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment(-1, -10),
-                child: SvgPicture.asset(
-                  'assets/svg/editor.svg',
-                  width: 370.h,
-                  height: 370.w,
-                ),
-              ),
+              Positioned(
+            top:-1.1.h,
+            left: -7.w,
+         
+           child: SvgPicture.asset(
+            'assets/svg/editor.svg',
+            width: 100.w,
+            height:100.h,
+           ),
+             ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -270,14 +272,16 @@ class _MyHomePageState extends State<PdfQuill> {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment(-1, -10),
-                child: SvgPicture.asset(
-                  'assets/svg/editor.svg',
-                  width: 370.h,
-                  height: 370.w,
-                ),
-              ),
+               Positioned(
+            top:-1.1.h,
+            left: -7.w,
+         
+           child: SvgPicture.asset(
+            'assets/svg/editor.svg',
+            width: 100.w,
+            height:100.h,
+           ),
+             ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
