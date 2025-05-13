@@ -94,6 +94,12 @@ class _AssistantState extends State<Assistant> {
   StreamSubscription? _connectivitySubscription;
   bool _isConnected = true;
 
+  // Add prompt definition
+  static const String _promptDef = '''
+Tu es un expert plus de 20 ans en Contrat de toute sorte. Réponds uniquement aux prompts liés aux Contrat de manière précise,concise et ordonnee, n'utilise pas de ** dans test reponse.
+Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas la reponse
+''';
+
   @override
   void initState() {
     super.initState();
@@ -281,8 +287,11 @@ class _AssistantState extends State<Assistant> {
     });
 
     try {
+      // Combine prompt definition with user message
+      final finalPrompt = '$_promptDef\nPrompt : $message';
+      
       final response = await retry(
-        () => _model.generateContent([Content.text(message)]),
+        () => _model.generateContent([Content.text(finalPrompt)]),
         maxAttempts: 3,
         onRetry: (e) {
           ErrorHandler.logWarning('Retrying API call due to error: $e');
