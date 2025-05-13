@@ -38,6 +38,35 @@ class DatabaseHelper {
     );
   }
 
+    static initDbConersation() async {
+    
+  await openDatabase(
+      join(await getDatabasesPath(), 'assistant_messages.db'),
+      onCreate: (db, version) {
+        return db.execute('''
+          CREATE TABLE conversations(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            createdAt TEXT
+          )
+        ''').then((_) {
+          return db.execute('''
+            CREATE TABLE messages(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              message TEXT,
+              isUser INTEGER,
+              timestamp TEXT,
+              conversationId INTEGER,
+              FOREIGN KEY (conversationId) REFERENCES conversations (id)
+            )
+          ''');
+        });
+      },
+      version: 1,
+    );
+  }
+
+
   static Future<void> insertPdf(String name, String path) async {
     final db = await database;
     await db.insert('pdfs', {'name': name, 'path': path});

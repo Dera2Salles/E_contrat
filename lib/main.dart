@@ -1,6 +1,7 @@
 import 'package:e_contrat/page/grid.dart';
 import 'package:e_contrat/page/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:sizer/sizer.dart';
 // ignore: depend_on_referenced_packages
@@ -13,7 +14,7 @@ final FontsLoader loader = FontsLoader();
  main() async {
    WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
+  await dotenv.load(fileName: "assets/fichier.env"); 
   runApp(const Econtrat());
   
 }

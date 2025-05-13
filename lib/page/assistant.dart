@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
 import 'dart:async';
+import 'package:e_contrat/page/confirm.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:retry/retry.dart';
+import '../config/app_config.dart';
+import '../utils/error_handler.dart';
 
 class Conversation {
   final int? id;
@@ -81,39 +88,81 @@ class _AssistantState extends State<Assistant> {
   late Database _database;
   final ScrollController _scrollController = ScrollController();
   int? _currentConversationId;
+  late GenerativeModel _model;
+  bool _isLoading = false;
+  final _internetConnection = InternetConnection();
+  StreamSubscription? _connectivitySubscription;
+  bool _isConnected = true;
 
   @override
   void initState() {
     super.initState();
     _initDatabase();
+    _initGemini();
+    _setupConnectivityListener();
+  }
+
+  void _setupConnectivityListener() {
+    _connectivitySubscription = _internetConnection.onStatusChange.listen((InternetStatus status) {
+      if (mounted) {
+        setState(() {
+          _isConnected = status == InternetStatus.connected;
+        });
+      }
+      if (status == InternetStatus.disconnected) {
+        ErrorHandler.handleError(NetworkError(AppConfig.networkError));
+      }
+    });
+  }
+
+  Future<void> _initGemini() async {
+    try {
+    
+      final apiKey = dotenv.env['GEMINI_API_KEY'];
+      if (apiKey == null) {
+        throw Exception('GEMINI_API_KEY not found in .env file');
+      }
+      _model = GenerativeModel(
+        model: 'gemini-2.0-flash',
+        apiKey: apiKey,
+      );
+    } catch (e) {
+      ErrorHandler.handleError(e);
+      // Re-throw to prevent the app from continuing with an uninitialized model
+      rethrow;
+    }
   }
 
   Future<void> _initDatabase() async {
-    _database = await openDatabase(
-      join(await getDatabasesPath(), 'assistant_messages.db'),
-      onCreate: (db, version) {
-        return db.execute('''
-          CREATE TABLE conversations(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT,
-            createdAt TEXT
-          )
-        ''').then((_) {
+    try {
+      _database = await openDatabase(
+        path.join(await getDatabasesPath(), AppConfig.databaseName),
+        onCreate: (db, version) {
           return db.execute('''
-            CREATE TABLE messages(
+            CREATE TABLE conversations(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
-              message TEXT,
-              isUser INTEGER,
-              timestamp TEXT,
-              conversationId INTEGER,
-              FOREIGN KEY (conversationId) REFERENCES conversations (id)
+              title TEXT,
+              createdAt TEXT
             )
-          ''');
-        });
-      },
-      version: 1,
-    );
-    _loadConversations();
+          ''').then((_) {
+            return db.execute('''
+              CREATE TABLE messages(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                message TEXT,
+                isUser INTEGER,
+                timestamp TEXT,
+                conversationId INTEGER,
+                FOREIGN KEY (conversationId) REFERENCES conversations (id)
+              )
+            ''');
+          });
+        },
+        version: AppConfig.databaseVersion,
+      );
+      await _loadConversations();
+    } catch (e) {
+      ErrorHandler.handleError(DatabaseError(AppConfig.databaseError));
+    }
   }
 
   Future<void> _loadConversations() async {
@@ -147,6 +196,39 @@ class _AssistantState extends State<Assistant> {
         createdAt: newConversation.createdAt,
       ));
     });
+  }
+
+  Future<void> _deleteConversation(int conversationId) async {
+    if (!mounted) return;
+    
+    await ConfirmationDialog.show(
+      context,
+      title: 'Supprimer la conversation',
+      message: 'Êtes-vous sûr de vouloir supprimer cette conversation ?',
+      onConfirm: () async {
+        await _database.delete(
+          'messages',
+          where: 'conversationId = ?',
+          whereArgs: [conversationId],
+        );
+        await _database.delete(
+          'conversations',
+          where: 'id = ?',
+          whereArgs: [conversationId],
+        );
+        if (mounted) {
+          setState(() {
+            if (_currentConversationId == conversationId) {
+              _currentConversationId = null;
+              _messages.clear();
+            }
+            _conversations.removeWhere((c) => c.id == conversationId);
+          });
+        }
+      },
+      confirmText: 'Supprimer',
+      confirmColor: Colors.red,
+    );
   }
 
   Future<void> _loadMessages(int conversationId) async {
@@ -188,6 +270,37 @@ class _AssistantState extends State<Assistant> {
     _scrollToBottom();
   }
 
+  Future<void> _getGeminiResponse(String message) async {
+    if (!_isConnected) {
+      ErrorHandler.handleError(NetworkError(AppConfig.networkError));
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final response = await retry(
+        () => _model.generateContent([Content.text(message)]),
+        maxAttempts: 3,
+        onRetry: (e) {
+          ErrorHandler.logWarning('Retrying API call due to error: $e');
+        },
+      );
+      
+      if (response.text != null) {
+        await _addMessage(response.text!, false);
+      }
+    } catch (e) {
+      ErrorHandler.handleError(e);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
@@ -199,14 +312,11 @@ class _AssistantState extends State<Assistant> {
   }
 
   void _handleSubmitted(String text) {
-    if (text.trim().isEmpty) return;
+    if (text.trim().isEmpty || _isLoading) return;
 
     _messageController.clear();
     _addMessage(text, true);
-
-    Future.delayed(const Duration(seconds: 1), () {
-      _addMessage("Je suis votre assistant virtuel. Comment puis-je vous aider ?", false);
-    });
+    _getGeminiResponse(text);
   }
 
   @override
@@ -217,8 +327,8 @@ class _AssistantState extends State<Assistant> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.purple.shade900,
-            Colors.purple.shade800,
+            AppConfig.primaryColor,
+            AppConfig.secondaryColor,
           ],
         ),
       ),
@@ -227,12 +337,9 @@ class _AssistantState extends State<Assistant> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: const Text(
-            'Assistant Virtuel',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+          title: Text(
+            AppConfig.appName,
+            style: AppConfig.headingStyle,
           ),
           centerTitle: true,
           actions: [
@@ -283,7 +390,11 @@ class _AssistantState extends State<Assistant> {
                                 ),
                                 subtitle: Text(
                                   '${conversation.createdAt.day}/${conversation.createdAt.month}/${conversation.createdAt.year}',
-                                  style: TextStyle(color: Colors.white.withOpacity(0.7)),
+                                  style: TextStyle(color: Colors.white.withAlpha(128)),
+                                ),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.delete, color: Colors.white),
+                                  onPressed: () => _deleteConversation(conversation.id!),
                                 ),
                                 onTap: () {
                                   _loadMessages(conversation.id!);
@@ -301,174 +412,121 @@ class _AssistantState extends State<Assistant> {
             ),
           ],
         ),
-        body: Row(
+        body: Column(
           children: [
-            // Sidebar
-            Container(
-              width: 250,
-              decoration: BoxDecoration(
-                color: Colors.purple.shade900.withOpacity(0.5),
-                border: Border(
-                  right: BorderSide(
-                    color: Colors.white.withOpacity(0.1),
-                  ),
-                ),
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ElevatedButton(
-                      onPressed: _createNewConversation,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.purple.shade900,
-                        minimumSize: const Size(double.infinity, 45),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+            Expanded(
+              child: ListView.builder(
+                controller: _scrollController,
+                padding: const EdgeInsets.all(16),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  final message = _messages[index];
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
+                    child: Align(
+                      alignment: message.isUser
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.7,
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: message.isUser
+                              ? Colors.white
+                              : Colors.purple.shade200,
+                          borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(20),
+                            topRight: const Radius.circular(20),
+                            bottomLeft: Radius.circular(message.isUser ? 20 : 5),
+                            bottomRight: Radius.circular(message.isUser ? 5 : 20),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(32),
+                              blurRadius: 5,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          message.message,
+                          style: TextStyle(
+                            color: message.isUser
+                                ? Colors.purple.shade900
+                                : Colors.white,
+                          ),
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
                         ),
                       ),
-                      child: const Text('Nouvelle conversation'),
                     ),
-                  ),
-                  const Divider(color: Colors.white24),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: _conversations.length,
-                      itemBuilder: (context, index) {
-                        final conversation = _conversations[index];
-                        return ListTile(
-                          title: Text(
-                            conversation.title,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          subtitle: Text(
-                            '${conversation.createdAt.day}/${conversation.createdAt.month}/${conversation.createdAt.year}',
-                            style: TextStyle(color: Colors.white.withOpacity(0.7)),
-                          ),
-                          selected: conversation.id == _currentConversationId,
-                          selectedColor: Colors.white,
-                          onTap: () => _loadMessages(conversation.id!),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
-            // Chat area
-            Expanded(
-              child: Column(
+            if (_isLoading)
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              margin: const EdgeInsets.only(bottom: 0),
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(128),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
+              ),
+              child: Row(
                 children: [
                   Expanded(
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      padding: const EdgeInsets.all(16),
-                      itemCount: _messages.length,
-                      itemBuilder: (context, index) {
-                        final message = _messages[index];
-                        return AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOut,
-                          child: Align(
-                            alignment: message.isUser
-                                ? Alignment.centerRight
-                                : Alignment.centerLeft,
-                            child: Container(
-                              constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width * 0.7,
-                              ),
-                              margin: const EdgeInsets.symmetric(vertical: 4),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color: message.isUser
-                                    ? Colors.white
-                                    : Colors.purple.shade200,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: const Radius.circular(20),
-                                  topRight: const Radius.circular(20),
-                                  bottomLeft: Radius.circular(message.isUser ? 20 : 5),
-                                  bottomRight: Radius.circular(message.isUser ? 5 : 20),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 5,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Text(
-                                message.message,
-                                style: TextStyle(
-                                  color: message.isUser
-                                      ? Colors.purple.shade900
-                                      : Colors.white,
-                                ),
-                                softWrap: true,
-                                overflow: TextOverflow.visible,
-                              ),
-                            ),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      child: TextField(
+                        controller: _messageController,
+                        style: const TextStyle(color: Colors.white),
+                        maxLines: 5,
+                        minLines: 1,
+                        decoration: InputDecoration(
+                          hintText: 'Comment puis-je vous aider ?...',
+                          hintStyle: TextStyle(color: Colors.white.withAlpha(128)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    margin: const EdgeInsets.only(bottom: 60),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.1),
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(20),
+                          filled: true,
+                          fillColor: Colors.white.withAlpha(32),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 5,
+                          ),
+                        ),
+                        onSubmitted: _handleSubmitted,
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: TextField(
-                              controller: _messageController,
-                              style: const TextStyle(color: Colors.white),
-                              maxLines: 5,
-                              minLines: 1,
-                              decoration: InputDecoration(
-                                hintText: 'Écrivez votre message...',
-                                hintStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white.withOpacity(0.1),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 10,
-                                ),
-                              ),
-                              onSubmitted: _handleSubmitted,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.send,
-                              color: Colors.purple,
-                            ),
-                            onPressed: () => _handleSubmitted(_messageController.text),
-                          ),
-                        ),
-                      ],
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.send,
+                        color: Colors.purple,
+                      ),
+                      onPressed: _isLoading ? null : () => _handleSubmitted(_messageController.text),
                     ),
                   ),
                 ],
@@ -484,6 +542,9 @@ class _AssistantState extends State<Assistant> {
   void dispose() {
     _messageController.dispose();
     _scrollController.dispose();
+    _connectivitySubscription?.cancel();
     super.dispose();
   }
 } 
+
+
