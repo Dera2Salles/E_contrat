@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:e_contrat/page/pdflist.dart';
 import 'package:e_contrat/page/template.dart';
+import 'package:e_contrat/page/assistant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 // import 'package:e_contrat/page/template.dart';
@@ -24,7 +25,7 @@ int _pageIndex = 0; // Index de la page actuelle
   final List<Widget> _pages = [
     Template(),
     PdfListScreen(),
-    PdfListScreen(),
+    PdfListScreen()
     
   
   ];
@@ -32,9 +33,6 @@ int _pageIndex = 0; // Index de la page actuelle
 
   final advancedDrawerController =AdvancedDrawerController();
 
-  void drawerControl(){
-    advancedDrawerController.showDrawer();
-  }
 
 
   @override
@@ -56,12 +54,18 @@ int _pageIndex = 0; // Index de la page actuelle
         appBar: AppBar(
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.menu,
+            icon: Icon(Icons.message,
             color: Colors.white,
+            size: 30,
             
          ),
             onPressed:(){
-              advancedDrawerController.showDrawer();
+              Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Assistant(),
+                                    ),
+                                  );
             }
             
           ),
@@ -100,9 +104,11 @@ int _pageIndex = 0; // Index de la page actuelle
         ),
       ],
       onTap: (index) {
-          setState(() {
-            _pageIndex = index; // Met à jour l'index et redessine
-          });
+          setState(() 
+          {
+            _pageIndex = index; 
+        }
+      );
         },
       
       ),
