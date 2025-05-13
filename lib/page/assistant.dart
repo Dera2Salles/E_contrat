@@ -269,6 +269,30 @@ Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas l
       newMessage.toMap(),
     );
 
+    // Update conversation title if this is the first user message
+    if (isUser && _messages.isEmpty) {
+      // Truncate message if it's too long
+      final title = message.length > 30 ? '${message.substring(0, 30)}...' : message;
+      await _database.update(
+        'conversations',
+        {'title': title},
+        where: 'id = ?',
+        whereArgs: [_currentConversationId],
+      );
+      
+      // Update the conversation in the list
+      setState(() {
+        final index = _conversations.indexWhere((c) => c.id == _currentConversationId);
+        if (index != -1) {
+          _conversations[index] = Conversation(
+            id: _currentConversationId,
+            title: title,
+            createdAt: _conversations[index].createdAt,
+          );
+        }
+      });
+    }
+
     setState(() {
       _messages.add(newMessage);
     });
