@@ -384,6 +384,11 @@ Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas l
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+           automaticallyImplyLeading: false,
+           leading: IconButton(
+              icon: Icon(Icons.add, color: _messages.isNotEmpty? Colors.white : const Color.fromARGB(169, 255, 255, 255)),
+              onPressed: _messages.isNotEmpty? _createNewConversation : null, 
+              ) ,
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
