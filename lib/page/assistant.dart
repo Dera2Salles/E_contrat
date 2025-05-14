@@ -212,24 +212,38 @@ Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas l
       title: 'Supprimer la conversation',
       message: 'Êtes-vous sûr de vouloir supprimer cette conversation ?',
       onConfirm: () async {
-        await _database.delete(
-          'messages',
-          where: 'conversationId = ?',
-          whereArgs: [conversationId],
-        );
-        await _database.delete(
-          'conversations',
-          where: 'id = ?',
-          whereArgs: [conversationId],
-        );
-        if (mounted) {
-          setState(() {
-            if (_currentConversationId == conversationId) {
-              _currentConversationId = null;
-              _messages.clear();
-            }
-            _conversations.removeWhere((c) => c.id == conversationId);
-          });
+        try {
+          // Delete messages first
+          await _database.delete(
+            'messages',
+            where: 'conversationId = ?',
+            whereArgs: [conversationId],
+          );
+          
+          // Then delete the conversation
+          await _database.delete(
+            'conversations',
+            where: 'id = ?',
+            whereArgs: [conversationId],
+          );
+
+          if (mounted) {
+            setState(() {
+              // Remove from conversations list
+              _conversations.removeWhere((c) => c.id == conversationId);
+              
+              // Clear messages if this was the current conversation
+              if (_currentConversationId == conversationId) {
+                _currentConversationId = null;
+                _messages.clear();
+              }
+            });
+
+            // Reload conversations to ensure UI is in sync
+            await _loadConversations();
+          }
+        } catch (e) {
+          ErrorHandler.handleError(e);
         }
       },
       confirmText: 'Supprimer',
@@ -245,6 +259,7 @@ Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas l
       orderBy: 'timestamp ASC',
     );
     setState(() {
+      
       _messages.clear();
       _messages.addAll(maps.map((map) => AssistantMessage.fromMap(map)));
       _currentConversationId = conversationId;
@@ -333,6 +348,7 @@ Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas l
       });
     }
   }
+  
 
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
@@ -412,7 +428,8 @@ Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas l
                           ),
                         ),
                         Expanded(
-                          child: ListView.builder(
+                          child:
+                           ListView.builder(
                             itemCount: _conversations.length,
                             itemBuilder: (context, index) {
                               final conversation = _conversations[index];
@@ -448,7 +465,14 @@ Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas l
         body: Column(
           children: [
             Expanded(
-              child: ListView.builder(
+              child:
+              _messages.isEmpty ?
+                          Center(
+                            child: Text(
+                                  "Comment puis-je vous aider ?",
+                                     style: AppConfig.headingStyle,
+                                ),
+                          ) : ListView.builder(
                 controller: _scrollController,
                 padding: const EdgeInsets.all(16),
                 itemCount: _messages.length,
