@@ -373,18 +373,9 @@ Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas l
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            AppConfig.primaryColor,
-            AppConfig.secondaryColor,
-          ],
-        ),
-      ),
-      child: Scaffold(
+    return  Scaffold(
+       resizeToAvoidBottomInset:false ,
+       extendBodyBehindAppBar: true,
         backgroundColor: Colors.transparent,
         appBar: AppBar(
            automaticallyImplyLeading: false,
@@ -470,136 +461,158 @@ Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas l
             ),
           ],
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child:
-              _messages.isEmpty ?
-                          Center(
-                            child: Text(
-                                  "Comment puis-je vous aider ?",
-                                     style: AppConfig.headingStyle,
-                                ),
-                          ) : ListView.builder(
-                controller: _scrollController,
-                padding: const EdgeInsets.all(16),
-                itemCount: _messages.length,
-                itemBuilder: (context, index) {
-                  final message = _messages[index];
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeOut,
-                    child: Align(
-                      alignment: message.isUser
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: Container(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width * 0.7,
-                        ),
-                        margin: const EdgeInsets.symmetric(vertical: 4),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: message.isUser
-                              ? Colors.white
-                              : Colors.purple.shade200,
-                          borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(20),
-                            topRight: const Radius.circular(20),
-                            bottomLeft: Radius.circular(message.isUser ? 20 : 5),
-                            bottomRight: Radius.circular(message.isUser ? 5 : 20),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withAlpha(32),
-                              blurRadius: 5,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Text(
-                          message.message,
-                          style: TextStyle(
-                            color: message.isUser
-                                ? Colors.purple.shade900
-                                : Colors.white,
-                          ),
-                          softWrap: true,
-                          overflow: TextOverflow.visible,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            if (_isLoading)
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              margin: const EdgeInsets.only(bottom: 0),
-              decoration: BoxDecoration(
-                color: Colors.white.withAlpha(128),
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
-              child: Row(
+        body:Scaffold(
+          body: Stack(
+            children: [
+                Linear(),
+                 Positioned(
+          top: 35.h,
+                 right: 55.w,
+           child: Transform.scale(
+                scale: 3.0,
+                 child: SvgPicture.asset(
+          'assets/svg/background.svg',
+          width: 35.w,
+          height:35.h,
+                 ),
+           ),
+                 ) ,
+          
+          
+              Column(
                 children: [
+                  SizedBox(height: 12.h,),
                   Expanded(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      child: TextField(
-                        controller: _messageController,
-                        style: const TextStyle(color: Colors.white),
-                        maxLines: 5,
-                        minLines: 1,
-                        decoration: InputDecoration(
-                          hintText: 'Comment puis-je vous aider ?...',
-                          hintStyle: TextStyle(color: Colors.white.withAlpha(128)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            borderSide: BorderSide.none,
+                    child:
+                    _messages.isEmpty ?
+                                Center(
+                                  child: Text(
+                                        "Comment puis-je vous aider ?",
+                                           style: AppConfig.headingStyle,
+                                      ),
+                                ) : ListView.builder(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.all(16),
+                      itemCount: _messages.length,
+                      itemBuilder: (context, index) {
+                        final message = _messages[index];
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeOut,
+                          child: Align(
+                            alignment: message.isUser
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
+                            child: Container(
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width * 0.7,
+                              ),
+                              margin: const EdgeInsets.symmetric(vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: message.isUser
+                                    ? Colors.white
+                                    : Colors.purple.shade200,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(20),
+                                  topRight: const Radius.circular(20),
+                                  bottomLeft: Radius.circular(message.isUser ? 20 : 5),
+                                  bottomRight: Radius.circular(message.isUser ? 5 : 20),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withAlpha(32),
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                message.message,
+                                style: TextStyle(
+                                  color: message.isUser
+                                      ? Colors.purple.shade900
+                                      : Colors.white,
+                                ),
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                              ),
+                            ),
                           ),
-                          filled: true,
-                          fillColor: Colors.white.withAlpha(32),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 5,
-                          ),
-                        ),
-                        onSubmitted: _handleSubmitted,
-                      ),
+                        );
+                      },
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  if (_isLoading)
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    ),
                   Container(
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.only(bottom: 0),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.send,
-                        color: Colors.purple,
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(20),
                       ),
-                      onPressed: _isLoading ? null : () => _handleSubmitted(_messageController.text),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: TextField(
+                              controller: _messageController,
+                              style: const TextStyle(color: Colors.white),
+                              maxLines: 5,
+                              minLines: 1,
+                              decoration: InputDecoration(
+                                hintText: 'Message...',
+                                hintStyle: TextStyle(color: Colors.white.withAlpha(128)),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor:  Color(0xFF3200d5),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 5,
+                                ),
+                              ),
+                              onSubmitted: _handleSubmitted,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          decoration: BoxDecoration(
+                            color:   Color(0xFF3200d5),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                            ),
+                            onPressed: _isLoading ? null : () => _handleSubmitted(_messageController.text),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      
     );
   }
 
