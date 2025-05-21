@@ -481,7 +481,7 @@ Si le prompt ne concerne pas le Contrat, corrige l'utilisateur et ne donne pas l
           
               Column(
                 children: [
-                  SizedBox(height: 12.h,),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.12,),
                   Expanded(
                     child:
                     _messages.isEmpty ?
