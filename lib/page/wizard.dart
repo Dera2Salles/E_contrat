@@ -143,7 +143,7 @@ class _WizardFormState extends State<WizardForm> {
                       if (_currentStep > 0)
                         SizedBox(
                           width: 30.w,
-                        height: 7.h,
+                        height: 5.h,
                           child: FloatingActionButton(
                             shape: RoundedRectangleBorder(
                                                             borderRadius: BorderRadius.circular(30)
@@ -160,7 +160,7 @@ class _WizardFormState extends State<WizardForm> {
                         ),
                       SizedBox(
                         width: 30.w,
-                        height: 7.h,
+                        height: 5.h,
                         child: FloatingActionButton(
                           elevation: 1,
                           shape: RoundedRectangleBorder(
