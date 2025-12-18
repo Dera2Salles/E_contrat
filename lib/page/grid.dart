@@ -1,170 +1,48 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:e_contrat/page/pdflist.dart';
-import 'package:e_contrat/page/template.dart';
-import 'package:e_contrat/page/assistant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-// import 'package:e_contrat/page/template.dart';
-// import 'package:e_contrat/page/favorite.dart';
+import '../../features/contract/presentation/pages/contract_categories_page.dart';
+import '../../features/pdf_management/presentation/pages/pdf_list_page.dart';
+import '../../features/assistant/presentation/pages/assistant_screen.dart';
 
-
-class Grid extends StatefulWidget{
+class Grid extends StatefulWidget {
   const Grid({super.key});
 
- @override
-  State<Grid> createState()=> _GridState();
+  @override
+  State<Grid> createState() => _GridState();
 }
 
+class _GridState extends State<Grid> {
+  int _pageIndex = 0;
 
-
-class _GridState extends State<Grid>{
- 
-int _pageIndex = 0; // Index de la page actuelle
-
-  // Liste des pages à afficher
   final List<Widget> _pages = [
-    Template(),
-    PdfListScreen(),
-    PdfListScreen()
-    
-  
+    const ContractCategoriesPage(),
+    const PdfListPage(),
+    const AssistantScreen(),
   ];
- 
-
-  final advancedDrawerController =AdvancedDrawerController();
-
-
 
   @override
   Widget build(BuildContext context) {
-    return AdvancedDrawer(
-      rtlOpening: false,
-      animationCurve: Curves.easeInBack,
-      controller: advancedDrawerController,
-      drawer: SafeArea(
-        child: Column(
-          children: [
-      
-          ],
-        ) 
-        
-        ),
-      child: 
-    Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.message,
-            color: Colors.white,
-            size: 30,
-            
-         ),
-            onPressed:(){
-              Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Assistant(),
-                                    ),
-                                  );
-            }
-            
-          ),
-          backgroundColor: Colors.transparent,
-          automaticallyImplyLeading: false,
-        ),
-        backgroundColor: Colors.transparent,
-         extendBodyBehindAppBar: true,
-         extendBody: true, 
-        body:Stack(
-          children: [
-            _pages[_pageIndex],
-
-            
-          ],
-        ),
-
-
-
-        bottomNavigationBar: CurvedNavigationBar(
+    return Scaffold(
       backgroundColor: Colors.transparent,
-      animationDuration: Duration(milliseconds: 300),
-      items: [
-        Icon(Icons.layers_rounded,
-        color: Color.fromARGB(255, 83, 19, 194),
-        size: 35,
-         ),
-        Icon(
-          Icons.check_circle,
-          color: Color.fromARGB(255, 83, 19, 194),
-          size: 35,
-        ),
-        Icon(Icons.favorite,
-        color: Color.fromARGB(255, 83, 19, 194),
-        size: 35,
-        ),
-      ],
-      onTap: (index) {
-          setState(() 
-          {
-            _pageIndex = index; 
-        }
-      );
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      body: _pages[_pageIndex],
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.transparent,
+        buttonBackgroundColor: Colors.white,
+        color: const Color(0xFF3200d5),
+        animationDuration: const Duration(milliseconds: 300),
+        items: const [
+          Icon(Icons.layers_rounded, color: Colors.white, size: 30),
+          Icon(Icons.check_circle, color: Colors.white, size: 30),
+          Icon(Icons.assistant, color: Colors.white, size: 30),
+        ],
+        onTap: (index) {
+          setState(() {
+            _pageIndex = index;
+          });
         },
-      
       ),
-      )
-
     );
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  
- 
   }
 }
-
-
-
-
-// Column bottomTabbar(){
-//  return 
-//  Column(
-//   mainAxisSize:MainAxisSize.max ,
-//   mainAxisAlignment: MainAxisAlignment.end,
-//    children: [
-//      GNav( 
-      
-//             backgroundColor: Colors.black.withOpacity(0.3),
-//             tabBackgroundColor:  Colors.white ,
-//             color: Colors.white,
-//             activeColor:   Color.fromARGB(255, 83, 19, 194),
-//             padding: EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-//             gap: 4,
-//             tabs: const [
-//               GButton(
-//                 icon: Icons.layers_rounded,
-//                 text:"Template",),
-//               GButton(
-//                 icon: Icons.check_circle,
-//                 text:"Check",),
-//               GButton(
-//                 icon: Icons.favorite,
-//                 text:"Favorite",
-//                 ),
-//                  GButton(
-//                 icon: Icons.settings,
-//                 text:"Setting",
-//                 ),
-     
-//             ]),
-//    ],
-//  );
-// }
-

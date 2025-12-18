@@ -3,163 +3,152 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sizer/sizer.dart';
+import '../core/widgets/linear.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
-
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
- @override
+  @override
   void initState() {
     super.initState();
     initialization();
   }
 
   void initialization() async {
-    // This is where you can initialize the resources needed by your app while
-    // the splash screen is displayed.  Remove the following example because
-    // delaying the user experience is a bad design practice!
-    // ignore_for_file: avoid_print
-    print('ready in 3...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 2...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 1...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('go!');
+    await Future.delayed(const Duration(seconds: 2));
     FlutterNativeSplash.remove();
   }
 
   @override
   Widget build(BuildContext context) {
-     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-
-      
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text('E-contrat'
-        ,
-        style: TextStyle(
-           color:  Color(0xFF3200d5),
-           fontSize: 35,
-           fontWeight: FontWeight.bold
-        ),
+        title: Text(
+          'E-contrat',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 28.sp,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 1.2,
+          ),
         ),
         centerTitle: true,
       ),
-
-
       body: Stack(
         children: [
-               linear(),
-
- Positioned(
-  top: 33.h,
- left: 15.w,
-   child: Transform.scale(
-    scale: 3.0,
-     child: SvgPicture.asset(
-      'assets/svg/background.svg',
-      width: 35.w,
-      height:35.h,
-     ),
-   ),
- )   ,     
-
-                Positioned(
-                  bottom: 25.h,
-                  left: 16.w,
-                  child: Container(
-                  margin: EdgeInsets.only(top: 520),
-                  width: 70.w,
-                  height: 13.h,
-                  child: FloatingActionButton(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/grid');
-                    },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40)
-                      ),
-                    child: Text("Ndao e-contrat",
-                    style: TextStyle(
-                      fontSize: 22.sp,
-                      color: Color(0xFF3200d5),
-                       fontWeight: FontWeight.bold
-                      
-                    ),
-                    ),
-                  
-                    )
-                    
-                ).animate()
-                    .scale(begin: Offset(0.2, 0.2),end: Offset(1.2, 1.2),
-                    duration: 550.ms, curve: Curves.easeOut)
-                    .then()
-                    .scale(begin: Offset(1.2, 1.2),end: Offset(0.8, 0.8),
-                    duration: 550.ms, curve: Curves.bounceOut)
-                    .fadeIn(duration: 550.ms),
-  ),
-
- Align(
-  alignment: Alignment(0.02, -0.5),
-
-  
-   child: SvgPicture.asset(
-    'assets/svg/Business.svg',
-    width: screenWidth * 0.36,
-    height: screenHeight * 0.36,
-   ),
- ),
- Align(
-  alignment: Alignment(0.03, 0.6),
-   child:  Text("Créez, signez, sécurisez en un clic",
-                        style: TextStyle(
-                          fontSize: 17.sp,
-                          color: Colors.white70,
-                           fontWeight: FontWeight.bold
-                          
-                        ),
-                        ),
-   
- ),
- 
-
-
-
-              
-            
-   ],
+          const Linear(),
+          _buildAnimatedBackground(),
+          _buildMainContent(context),
+        ],
       ),
-      
     );
   }
-}
 
+  Widget _buildAnimatedBackground() {
+    return Positioned(
+      top: 33.h,
+      left: 15.w,
+      child: Transform.scale(
+        scale: 3.5,
+        child: SvgPicture.asset(
+          'assets/svg/background.svg',
+          width: 35.w,
+          height: 35.h,
+          colorFilter: ColorFilter.mode(
+            const Color(0xFF3200d5).withOpacity(0.3),
+            BlendMode.srcIn,
+          ),
+        ),
+      ),
+    ).animate(onPlay: (controller) => controller.repeat())
+     .rotate(begin: 0, end: 1, duration: 20.seconds);
+  }
 
-Container linear(){
-  return  Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors:[
-          Color(0xFFE9CBFD),
-          Color(0xFFE9CBFD),
-         
-             Color.fromARGB(255, 83, 19, 194),
+  Widget _buildMainContent(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Spacer(flex: 2),
+        _buildHeroImage(),
+        const SizedBox(height: 40),
+        _buildWelcomeText(),
+        const Spacer(flex: 1),
+        _buildStartButton(context),
+        const SizedBox(height: 60),
+      ],
+    );
+  }
 
+  Widget _buildHeroImage() {
+    return Center(
+      child: SvgPicture.asset(
+        'assets/svg/Business.svg',
+        width: 60.w,
+        height: 30.h,
+      ),
+    ).animate()
+     .fadeIn(duration: 800.ms)
+     .scale(begin: const Offset(0.8, 0.8), curve: Curves.elasticOut);
+  }
+
+  Widget _buildWelcomeText() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      child: Text(
+        "Créez, signez, sécurisez en un clic",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 18.sp,
+          color: Colors.white.withOpacity(0.9),
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
+      ),
+    ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2, end: 0);
+  }
+
+  Widget _buildStartButton(BuildContext context) {
+    return Container(
+      width: 80.w,
+      height: 8.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF3200d5).withOpacity(0.4),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
         ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter
-        )
-    ),
-  );
+      ),
+      child: ElevatedButton(
+        onPressed: () => Navigator.pushNamed(context, '/grid'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: const Color(0xFF3200d5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          elevation: 0,
+        ),
+        child: Text(
+          "Ndao e-contrat",
+          style: TextStyle(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
+    ).animate()
+     .fadeIn(delay: 800.ms)
+     .scale(begin: const Offset(0.5, 0.5));
+  }
 }
-
