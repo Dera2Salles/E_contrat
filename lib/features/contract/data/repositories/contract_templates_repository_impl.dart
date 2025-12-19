@@ -4,6 +4,9 @@ import 'package:e_contrat/features/contract/domain/entities/contract_template.da
 import 'package:e_contrat/features/contract/domain/repositories/contract_templates_repository.dart';
 import 'package:e_contrat/features/contract/domain/value_objects/quill_delta_document.dart';
 
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: ContractTemplatesRepository)
 class ContractTemplatesRepositoryImpl implements ContractTemplatesRepository {
   final ContractTemplatesStaticDataSource _ds;
 

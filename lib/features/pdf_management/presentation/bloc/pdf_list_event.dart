@@ -9,8 +9,8 @@ abstract class PdfListEvent extends Equatable {
 class LoadPdfList extends PdfListEvent {}
 
 class DeletePdfEvent extends PdfListEvent {
-  final String path;
-  const DeletePdfEvent(this.path);
+  final int id;
+  const DeletePdfEvent(this.id);
   @override
-  List<Object?> get props => [path];
+  List<Object?> get props => [id];
 }

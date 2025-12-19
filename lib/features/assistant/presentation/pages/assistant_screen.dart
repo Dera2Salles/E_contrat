@@ -146,7 +146,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
         margin: const EdgeInsets.symmetric(vertical: 6),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: isUser ? Colors.white : const Color(0xFF3200d5).withOpacity(0.8),
+          color: isUser ? Colors.white : const Color(0xFF3200d5).withValues(alpha: 0.8),
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(20),
             topRight: const Radius.circular(20),
@@ -155,7 +155,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -195,7 +195,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: const Color(0xFF3200d5).withOpacity(0.05),
+                fillColor: const Color(0xFF3200d5).withValues(alpha: 0.05),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               ),
             ),
@@ -240,7 +240,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.3),
+                      color: Colors.grey.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),

@@ -82,7 +82,7 @@ class _WizardFormState extends State<WizardForm> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.3),
+                color: Colors.grey.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -110,7 +110,7 @@ class _WizardFormState extends State<WizardForm> {
             borderRadius: BorderRadius.circular(2),
             child: LinearProgressIndicator(
               value: (_currentStep + 1) / totalSteps,
-              backgroundColor: const Color(0xFF3200d5).withOpacity(0.1),
+              backgroundColor: const Color(0xFF3200d5).withValues(alpha: 0.1),
               valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF3200d5)),
               minHeight: 6,
             ),
@@ -197,7 +197,7 @@ class _WizardFormState extends State<WizardForm> {
         labelText: placeholder,
         hintText: 'Saisissez ici...',
         filled: true,
-        fillColor: Colors.grey.withOpacity(0.05),
+        fillColor: Colors.grey.withValues(alpha: 0.05),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide.none,
@@ -214,7 +214,7 @@ class _WizardFormState extends State<WizardForm> {
           lower.contains('date') ? Icons.calendar_today_rounded : 
           lower.contains('montant') ? Icons.attach_money_rounded : 
           Icons.edit_note_rounded,
-          color: const Color(0xFF3200d5).withOpacity(0.7),
+          color: const Color(0xFF3200d5).withValues(alpha: 0.7),
         ),
       ),
       onTap: lower.contains('date') ? () async {

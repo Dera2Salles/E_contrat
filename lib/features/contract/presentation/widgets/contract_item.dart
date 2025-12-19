@@ -38,7 +38,6 @@ class _ContractItemState extends State<ContractItem> {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
 
     return Center(
       child: Container(
@@ -50,7 +49,7 @@ class _ContractItemState extends State<ContractItem> {
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 30,
               offset: const Offset(0, 15),
             ),
@@ -79,7 +78,7 @@ class _ContractItemState extends State<ContractItem> {
                     Text(
                       'Modèle de contrat',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withValues(alpha: 0.7),
                         fontSize: 10.sp,
                       ),
                     ),

@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           width: 35.w,
           height: 35.h,
           colorFilter: ColorFilter.mode(
-            const Color(0xFF3200d5).withOpacity(0.3),
+            const Color(0xFF3200d5).withValues(alpha: 0.3),
             BlendMode.srcIn,
           ),
         ),
@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 18.sp,
-          color: Colors.white.withOpacity(0.9),
+          color: Colors.white.withValues(alpha: 0.9),
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
         ),
@@ -123,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF3200d5).withOpacity(0.4),
+            color: const Color(0xFF3200d5).withValues(alpha: 0.4),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),

@@ -1,5 +1,6 @@
 import 'package:e_contrat/core/di/injection.dart';
 import 'package:e_contrat/core/widgets/linear.dart';
+import 'package:e_contrat/features/contract/domain/entities/contract_category.dart';
 import 'package:e_contrat/features/contract/presentation/bloc/contract_categories_bloc.dart';
 import 'package:e_contrat/features/contract/presentation/bloc/contract_categories_event.dart';
 import 'package:e_contrat/features/contract/presentation/bloc/contract_categories_state.dart';

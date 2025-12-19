@@ -1,6 +1,7 @@
+import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as path;
-import '../../../core/config/app_config.dart';
+import '../../../../core/config/app_config.dart';
 import '../models/conversation_model.dart';
 import '../models/assistant_message_model.dart';
 
@@ -13,6 +14,7 @@ abstract class AssistantLocalDataSource {
   Future<void> updateConversationTitle(int id, String title);
 }
 
+@LazySingleton(as: AssistantLocalDataSource)
 class AssistantLocalDataSourceImpl implements AssistantLocalDataSource {
   Database? _database;
 

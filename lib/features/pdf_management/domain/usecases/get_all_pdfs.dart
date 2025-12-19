@@ -1,6 +1,8 @@
-import 'package:e_contrat/features/pdf_management/domain/entities/pdf_document.dart';
-import 'package:e_contrat/features/pdf_management/domain/repositories/pdf_repository.dart';
+import 'package:injectable/injectable.dart';
+import '../../domain/entities/pdf_document.dart';
+import '../../domain/repositories/pdf_repository.dart';
 
+@injectable
 class GetAllPdfs {
   final PdfRepository _repository;
 

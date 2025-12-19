@@ -106,7 +106,7 @@ class PdfListPage extends StatelessWidget {
               message: 'Ce fichier sera supprime definitevement',
             );
           },
-          onDismissed: (_) => context.read<PdfListBloc>().add(DeletePdfEvent(pdf.path)),
+          onDismissed: (_) => context.read<PdfListBloc>().add(DeletePdfEvent(pdf.id)),
           child: ListTile(
             leading: Icon(
               Icons.picture_as_pdf_rounded,

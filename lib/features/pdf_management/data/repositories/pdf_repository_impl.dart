@@ -7,6 +7,9 @@ import 'package:e_contrat/features/pdf_management/domain/repositories/pdf_reposi
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: PdfRepository)
 class PdfRepositoryImpl implements PdfRepository {
   final PdfLocalDataSource _local;
 

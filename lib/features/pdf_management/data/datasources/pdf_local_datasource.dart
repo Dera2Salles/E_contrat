@@ -1,6 +1,8 @@
+import 'package:injectable/injectable.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
+@injectable
 class PdfLocalDataSource {
   static Database? _db;
 

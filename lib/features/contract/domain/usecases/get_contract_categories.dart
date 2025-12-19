@@ -1,6 +1,8 @@
+import 'package:injectable/injectable.dart';
 import 'package:e_contrat/features/contract/domain/entities/contract_category.dart';
 import 'package:e_contrat/features/contract/domain/repositories/contract_templates_repository.dart';
 
+@injectable
 class GetContractCategories {
   final ContractTemplatesRepository _repo;
 

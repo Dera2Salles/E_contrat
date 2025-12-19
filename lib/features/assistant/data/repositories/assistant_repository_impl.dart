@@ -6,6 +6,9 @@ import '../datasources/assistant_remote_datasource.dart';
 import '../models/assistant_message_model.dart';
 import '../models/conversation_model.dart';
 
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: AssistantRepository)
 class AssistantRepositoryImpl implements AssistantRepository {
   final AssistantLocalDataSource localDataSource;
   final AssistantRemoteDataSource remoteDataSource;

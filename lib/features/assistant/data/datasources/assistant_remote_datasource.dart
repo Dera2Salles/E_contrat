@@ -1,10 +1,12 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class AssistantRemoteDataSource {
   Future<String> getGeminiResponse(String prompt);
 }
 
+@LazySingleton(as: AssistantRemoteDataSource)
 class AssistantRemoteDataSourceImpl implements AssistantRemoteDataSource {
   late GenerativeModel _model;
 
