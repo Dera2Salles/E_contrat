@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../features/contract/presentation/responsive.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 import '../core/widgets/linear.dart';
+import '../features/contract/presentation/responsive.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -41,12 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         centerTitle: true,
       ),
-      body: Stack(
-        children: [
-          const Linear(),
-          _buildMainContent(context),
-        ],
-      ),
+      body: Stack(children: [const Linear(), _buildMainContent(context)]),
     );
   }
 
@@ -57,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
         const Spacer(flex: 2),
         _buildHeroImage(context),
         const SizedBox(height: 40),
-        _buildWelcomeText(context),
+        _buildWelcomeText(),
         const Spacer(flex: 1),
         _buildStartButton(context),
         const SizedBox(height: 60),
@@ -67,15 +63,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildHeroImage(BuildContext context) {
     return Center(
-      child: Image.asset(
-        'assets/img/img.png',
-        width: context.rs(280),
-        height: context.rs(280),
-        fit: BoxFit.contain,
-      ),
-    ).animate()
-     .fadeIn(duration: 800.ms)
-     .scale(begin: const Offset(0.8, 0.8), curve: Curves.elasticOut);
+          child: Image.asset(
+            'assets/img/img.png',
+            width: context.rs(280),
+            height: context.rs(280),
+            fit: BoxFit.contain,
+          ),
+        )
+        .animate()
+        .fadeIn(duration: 800.ms)
+        .scale(begin: const Offset(0.8, 0.8), curve: Curves.elasticOut);
   }
 
   Widget _buildWelcomeText() {
@@ -126,8 +123,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-    ).animate()
-     .fadeIn(delay: 800.ms)
-     .scale(begin: const Offset(0.5, 0.5));
+    ).animate().fadeIn(delay: 800.ms).scale(begin: const Offset(0.5, 0.5));
   }
 }

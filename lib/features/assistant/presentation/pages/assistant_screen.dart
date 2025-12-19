@@ -1,13 +1,15 @@
+import 'dart:ui' as ui;
+
+import 'package:e_contrat/features/contract/presentation/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../../../../core/widgets/linear.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/config/app_config.dart';
-import '../../contract/presentation/responsive.dart';
+import '../../../../core/widgets/linear.dart';
 import '../bloc/assistant_bloc.dart';
 import '../bloc/assistant_event.dart';
 import '../bloc/assistant_state.dart';
-import 'dart:ui' as ui;
 
 class AssistantScreen extends StatefulWidget {
   const AssistantScreen({super.key});
@@ -61,12 +63,21 @@ class _AssistantScreenState extends State<AssistantScreen> {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.add_circle_outline_rounded, color: Colors.white, size: context.rs(28)),
-          onPressed: () => context.read<AssistantBloc>().add(StartNewConversation()),
+          icon: Icon(
+            Icons.add_circle_outline_rounded,
+            color: Colors.white,
+            size: context.rs(28),
+          ),
+          onPressed: () =>
+              context.read<AssistantBloc>().add(StartNewConversation()),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.history_rounded, color: Colors.white, size: context.rs(28)),
+            icon: Icon(
+              Icons.history_rounded,
+              color: Colors.white,
+              size: context.rs(28),
+            ),
             onPressed: () {
               context.read<AssistantBloc>().add(LoadConversations());
               _showHistory(context);
@@ -88,7 +99,10 @@ class _AssistantScreenState extends State<AssistantScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
-                  colors: [scheme.primary.withValues(alpha: 0.2), Colors.transparent],
+                  colors: [
+                    scheme.primary.withValues(alpha: 0.2),
+                    Colors.transparent,
+                  ],
                 ),
               ),
             ),
@@ -96,15 +110,15 @@ class _AssistantScreenState extends State<AssistantScreen> {
           BlocConsumer<AssistantBloc, AssistantState>(
             listener: (context, state) {
               if (state is AssistantChatLoaded) {
-                WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+                WidgetsBinding.instance.addPostFrameCallback(
+                  (_) => _scrollToBottom(),
+                );
               }
             },
             builder: (context, state) {
               return Column(
                 children: [
-                  Expanded(
-                    child: _buildChatContent(state),
-                  ),
+                  Expanded(child: _buildChatContent(state)),
                   _buildInputArea(state),
                 ],
               );
@@ -117,14 +131,20 @@ class _AssistantScreenState extends State<AssistantScreen> {
 
   Widget _buildChatContent(AssistantState state) {
     if (state is AssistantLoading) {
-      return const Center(child: CircularProgressIndicator(color: Colors.white));
+      return const Center(
+        child: CircularProgressIndicator(color: Colors.white),
+      );
     } else if (state is AssistantChatLoaded) {
       if (state.messages.isEmpty) {
         return Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.auto_awesome_rounded, color: Colors.white, size: context.rs(64)).animate(onPlay: (c) => c.repeat()).shimmer(duration: 2000.ms),
+              Icon(
+                Icons.auto_awesome_rounded,
+                color: Colors.white,
+                size: context.rs(64),
+              ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 2000.ms),
               SizedBox(height: context.rs(20)),
               Text(
                 "Comment puis-je vous aider ?",
@@ -141,7 +161,12 @@ class _AssistantScreenState extends State<AssistantScreen> {
       }
       return ListView.builder(
         controller: _scrollController,
-        padding: EdgeInsets.fromLTRB(context.rs(16), context.rs(100), context.rs(16), context.rs(16)),
+        padding: EdgeInsets.fromLTRB(
+          context.rs(16),
+          context.rs(100),
+          context.rs(16),
+          context.rs(16),
+        ),
         physics: const BouncingScrollPhysics(),
         itemCount: state.messages.length,
         itemBuilder: (context, index) {
@@ -150,7 +175,15 @@ class _AssistantScreenState extends State<AssistantScreen> {
         },
       );
     } else if (state is AssistantError) {
-      return Center(child: Text(state.message, style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)));
+      return Center(
+        child: Text(
+          state.message,
+          style: const TextStyle(
+            color: Colors.redAccent,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      );
     }
     return Center(
       child: Text(
@@ -177,14 +210,18 @@ class _AssistantScreenState extends State<AssistantScreen> {
         margin: EdgeInsets.symmetric(vertical: context.rs(8)),
         padding: EdgeInsets.all(context.rs(16)),
         decoration: BoxDecoration(
-          color: isUser 
-            ? Colors.white.withValues(alpha: 0.95) 
-            : scheme.primary.withValues(alpha: 0.8),
+          color: isUser
+              ? Colors.white.withValues(alpha: 0.95)
+              : scheme.primary.withValues(alpha: 0.8),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(context.rs(20)),
             topRight: Radius.circular(context.rs(20)),
-            bottomLeft: Radius.circular(isUser ? context.rs(20) : context.rs(5)),
-            bottomRight: Radius.circular(isUser ? context.rs(5) : context.rs(20)),
+            bottomLeft: Radius.circular(
+              isUser ? context.rs(20) : context.rs(5),
+            ),
+            bottomRight: Radius.circular(
+              isUser ? context.rs(5) : context.rs(20),
+            ),
           ),
           boxShadow: [
             BoxShadow(
@@ -212,12 +249,23 @@ class _AssistantScreenState extends State<AssistantScreen> {
     final scheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: EdgeInsets.fromLTRB(context.rs(16), context.rs(12), context.rs(16), context.rs(32)),
+      padding: EdgeInsets.fromLTRB(
+        context.rs(16),
+        context.rs(12),
+        context.rs(16),
+        context.rs(32),
+      ),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(context.rs(30))),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(context.rs(30)),
+        ),
         boxShadow: [
-          BoxShadow(color: Colors.black12, blurRadius: 20, offset: Offset(0, -5)),
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 20,
+            offset: Offset(0, -5),
+          ),
         ],
       ),
       child: ClipRRect(
@@ -230,28 +278,41 @@ class _AssistantScreenState extends State<AssistantScreen> {
                 child: TextField(
                   controller: _messageController,
                   maxLines: null,
-                  style: TextStyle(color: Colors.black87, fontSize: context.rf(16)),
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: context.rf(16),
+                  ),
                   decoration: InputDecoration(
                     hintText: 'Posez votre question...',
-                    hintStyle: TextStyle(color: Colors.black38, fontSize: context.rf(16)),
+                    hintStyle: TextStyle(
+                      color: Colors.black38,
+                      fontSize: context.rf(16),
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(context.rs(30)),
                       borderSide: BorderSide.none,
                     ),
                     filled: true,
                     fillColor: scheme.primary.withValues(alpha: 0.05),
-                    contentPadding: EdgeInsets.symmetric(horizontal: context.rs(24), vertical: context.rs(12)),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: context.rs(24),
+                      vertical: context.rs(12),
+                    ),
                   ),
                 ),
               ),
               SizedBox(width: context.rs(12)),
               GestureDetector(
-                onTap: isSending ? null : () {
-                  if (_messageController.text.trim().isNotEmpty) {
-                    context.read<AssistantBloc>().add(SendUserMessage(_messageController.text));
-                    _messageController.clear();
-                  }
-                },
+                onTap: isSending
+                    ? null
+                    : () {
+                        if (_messageController.text.trim().isNotEmpty) {
+                          context.read<AssistantBloc>().add(
+                            SendUserMessage(_messageController.text),
+                          );
+                          _messageController.clear();
+                        }
+                      },
                 child: Container(
                   height: context.rs(54),
                   width: context.rs(54),
@@ -259,13 +320,28 @@ class _AssistantScreenState extends State<AssistantScreen> {
                     color: scheme.primary,
                     shape: BoxShape.circle,
                     boxShadow: [
-                      BoxShadow(color: scheme.primary.withValues(alpha: 0.4), blurRadius: 10, offset: Offset(0, 4)),
+                      BoxShadow(
+                        color: scheme.primary.withValues(alpha: 0.4),
+                        blurRadius: 10,
+                        offset: Offset(0, 4),
+                      ),
                     ],
                   ),
                   child: Center(
-                    child: isSending 
-                      ? SizedBox(width: context.rs(24), height: context.rs(24), child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                      : Icon(Icons.send_rounded, color: Colors.white, size: context.rs(24)),
+                    child: isSending
+                        ? SizedBox(
+                            width: context.rs(24),
+                            height: context.rs(24),
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Icon(
+                            Icons.send_rounded,
+                            color: Colors.white,
+                            size: context.rs(24),
+                          ),
                   ),
                 ),
               ),
@@ -283,13 +359,17 @@ class _AssistantScreenState extends State<AssistantScreen> {
       builder: (context) => BlocBuilder<AssistantBloc, AssistantState>(
         builder: (context, state) {
           return ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(context.rs(32))),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(context.rs(32)),
+            ),
             child: BackdropFilter(
               filter: ui.ImageFilter.blur(sigmaX: 15, sigmaY: 15),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.9),
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(context.rs(32))),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(context.rs(32)),
+                  ),
                 ),
                 child: Column(
                   children: [
@@ -320,7 +400,11 @@ class _AssistantScreenState extends State<AssistantScreen> {
                       centerTitle: true,
                       actions: [
                         IconButton(
-                          icon: Icon(Icons.close_rounded, color: Colors.black54, size: context.rs(28)),
+                          icon: Icon(
+                            Icons.close_rounded,
+                            color: Colors.black54,
+                            size: context.rs(28),
+                          ),
                           onPressed: () => Navigator.pop(context),
                         ),
                         SizedBox(width: context.rs(8)),
@@ -329,42 +413,77 @@ class _AssistantScreenState extends State<AssistantScreen> {
                     Expanded(
                       child: state is AssistantConversationsLoaded
                           ? ListView.separated(
-                              padding: EdgeInsets.symmetric(horizontal: context.rs(16)),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.rs(16),
+                              ),
                               physics: const BouncingScrollPhysics(),
                               itemCount: state.conversations.length,
-                              separatorBuilder: (_, __) => Divider(height: 1, color: Colors.black.withValues(alpha: 0.05)),
+                              separatorBuilder: (_, __) => Divider(
+                                height: 1,
+                                color: Colors.black.withValues(alpha: 0.05),
+                              ),
                               itemBuilder: (context, index) {
                                 final conv = state.conversations[index];
                                 return ListTile(
-                                  contentPadding: EdgeInsets.symmetric(horizontal: context.rs(16), vertical: context.rs(4)),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: context.rs(16),
+                                    vertical: context.rs(4),
+                                  ),
                                   leading: Container(
                                     padding: EdgeInsets.all(context.rs(10)),
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withValues(alpha: 0.1),
                                       shape: BoxShape.circle,
                                     ),
-                                    child: Icon(Icons.chat_bubble_outline_rounded, color: Theme.of(context).colorScheme.primary, size: context.rs(24)),
+                                    child: Icon(
+                                      Icons.chat_bubble_outline_rounded,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                      size: context.rs(24),
+                                    ),
                                   ),
                                   title: Text(
                                     conv.title,
-                                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: context.rf(16)),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: context.rf(16),
+                                    ),
                                   ),
                                   subtitle: Text(
                                     '${conv.createdAt.day}/${conv.createdAt.month}/${conv.createdAt.year}',
-                                    style: TextStyle(color: Colors.black45, fontSize: context.rf(13)),
+                                    style: TextStyle(
+                                      color: Colors.black45,
+                                      fontSize: context.rf(13),
+                                    ),
                                   ),
                                   trailing: IconButton(
-                                    icon: Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: context.rs(24)),
-                                    onPressed: () => context.read<AssistantBloc>().add(DeleteConversationEvent(conv.id!)),
+                                    icon: Icon(
+                                      Icons.delete_outline_rounded,
+                                      color: Colors.redAccent,
+                                      size: context.rs(24),
+                                    ),
+                                    onPressed: () => context
+                                        .read<AssistantBloc>()
+                                        .add(DeleteConversationEvent(conv.id!)),
                                   ),
                                   onTap: () {
-                                    context.read<AssistantBloc>().add(LoadMessages(conv.id!));
+                                    context.read<AssistantBloc>().add(
+                                      LoadMessages(conv.id!),
+                                    );
                                     Navigator.pop(context);
                                   },
                                 );
                               },
                             )
-                          : Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary)),
+                          : Center(
+                              child: CircularProgressIndicator(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                     ),
                   ],
                 ),

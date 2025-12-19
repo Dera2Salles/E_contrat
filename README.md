@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo2.png" alt="e-contrat Logo" width="200"/>
+  <img src="assets/icon.png" alt="e-contrat Logo" width="200"/>
 </p>
 
 <h1 align="center">e-contrat</h1>
