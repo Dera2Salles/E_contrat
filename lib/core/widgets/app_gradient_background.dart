@@ -13,12 +13,14 @@ class AppGradientBackground extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color.alphaBlend(scheme.primary.withValues(alpha: 0.10), scheme.surface),
-            Color.alphaBlend(scheme.primary.withValues(alpha: 0.18), scheme.surface),
-            Color.alphaBlend(scheme.primary.withValues(alpha: 0.34), scheme.surface),
+            scheme.surface,
+            scheme.primary.withValues(alpha: 0.05),
+            scheme.secondary.withValues(alpha: 0.05),
+            scheme.surface,
           ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          stops: const [0.0, 0.3, 0.7, 1.0],
         ),
       ),
       child: child,

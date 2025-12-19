@@ -33,281 +33,73 @@ class FontsLoader {
   }
 
   pw.Font loraFont() {
-    if (_configured) {
+    if (_configured && _pdffonts.isNotEmpty) {
       return _pdffonts[0];
     }
-    throw notConfiguredFonts();
+    return pw.Font.helvetica();
   }
 
   pw.Font loraBoldFont() {
-    if (_configured) return _pdffonts[1];
-    throw notConfiguredFonts();
+    if (_configured && _pdffonts.length > 1) return _pdffonts[1];
+    return pw.Font.helveticaBold();
   }
 
   pw.Font loraItalicFont() {
-    if (_configured) {
+    if (_configured && _pdffonts.length > 2) {
       return _pdffonts[2];
     }
-    throw notConfiguredFonts();
+    return pw.Font.helveticaOblique();
   }
 
   pw.Font loraBoldItalicFont() {
-    if (_configured) {
+    if (_configured && _pdffonts.length > 3) {
       return _pdffonts[3];
     }
-    throw notConfiguredFonts();
+    return pw.Font.helveticaBoldOblique();
   }
 
   pw.Font courierFont() {
-    if (_configured) {
-      return _pdffonts[4];
-    }
-    throw notConfiguredFonts();
+    return pw.Font.courier();
   }
 
   pw.Font courierBoldFont() {
-    if (_configured) {
-      return _pdffonts[5];
-    }
-    throw notConfiguredFonts();
+    return pw.Font.courierBold();
   }
 
   pw.Font courierItalicFont() {
-    if (_configured) {
-      return _pdffonts[6];
-    }
-    throw notConfiguredFonts();
+    return pw.Font.courierOblique();
   }
 
   pw.Font courierBoldItalicFont() {
-    if (_configured) {
-      return _pdffonts[7];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font crimsonFont() {
-    if (_configured) {
-      return _pdffonts[8];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font crimsonBoldFonts() {
-    if (_configured) {
-      return _pdffonts[9];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font crimsonItalicFonts() {
-    if (_configured) {
-      return _pdffonts[10];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font crimsonBoldItalicFonts() {
-    if (_configured) {
-      return _pdffonts[11];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font philosopherFont() {
-    if (_configured) {
-      return _pdffonts[12];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font philosopherBoldFont() {
-    if (_configured) {
-      return _pdffonts[13];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font philosopherItalicFont() {
-    if (_configured) {
-      return _pdffonts[14];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font philosopherBoldItalicFont() {
-    if (_configured) {
-      return _pdffonts[15];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font tinosFont() {
-    if (_configured) {
-      return _pdffonts[20];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font tinosBoldFont() {
-    if (_configured) {
-      return _pdffonts[21];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font tinosItalicFont() {
-    if (_configured) {
-      return _pdffonts[22];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font tinosBoldItalicFont() {
-    if (_configured) {
-      return _pdffonts[23];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font notoFont() {
-    if (_configured) {
-      return _pdffonts[24];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font notoBoldFont() {
-    if (_configured) {
-      return _pdffonts[25];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font notoItalicFont() {
-    if (_configured) {
-      return _pdffonts[26];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font notoBoldItalicFont() {
-    if (_configured) {
-      return _pdffonts[27];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font openSansFont() {
-    if (_configured) {
-      return _pdffonts[28];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font openSansBoldFont() {
-    if (_configured) {
-      return _pdffonts[29];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font openSansItalicFont() {
-    if (_configured) {
-      return _pdffonts[30];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font openSansBoldItalicFont() {
-    if (_configured) {
-      return _pdffonts[31];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font inriaSerifFonts() {
-    if (_configured) {
-      return _pdffonts[32];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font inriaSerifBoldFont() {
-    if (_configured) {
-      return _pdffonts[33];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font inriaSerifItalicFont() {
-    if (_configured) {
-      return _pdffonts[34];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font inriaSerifBoldItalicFont() {
-    if (_configured) {
-      return _pdffonts[35];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font ubuntuMonoFont() {
-    if (_configured) {
-      return _pdffonts[41];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font ubuntuMonoBoldFont() {
-    if (_configured) {
-      return _pdffonts[42];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font ubuntuMonoItalicFont() {
-    if (_configured) {
-      return _pdffonts[43];
-    }
-    throw notConfiguredFonts();
-  }
-
-  pw.Font ubuntuMonoBoldItalicFont() {
-    if (_configured) {
-      return _pdffonts[44];
-    }
-    throw notConfiguredFonts();
+    return pw.Font.courierBoldOblique();
   }
 
   pw.Font arialFont() {
-    if (_configured) {
+    if (_configured && _pdffonts.length > 36) {
       return _pdffonts[36];
     }
-    throw notConfiguredFonts();
+    return pw.Font.helvetica();
   }
 
   pw.Font arialBoldFont() {
-    if (_configured) {
+    if (_configured && _pdffonts.length > 37) {
       return _pdffonts[37];
     }
-    throw notConfiguredFonts();
+    return pw.Font.helveticaBold();
   }
 
   pw.Font arialItalicFont() {
-    if (_configured) {
+    if (_configured && _pdffonts.length > 38) {
       return _pdffonts[38];
     }
-    throw notConfiguredFonts();
+    return pw.Font.helveticaOblique();
   }
 
   pw.Font arialBoldItalicFont() {
-    if (_configured) {
+    if (_configured && _pdffonts.length > 39) {
       return _pdffonts[39];
     }
-    throw notConfiguredFonts();
+    return pw.Font.helveticaBoldOblique();
   }
 
   Exception notConfiguredFonts() {
@@ -316,7 +108,8 @@ class FontsLoader {
 
   pw.Font getFontByName(
       {String? fontFamily, bool bold = false, bool italic = false}) {
-    assert(_configured);
+    if (!_configured) return pw.Font.helvetica();
+    
     if (fontFamily == null) {
       if (bold && italic) {
         return pw.Font.helveticaBoldOblique();
@@ -329,113 +122,32 @@ class FontsLoader {
       }
       return pw.Font.helvetica();
     }
-    if (fontFamily.equals('Tinos')) {
-      if (bold && italic) {
-        return tinosBoldItalicFont();
-      }
-      if (bold) {
-        return tinosBoldFont();
-      }
-      if (italic) {
-        return tinosItalicFont();
-      }
-      return tinosFont();
-    }
-    if (fontFamily.equals('Lora')) {
-      if (bold && italic) {
-        return loraBoldItalicFont();
-      }
-      if (bold) {
-        return loraBoldFont();
-      }
-      if (italic) {
-        return loraItalicFont();
-      }
+    
+    if (fontFamily.toLowerCase().contains('lora')) {
+      if (bold && italic) return loraBoldItalicFont();
+      if (bold) return loraBoldFont();
+      if (italic) return loraItalicFont();
       return loraFont();
     }
-    if (fontFamily.equals('arial') || fontFamily.equals('Arial')) {
-      if (bold && italic) {
-        return arialBoldItalicFont();
-      }
-      if (bold) {
-        return arialBoldFont();
-      }
-      if (italic) {
-        return arialItalicFont();
-      }
+    
+    if (fontFamily.toLowerCase().contains('arial')) {
+      if (bold && italic) return arialBoldItalicFont();
+      if (bold) return arialBoldFont();
+      if (italic) return arialItalicFont();
       return arialFont();
     }
+
     if (fontFamily.equals('monospace')) {
       return pw.Font.courier();
     }
-    if (fontFamily.equals('Noto Sans')) {
-      if (bold && italic) {
-        return notoBoldItalicFont();
-      }
-      if (bold) {
-        return notoBoldFont();
-      }
-      if (italic) {
-        return notoItalicFont();
-      }
-      return notoFont();
-    }
-    if (fontFamily.equals('Open Sans')) {
-      if (bold && italic) {
-        return openSansBoldItalicFont();
-      }
-      if (bold) {
-        return openSansBoldFont();
-      }
-      if (italic) {
-        return openSansItalicFont();
-      }
-      return openSansFont();
-    }
-    if (fontFamily.equals('Courier')) {
-      if (bold && italic) {
-        return courierBoldItalicFont();
-      }
-      if (bold) {
-        return courierBoldFont();
-      }
-      if (italic) {
-        return courierItalicFont();
-      }
-      return courierFont();
-    }
-    if (fontFamily.equals('Inria Serif')) {
-      if (bold && italic) {
-        return inriaSerifBoldItalicFont();
-      }
-      if (bold) {
-        return inriaSerifBoldFont();
-      }
-      if (italic) {
-        return inriaSerifItalicFont();
-      }
-      return inriaSerifFonts();
-    }
-    if (fontFamily.equals('Ubuntu Mono')) {
-      if (bold && italic) {
-        return ubuntuMonoBoldItalicFont();
-      }
-      if (bold) {
-        return ubuntuMonoBoldFont();
-      }
-      if (italic) {
-        return ubuntuMonoItalicFont();
-      }
-      return ubuntuMonoFont();
-    }
-    return _pdffonts[0];
+    
+    return pw.Font.helvetica();
   }
 
   Future<void> loadFonts() async {
+    if (_configured) return;
     try {
-      // Chargement des polices disponibles
-      
-      // LORA (existant)
+      // LORA
       _pdffonts.add(pw.Font.ttf(
           await rootBundle.load("assets/fonts/Lora/static/Lora-Regular.ttf")));
       _pdffonts.add(
@@ -445,35 +157,17 @@ class FontsLoader {
       _pdffonts.add(pw.Font.ttf(
           await rootBundle.load("assets/fonts/Lora/static/Lora-BoldItalic.ttf")));
       
-      // NOTO SANS (existant)
-      _pdffonts.add(pw.Font.ttf(await rootBundle
-          .load("assets/fonts/Noto_Sans/static/NotoSans-Regular.ttf")));
-      _pdffonts.add(pw.Font.ttf(await rootBundle
-          .load("assets/fonts/Noto_Sans/static/NotoSans-Bold.ttf")));
-      _pdffonts.add(pw.Font.ttf(await rootBundle
-          .load("assets/fonts/Noto_Sans/static/NotoSans-Italic.ttf")));
-      _pdffonts.add(pw.Font.ttf(await rootBundle
-          .load("assets/fonts/Noto_Sans/static/NotoSans-BoldItalic.ttf")));
-      
-      // POPPINS (disponible à la racine du dossier fonts)
-      _pdffonts.add(pw.Font.ttf(
-          await rootBundle.load("assets/fonts/Poppins-Regular.ttf")));
-      _pdffonts.add(pw.Font.ttf(
-          await rootBundle.load("assets/fonts/Poppins-Bold.ttf")));
-      _pdffonts.add(pw.Font.ttf(
-          await rootBundle.load("assets/fonts/Poppins-Italic.ttf")));
-      _pdffonts.add(pw.Font.ttf(
-          await rootBundle.load("assets/fonts/Poppins-BoldItalic.ttf")));
-      _pdffonts.add(pw.Font.ttf(
-          await rootBundle.load("assets/fonts/Poppins-Medium.ttf")));
-      _pdffonts.add(pw.Font.ttf(
-          await rootBundle.load("assets/fonts/Poppins-Light.ttf")));
+      // NOTO SANS
+      _pdffonts.addAll([
+        pw.Font.ttf(await rootBundle.load("assets/fonts/Noto_Sans/static/NotoSans-Regular.ttf")),
+        pw.Font.ttf(await rootBundle.load("assets/fonts/Noto_Sans/static/NotoSans-Bold.ttf")),
+        pw.Font.ttf(await rootBundle.load("assets/fonts/Noto_Sans/static/NotoSans-Italic.ttf")),
+        pw.Font.ttf(await rootBundle.load("assets/fonts/Noto_Sans/static/NotoSans-BoldItalic.ttf")),
+      ]);
       
     } catch (e) {
       debugPrint("Erreur lors du chargement des polices: $e");
     } finally {
-      // Marquer comme configuré même en cas d'erreur pour éviter les crashs
-      // Nous aurons au moins certaines polices chargées
       _configured = true;
     }
   }

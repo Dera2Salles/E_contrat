@@ -38,48 +38,67 @@ class _ContractItemState extends State<ContractItem> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
 
     return Center(
       child: Container(
-        width: 85.w,
-        height: 65.h,
-        margin: const EdgeInsets.all(20),
+        width: 88.w,
+        height: 68.h,
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
+          color: scheme.surface,
+          borderRadius: BorderRadius.circular(32),
+          border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.1)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 30,
-              offset: const Offset(0, 15),
+              color: scheme.primary.withValues(alpha: 0.08),
+              blurRadius: 40,
+              offset: const Offset(0, 20),
             ),
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(32),
           child: Column(
             children: [
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-                color: const Color(0xFF3200d5),
+                padding: const EdgeInsets.all(32),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [scheme.primary, scheme.tertiary],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Text(
+                        'MODÈLE',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8.sp,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     Text(
                       widget.title,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Modèle de contrat',
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.7),
-                        fontSize: 10.sp,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w800,
+                        fontFamily: 'Outfit',
+                        height: 1.2,
                       ),
                     ),
                   ],
@@ -87,22 +106,35 @@ class _ContractItemState extends State<ContractItem> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(32),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        'APERÇU DU CONTENU',
+                        style: TextStyle(
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w700,
+                          color: scheme.primary.withValues(alpha: 0.5),
+                          letterSpacing: 1,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
                       Expanded(
                         child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
                           child: Text(
                             getPreviewText(),
                             style: TextStyle(
                               fontSize: 12.sp,
-                              color: Colors.grey.shade800,
-                              height: 1.5,
+                              color: scheme.onSurfaceVariant,
+                              height: 1.6,
+                              fontFamily: 'Inter',
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 32),
                       ElevatedButton(
                         onPressed: () {
                           showModalBottomSheet(
@@ -119,28 +151,53 @@ class _ContractItemState extends State<ContractItem> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF3200d5),
+                          backgroundColor: scheme.primary,
                           foregroundColor: Colors.white,
-                          minimumSize: Size(double.infinity, 50),
+                          minimumSize: const Size(double.infinity, 64),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                           elevation: 0,
                         ),
-                        child: const Text('Utiliser ce modèle'),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.edit_document, size: 20),
+                            const SizedBox(width: 12),
+                            Text(
+                              'Utiliser ce modèle',
+                              style: TextStyle(
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       if (widget.index < widget.totalItems - 1) ...[
-                        TextButton.icon(
-                          onPressed: () {
-                            final pageController = context.findAncestorWidgetOfExactType<PageView>()?.controller;
-                            pageController?.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            );
-                          },
-                          icon: const FaIcon(FontAwesomeIcons.chevronDown, size: 14),
-                          label: const Text('Suivant'),
-                          style: TextButton.styleFrom(foregroundColor: const Color(0xFF3200d5)),
+                        const SizedBox(height: 12),
+                        Center(
+                          child: TextButton.icon(
+                            onPressed: () {
+                              final pageController = context.findAncestorWidgetOfExactType<PageView>()?.controller;
+                              pageController?.nextPage(
+                                duration: const Duration(milliseconds: 600),
+                                curve: Curves.easeOutQuart,
+                              );
+                            },
+                            icon: Icon(Icons.keyboard_arrow_down_rounded, size: 20, color: scheme.primary),
+                            label: Text(
+                              'Voir le suivant',
+                              style: TextStyle(
+                                color: scheme.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            ),
+                          ),
                         ),
                       ],
                     ],

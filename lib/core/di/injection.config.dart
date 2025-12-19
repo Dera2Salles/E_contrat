@@ -27,6 +27,8 @@ import 'package:e_contrat/features/contract/domain/repositories/contract_templat
     as _i412;
 import 'package:e_contrat/features/contract/domain/usecases/get_contract_categories.dart'
     as _i493;
+import 'package:e_contrat/features/contract/presentation/bloc/contract_pdf_bloc.dart'
+    as _i537;
 import 'package:e_contrat/features/pdf_management/data/datasources/pdf_local_datasource.dart'
     as _i850;
 import 'package:e_contrat/features/pdf_management/data/repositories/pdf_repository_impl.dart'
@@ -93,6 +95,9 @@ extension GetItInjectableX on _i174.GetIt {
         getAllPdfs: gh<_i65.GetAllPdfs>(),
         deletePdf: gh<_i974.DeletePdf>(),
       ),
+    );
+    gh.factory<_i537.ContractPdfBloc>(
+      () => _i537.ContractPdfBloc(gh<_i234.SavePdfBytes>()),
     );
     gh.factory<_i139.GetConversations>(
       () => _i139.GetConversations(gh<_i799.AssistantRepository>()),
