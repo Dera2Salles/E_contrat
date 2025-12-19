@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../features/contract/presentation/responsive.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   final String title;
@@ -69,17 +70,17 @@ class ConfirmationDialog extends StatelessWidget {
     
     return Center(
       child: Container(
-        width: MediaQuery.sizeOf(context).width * 0.85,
-        padding: const EdgeInsets.all(32),
+        width: MediaQuery.sizeOf(context).width * (context.isExpanded ? 0.45 : 0.85),
+        padding: EdgeInsets.all(context.rs(32)),
         decoration: BoxDecoration(
           color: scheme.surface.withValues(alpha: 0.95),
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(context.rs(32)),
           border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.1)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 40,
-              offset: const Offset(0, 20),
+              blurRadius: context.rs(40),
+              offset: Offset(0, context.rs(20)),
             ),
           ],
         ),
@@ -87,36 +88,35 @@ class ConfirmationDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(context.rs(20)),
               decoration: BoxDecoration(
                 color: confirmColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 40, color: confirmColor),
+              child: Icon(icon, size: context.rs(40), color: confirmColor),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: context.rs(24)),
             Text(
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 22,
+                fontSize: context.rf(22),
                 fontWeight: FontWeight.w800,
                 fontFamily: 'Outfit',
                 color: scheme.onSurface,
               ),
             ),
-            const SizedBox(height: 12),
             Text(
               message,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: context.rf(16),
                 height: 1.5,
                 color: scheme.onSurfaceVariant,
                 fontWeight: FontWeight.w400,
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: context.rs(32)),
             Row(
               children: [
                 Expanded(
@@ -126,29 +126,29 @@ class ConfirmationDialog extends StatelessWidget {
                       if (onCancel != null) onCancel!();
                     },
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      padding: EdgeInsets.symmetric(vertical: context.rs(16)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(context.rs(16))),
                     ),
                     child: Text(
                       cancelText,
                       style: TextStyle(
                         color: scheme.onSurfaceVariant,
                         fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                        fontSize: context.rf(16),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: context.rs(16)),
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: confirmColor,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      minimumSize: const Size(0, 56), // Reset min height
+                      padding: EdgeInsets.symmetric(vertical: context.rs(16)),
+                      minimumSize: Size(0, context.rs(56)),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(context.rs(16)),
                       ),
                       elevation: 0,
                     ),
@@ -158,9 +158,9 @@ class ConfirmationDialog extends StatelessWidget {
                     },
                     child: Text(
                       confirmText,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: context.rf(16),
                       ),
                     ),
                   ),

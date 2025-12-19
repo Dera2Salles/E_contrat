@@ -16,7 +16,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
+import 'package:e_contrat/features/contract/presentation/responsive.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:flutter_quill_to_pdf/flutter_quill_to_pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -137,37 +137,15 @@ class _PdfQuillState extends State<PdfQuill> {
           body: Stack(
             children: [
               Linear(),
-              Positioned(
-                top: 35.h,
-                right: 55.w,
-                child: Transform.scale(
-                  scale: 3.0,
-                  child: SvgPicture.asset(
-                    'assets/svg/background.svg',
-                    width: 35.w,
-                    height: 35.h,
-                  ),
-                ),
-              ),
-              Positioned(
-            top:-1.1.h,
-            left: -7.w,
-         
-           child: SvgPicture.asset(
-            'assets/svg/editor.svg',
-            width: 100.w,
-            height:100.h,
-           ),
-             ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(12),
+                    padding: EdgeInsets.all(context.rs(12)),
                     child: SizedBox(
-                      height: 80.h,
-                      width: 91.w,
+                      height: context.rs(600), // 80.h roughly
+                      width: context.rs(355), // 91.w roughly
                       child: SfSignaturePad(
                         key: _signaturePadKey1,
                         backgroundColor: Colors.transparent,
@@ -270,37 +248,15 @@ class _PdfQuillState extends State<PdfQuill> {
           body: Stack(
             children: [
               Linear(),
-              Positioned(
-                top: 35.h,
-                right: 55.w,
-                child: Transform.scale(
-                  scale: 3.0,
-                  child: SvgPicture.asset(
-                    'assets/svg/background.svg',
-                    width: 35.w,
-                    height: 35.h,
-                  ),
-                ),
-              ),
-               Positioned(
-            top:-1.1.h,
-            left: -7.w,
-         
-           child: SvgPicture.asset(
-            'assets/svg/editor.svg',
-            width: 100.w,
-            height:100.h,
-           ),
-             ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(12),
+                    padding: EdgeInsets.all(context.rs(12)),
                     child: SizedBox(
-                      height: 80.h,
-                      width: 91.w,
+                      height: context.rs(600),
+                      width: context.rs(355),
                       child: SfSignaturePad(
                         key: _signaturePadKey2,
                         backgroundColor: Colors.transparent,
@@ -417,13 +373,13 @@ class _PdfQuillState extends State<PdfQuill> {
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
           appBar: AppBar(
-            toolbarHeight: 80,
+            toolbarHeight: context.rs(80),
             title: Text(
               'E-contrat',
               style: TextStyle(
                   color: scheme.primary,
                   fontFamily: 'Outfit',
-                  fontSize: 28,
+                  fontSize: context.rf(28),
                   fontWeight: FontWeight.w900,
                   letterSpacing: -0.5),
             ),
@@ -494,19 +450,19 @@ class _PdfQuillState extends State<PdfQuill> {
                 const LoadingScreen(),
               Column(
                 children: [
-                   SizedBox(height: MediaQuery.of(context).padding.top + 80),
+                   SizedBox(height: MediaQuery.of(context).padding.top + context.rs(80)),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.all(16),
+                      margin: EdgeInsets.all(context.rs(16)),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(context.rs(24)),
                         border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.3)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.03),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
+                            blurRadius: context.rs(20),
+                            offset: Offset(0, context.rs(10)),
                           ),
                         ],
                       ),

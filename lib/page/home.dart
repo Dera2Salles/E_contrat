@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:sizer/sizer.dart';
+import '../features/contract/presentation/responsive.dart';
 import '../core/widgets/linear.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -35,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
           'E-contrat',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 28.sp,
+            fontSize: context.rf(32),
             fontWeight: FontWeight.w900,
             letterSpacing: 1.2,
           ),
@@ -45,31 +44,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Stack(
         children: [
           const Linear(),
-          _buildAnimatedBackground(),
           _buildMainContent(context),
         ],
       ),
     );
-  }
-
-  Widget _buildAnimatedBackground() {
-    return Positioned(
-      top: 33.h,
-      left: 15.w,
-      child: Transform.scale(
-        scale: 3.5,
-        child: SvgPicture.asset(
-          'assets/svg/background.svg',
-          width: 35.w,
-          height: 35.h,
-          colorFilter: ColorFilter.mode(
-            const Color(0xFF3200d5).withValues(alpha: 0.3),
-            BlendMode.srcIn,
-          ),
-        ),
-      ),
-    ).animate(onPlay: (controller) => controller.repeat())
-     .rotate(begin: 0, end: 1, duration: 20.seconds);
   }
 
   Widget _buildMainContent(BuildContext context) {
@@ -77,9 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Spacer(flex: 2),
-        _buildHeroImage(),
+        _buildHeroImage(context),
         const SizedBox(height: 40),
-        _buildWelcomeText(),
+        _buildWelcomeText(context),
         const Spacer(flex: 1),
         _buildStartButton(context),
         const SizedBox(height: 60),
@@ -87,12 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _buildHeroImage() {
+  Widget _buildHeroImage(BuildContext context) {
     return Center(
-      child: SvgPicture.asset(
-        'assets/svg/Business.svg',
-        width: 60.w,
-        height: 30.h,
+      child: Image.asset(
+        'assets/img/img.png',
+        width: context.rs(280),
+        height: context.rs(280),
+        fit: BoxFit.contain,
       ),
     ).animate()
      .fadeIn(duration: 800.ms)
@@ -106,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "Créez, signez, sécurisez en un clic",
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 18.sp,
+          fontSize: context.rf(18),
           color: Colors.white.withValues(alpha: 0.9),
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
@@ -117,8 +96,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildStartButton(BuildContext context) {
     return Container(
-      width: 80.w,
-      height: 8.h,
+      width: context.isExpanded ? context.rs(400) : context.rs(300),
+      height: context.rs(64),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -142,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Text(
           "Ndao e-contrat",
           style: TextStyle(
-            fontSize: 20.sp,
+            fontSize: context.rf(20),
             fontWeight: FontWeight.w800,
           ),
         ),

@@ -1,9 +1,10 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 import 'package:e_contrat/features/contract/presentation/pages/contract_pdf_quill_page.dart';
+import 'package:e_contrat/features/contract/presentation/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:sizer/sizer.dart';
 
 class WizardForm extends StatefulWidget {
   final List<String> placeholders;
@@ -59,127 +60,173 @@ class _WizardFormState extends State<WizardForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(context.rs(32)),
+        topRight: Radius.circular(context.rs(32)),
       ),
-      padding: EdgeInsets.only(
-        top: 20,
-        left: 20,
-        right: 20,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(2),
-              ),
+      child: BackdropFilter(
+        filter: ui.ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.85),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(context.rs(32)),
+              topRight: Radius.circular(context.rs(32)),
+            ),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.3),
+              width: 1.5,
             ),
           ),
-          const SizedBox(height: 25),
-          Text(
-            'Informations requises',
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w900,
-              color: const Color(0xFF3200d5),
-            ),
+          padding: EdgeInsets.only(
+            top: context.rs(20),
+            left: context.rs(24),
+            right: context.rs(24),
+            bottom: MediaQuery.of(context).viewInsets.bottom + context.rs(32),
           ),
-          const SizedBox(height: 8),
-          Text(
-            'Étape ${_currentStep + 1} sur $totalSteps',
-            style: TextStyle(
-              fontSize: 10.sp,
-              color: Colors.grey,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 15),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(2),
-            child: LinearProgressIndicator(
-              value: (_currentStep + 1) / totalSteps,
-              backgroundColor: const Color(0xFF3200d5).withValues(alpha: 0.1),
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF3200d5)),
-              minHeight: 6,
-            ),
-          ),
-          const SizedBox(height: 30),
-          Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                ...currentFields.map((p) => Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: _buildField(p),
-                )),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          Row(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (_currentStep > 0)
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: previousStep,
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      side: const BorderSide(color: Color(0xFF3200d5)),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              Center(
+                child: Container(
+                  width: context.rs(48),
+                  height: context.rs(5),
+                  decoration: BoxDecoration(
+                    color: scheme.primary.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(context.rs(10)),
+                  ),
+                ),
+              ),
+              SizedBox(height: context.rs(28)),
+              Text(
+                'Informations requises',
+                style: TextStyle(
+                  fontSize: context.rf(24),
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Outfit',
+                  color: scheme.primary,
+                  letterSpacing: -0.5,
+                ),
+              ),
+              SizedBox(height: context.rs(6)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Étape ${_currentStep + 1} sur $totalSteps',
+                    style: TextStyle(
+                      fontSize: context.rf(14),
+                      color: scheme.onSurfaceVariant.withValues(alpha: 0.7),
+                      fontWeight: FontWeight.w600,
                     ),
-                    child: const Text('Précédent', style: TextStyle(color: Color(0xFF3200d5), fontWeight: FontWeight.bold)),
                   ),
+                  Text(
+                    '${((_currentStep + 1) / totalSteps * 100).toInt()}%',
+                    style: TextStyle(
+                      fontSize: context.rf(14),
+                      color: scheme.primary,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: context.rs(12)),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(context.rs(10)),
+                child: LinearProgressIndicator(
+                  value: (_currentStep + 1) / totalSteps,
+                  backgroundColor: scheme.primary.withValues(alpha: 0.1),
+                  valueColor: AlwaysStoppedAnimation<Color>(scheme.primary),
+                  minHeight: context.rs(8),
                 ),
-              if (_currentStep > 0) const SizedBox(width: 15),
-              Expanded(
-                flex: 2,
-                child: ElevatedButton(
-                  onPressed: _currentStep == totalSteps - 1
-                      ? () {
-                          if (_formKey.currentState!.validate()) {
-                            final formData = _controllers.map((key, value) => MapEntry(key, value.text));
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => PdfQuill(
-                                  formData: formData,
-                                  documentModel: widget.data,
-                                  partie: widget.partie,
-                                  placeholder: widget.placeholders,
-                                ),
-                              ),
-                            );
-                          }
-                        }
-                      : nextStep,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3200d5),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                    elevation: 0,
-                  ),
-                  child: Text(
-                    _currentStep == totalSteps - 1 ? 'Générer le contrat' : 'Suivant',
-                    style: const TextStyle(fontWeight: FontWeight.w800),
-                  ),
+              ),
+              SizedBox(height: context.rs(32)),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    ...currentFields.map((p) => Padding(
+                      padding: EdgeInsets.only(bottom: context.rs(20)),
+                      child: _buildField(p),
+                    )),
+                  ],
                 ),
+              ),
+              SizedBox(height: context.rs(16)),
+              Row(
+                children: [
+                  if (_currentStep > 0)
+                    Expanded(
+                      child: TextButton(
+                        onPressed: previousStep,
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: context.rs(18)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(context.rs(18)),
+                            side: BorderSide(color: scheme.primary.withValues(alpha: 0.2)),
+                          ),
+                        ),
+                        child: Text(
+                          'Précédent',
+                          style: TextStyle(
+                            color: scheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: context.rf(16),
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (_currentStep > 0) SizedBox(width: context.rs(16)),
+                  Expanded(
+                    flex: 2,
+                    child: ElevatedButton(
+                      onPressed: _currentStep == totalSteps - 1
+                          ? () {
+                              if (_formKey.currentState!.validate()) {
+                                final formData = _controllers.map((key, value) => MapEntry(key, value.text));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => PdfQuill(
+                                      formData: formData,
+                                      documentModel: widget.data,
+                                      partie: widget.partie,
+                                      placeholder: widget.placeholders,
+                                    ),
+                                  ),
+                                );
+                              }
+                            }
+                          : nextStep,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: scheme.primary,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: context.rs(18)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(context.rs(18)),
+                        ),
+                        elevation: 8,
+                        shadowColor: scheme.primary.withValues(alpha: 0.3),
+                      ),
+                      child: Text(
+                        _currentStep == totalSteps - 1 ? 'Générer le contrat' : 'Suivant',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: context.rf(16),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -187,35 +234,59 @@ class _WizardFormState extends State<WizardForm> {
   Widget _buildField(String placeholder) {
     final lower = placeholder.toLowerCase();
     final controller = _controllers[placeholder]!;
+    final scheme = Theme.of(context).colorScheme;
 
     return TextFormField(
       controller: controller,
       readOnly: lower.contains('date'),
       keyboardType: lower.contains('montant') ? TextInputType.number : TextInputType.text,
       inputFormatters: lower.contains('montant') ? [FilteringTextInputFormatter.digitsOnly] : null,
+      style: TextStyle(
+        fontSize: context.rf(16),
+        fontWeight: FontWeight.w600,
+        color: scheme.onSurface,
+      ),
       decoration: InputDecoration(
         labelText: placeholder,
+        labelStyle: TextStyle(
+          color: scheme.onSurfaceVariant.withValues(alpha: 0.8),
+          fontSize: context.rf(14),
+          fontWeight: FontWeight.w500,
+        ),
         hintText: 'Saisissez ici...',
+        hintStyle: TextStyle(
+          color: scheme.onSurfaceVariant.withValues(alpha: 0.4),
+          fontSize: context.rf(14),
+        ),
         filled: true,
-        fillColor: Colors.grey.withValues(alpha: 0.05),
+        fillColor: scheme.surfaceContainerHighest.withValues(alpha: 0.3),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: context.rs(20),
+          vertical: context.rs(18),
+        ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(context.rs(16)),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(context.rs(16)),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: Color(0xFF3200d5), width: 1.5),
+          borderRadius: BorderRadius.circular(context.rs(16)),
+          borderSide: BorderSide(color: scheme.primary, width: 2),
         ),
-        prefixIcon: Icon(
-          lower.contains('date') ? Icons.calendar_today_rounded : 
-          lower.contains('montant') ? Icons.attach_money_rounded : 
-          Icons.edit_note_rounded,
-          color: const Color(0xFF3200d5).withValues(alpha: 0.7),
+        prefixIcon: Padding(
+          padding: EdgeInsets.symmetric(horizontal: context.rs(12)),
+          child: Icon(
+            lower.contains('date') ? Icons.calendar_today_rounded : 
+            lower.contains('montant') ? Icons.attach_money_rounded : 
+            Icons.edit_note_rounded,
+            color: scheme.primary.withValues(alpha: 0.7),
+            size: context.rs(22),
+          ),
         ),
+        prefixIconConstraints: BoxConstraints(minWidth: context.rs(48)),
       ),
       onTap: lower.contains('date') ? () async {
         final date = await showDatePicker(
@@ -223,6 +294,14 @@ class _WizardFormState extends State<WizardForm> {
           initialDate: DateTime.now(),
           firstDate: DateTime(1900),
           lastDate: DateTime(2100),
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: scheme,
+              ),
+              child: child!,
+            );
+          },
         );
         if (date != null) {
           controller.text = DateFormat('dd-MM-yyyy').format(date);

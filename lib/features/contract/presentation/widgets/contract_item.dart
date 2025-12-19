@@ -1,6 +1,6 @@
 import 'package:e_contrat/features/contract/presentation/pages/contract_wizard_form.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import '../responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ContractItem extends StatefulWidget {
@@ -42,18 +42,21 @@ class _ContractItemState extends State<ContractItem> {
 
     return Center(
       child: Container(
-        width: 88.w,
-        height: 68.h,
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        width: context.isExpanded ? context.rs(340) : context.rs(320),
+        height: context.isExpanded ? context.rs(520) : context.rs(500),
+        margin: EdgeInsets.symmetric(
+          horizontal: context.rs(20),
+          vertical: context.rs(24),
+        ),
         decoration: BoxDecoration(
           color: scheme.surface,
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(context.rs(32)),
           border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.1)),
           boxShadow: [
             BoxShadow(
               color: scheme.primary.withValues(alpha: 0.08),
-              blurRadius: 40,
-              offset: const Offset(0, 20),
+              blurRadius: context.rs(40),
+              offset: Offset(0, context.rs(20)),
             ),
           ],
         ),
@@ -63,7 +66,7 @@ class _ContractItemState extends State<ContractItem> {
             children: [
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(32),
+                padding: EdgeInsets.all(context.rs(32)),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [scheme.primary, scheme.tertiary],
@@ -75,27 +78,30 @@ class _ContractItemState extends State<ContractItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.rs(12),
+                        vertical: context.rs(6),
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(100),
+                        borderRadius: BorderRadius.circular(context.rs(100)),
                       ),
                       child: Text(
                         'MODÈLE',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 8.sp,
+                          fontSize: context.rf(10),
                           fontWeight: FontWeight.w800,
                           letterSpacing: 1.5,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: context.rs(16)),
                     Text(
                       widget.title,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20.sp,
+                        fontSize: context.rf(24),
                         fontWeight: FontWeight.w800,
                         fontFamily: 'Outfit',
                         height: 1.2,
@@ -106,27 +112,27 @@ class _ContractItemState extends State<ContractItem> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(32),
+                  padding: EdgeInsets.all(context.rs(32)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'APERÇU DU CONTENU',
                         style: TextStyle(
-                          fontSize: 9.sp,
+                          fontSize: context.rf(11),
                           fontWeight: FontWeight.w700,
                           color: scheme.primary.withValues(alpha: 0.5),
                           letterSpacing: 1,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: context.rs(16)),
                       Expanded(
                         child: SingleChildScrollView(
                           physics: const BouncingScrollPhysics(),
                           child: Text(
                             getPreviewText(),
                             style: TextStyle(
-                              fontSize: 12.sp,
+                              fontSize: context.rf(14),
                               color: scheme.onSurfaceVariant,
                               height: 1.6,
                               fontFamily: 'Inter',
@@ -134,7 +140,7 @@ class _ContractItemState extends State<ContractItem> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      SizedBox(height: context.rs(32)),
                       ElevatedButton(
                         onPressed: () {
                           showModalBottomSheet(
@@ -153,21 +159,21 @@ class _ContractItemState extends State<ContractItem> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: scheme.primary,
                           foregroundColor: Colors.white,
-                          minimumSize: const Size(double.infinity, 64),
+                          minimumSize: Size(double.infinity, context.rs(64)),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(context.rs(20)),
                           ),
                           elevation: 0,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.edit_document, size: 20),
-                            const SizedBox(width: 12),
+                            Icon(Icons.edit_document, size: context.rs(20)),
+                            SizedBox(width: context.rs(12)),
                             Text(
                               'Utiliser ce modèle',
                               style: TextStyle(
-                                fontSize: 13.sp,
+                                fontSize: context.rf(16),
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 0.5,
                               ),
@@ -176,7 +182,7 @@ class _ContractItemState extends State<ContractItem> {
                         ),
                       ),
                       if (widget.index < widget.totalItems - 1) ...[
-                        const SizedBox(height: 12),
+                        SizedBox(height: context.rs(12)),
                         Center(
                           child: TextButton.icon(
                             onPressed: () {
@@ -186,16 +192,20 @@ class _ContractItemState extends State<ContractItem> {
                                 curve: Curves.easeOutQuart,
                               );
                             },
-                            icon: Icon(Icons.keyboard_arrow_down_rounded, size: 20, color: scheme.primary),
+                            icon: Icon(Icons.keyboard_arrow_down_rounded, size: context.rs(20), color: scheme.primary),
                             label: Text(
                               'Voir le suivant',
                               style: TextStyle(
                                 color: scheme.primary,
                                 fontWeight: FontWeight.w600,
+                                fontSize: context.rf(14),
                               ),
                             ),
                             style: TextButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.rs(24),
+                                vertical: context.rs(12),
+                              ),
                             ),
                           ),
                         ),

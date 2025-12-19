@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../features/contract/presentation/pages/contract_categories_page.dart';
 import '../../features/pdf_management/presentation/pages/pdf_list_page.dart';
 import '../../features/assistant/presentation/pages/assistant_screen.dart';
+import '../../features/contract/presentation/responsive.dart';
 
 class Grid extends StatefulWidget {
   const Grid({super.key});
@@ -22,6 +23,8 @@ class _GridState extends State<Grid> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
@@ -30,12 +33,13 @@ class _GridState extends State<Grid> {
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         buttonBackgroundColor: Colors.white,
-        color: const Color(0xFF3200d5),
+        color: scheme.primary,
+        height: context.rs(75),
         animationDuration: const Duration(milliseconds: 300),
-        items: const [
-          Icon(Icons.layers_rounded, color: Colors.white, size: 30),
-          Icon(Icons.check_circle, color: Colors.white, size: 30),
-          Icon(Icons.assistant, color: Colors.white, size: 30),
+        items: [
+          Icon(Icons.layers_rounded, color: Colors.white, size: context.rs(30)),
+          Icon(Icons.check_circle, color: Colors.white, size: context.rs(30)),
+          Icon(Icons.assistant, color: Colors.white, size: context.rs(30)),
         ],
         onTap: (index) {
           setState(() {

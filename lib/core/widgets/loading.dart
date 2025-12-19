@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import '../../features/contract/presentation/responsive.dart';
 
 class LoadingScreen extends StatelessWidget {
   final String text;
@@ -34,17 +35,20 @@ class LoadingScreen extends StatelessWidget {
       canPop: false,
       child: Center(
         child: Container(
-          width: size.width * 0.8,
-          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
+          width: size.width * (context.isExpanded ? 0.4 : 0.8),
+          padding: EdgeInsets.symmetric(
+            vertical: context.rs(40),
+            horizontal: context.rs(24),
+          ),
           decoration: BoxDecoration(
             color: scheme.surface.withValues(alpha: 0.8),
-            borderRadius: BorderRadius.circular(32),
+            borderRadius: BorderRadius.circular(context.rs(32)),
             border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.2)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 40,
-                offset: const Offset(0, 20),
+                blurRadius: context.rs(40),
+                offset: Offset(0, context.rs(20)),
               ),
             ],
           ),
@@ -56,25 +60,29 @@ class LoadingScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                    SizedBox(
-                    width: 80,
-                    height: 80,
+                    width: context.rs(80),
+                    height: context.rs(80),
                     child: CircularProgressIndicator(
-                      strokeWidth: 3,
+                      strokeWidth: context.rs(3),
                       valueColor: AlwaysStoppedAnimation<Color>(scheme.primary),
                       backgroundColor: scheme.primary.withValues(alpha: 0.1),
                     ),
                   ),
-                  Icon(Icons.description_outlined, color: scheme.primary, size: 32),
+                  Icon(
+                    Icons.description_outlined,
+                    color: scheme.primary,
+                    size: context.rs(32),
+                  ),
                 ],
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: context.rs(32)),
               AnimatedWavyText(
                 infinite: infinite,
                 duration: duration,
                 text: text,
                 style: style ?? TextStyle(
                   color: scheme.onSurface,
-                  fontSize: 18,
+                  fontSize: context.rf(18),
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Outfit',
                   letterSpacing: 0.5,
@@ -121,9 +129,9 @@ class AnimatedWavyText extends StatelessWidget {
             text,
             speed: duration,
             textStyle: style ??
-                const TextStyle(
+                TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: context.rf(18),
                   fontWeight: FontWeight.bold,
                 ),
           ),

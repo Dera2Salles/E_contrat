@@ -5,7 +5,6 @@ import 'package:e_contrat/core/di/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:sizer/sizer.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -19,46 +18,32 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
   configureDependencies();
   registerFeatureDependencies();
   runApp(const Econtrat());
-  
 }
-
 
 class Econtrat extends StatelessWidget {
   const Econtrat({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-   
-    return Sizer(
-      
-      builder: (context, orientation,deviceType){
-
-        return  MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light(),
-          darkTheme: AppTheme.dark(),
-           themeMode: ThemeMode.system,
-           localizationsDelegates: [
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light(context),
+      darkTheme: AppTheme.dark(context),
+      themeMode: ThemeMode.system,
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         FlutterQuillLocalizations.delegate,
       ],
-      supportedLocales: [
-        Locale('fr','FR')
+      supportedLocales: const [
+        Locale('fr', 'FR')
       ],
       routes: {
-         '/grid':  (context)=> Grid(),
-
+        '/grid': (context) => const Grid(),
       },
       title: 'E-contrat',
-  
-      home: MyHomePage(),
-    );
-      }
-    
-    
+      home: const MyHomePage(),
     );
   }
 }

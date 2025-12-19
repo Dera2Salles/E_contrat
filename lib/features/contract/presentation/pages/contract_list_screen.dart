@@ -1,8 +1,7 @@
 import 'package:e_contrat/features/contract/presentation/widgets/contract_item.dart';
 import 'package:e_contrat/core/widgets/linear.dart';
+import 'package:e_contrat/features/contract/presentation/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:sizer/sizer.dart';
 
 class ContractListScreen extends StatelessWidget {
   final String title;
@@ -20,40 +19,39 @@ class ContractListScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: Stack(
         children: [
           const Linear(),
-          Positioned(
-            top: 35.h,
-            right: 55.w,
-            child: Transform.scale(
-              scale: 3.0,
-              child: SvgPicture.asset(
-                'assets/svg/background.svg',
-                width: 35.w,
-                height: 35.h,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 150.h,
-            child: PageView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                final contract = data[index];
-                return ContractItem(
-                  totalItems: data.length,
-                  index: index,
-                  placeholders: List<String>.from(contract['placeholders']),
-                  data: contract['data'],
-                  partie: contract['partie'],
-                  title: title,
-                );
-              },
+          SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: PageView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: data.length,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final contract = data[index];
+                      return ContractItem(
+                        totalItems: data.length,
+                        index: index,
+                        placeholders: List<String>.from(contract['placeholders']),
+                        data: contract['data'],
+                        partie: contract['partie'],
+                        title: title,
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],
