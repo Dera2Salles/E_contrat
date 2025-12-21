@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import '../../features/contract/presentation/responsive.dart';
@@ -33,65 +34,81 @@ class LoadingScreen extends StatelessWidget {
     
     return PopScope(
       canPop: false,
-      child: Center(
-        child: Container(
-          width: size.width * (context.isExpanded ? 0.4 : 0.8),
-          padding: EdgeInsets.symmetric(
-            vertical: context.rs(40),
-            horizontal: context.rs(24),
+      child: Stack(
+        children: [
+          // Background blur for the whole screen
+          BackdropFilter(
+            filter: ui.ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(color: Colors.black.withValues(alpha: 0.2)),
           ),
-          decoration: BoxDecoration(
-            color: scheme.surface.withValues(alpha: 0.8),
-            borderRadius: BorderRadius.circular(context.rs(32)),
-            border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.2)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: context.rs(40),
-                offset: Offset(0, context.rs(20)),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                   SizedBox(
-                    width: context.rs(80),
-                    height: context.rs(80),
-                    child: CircularProgressIndicator(
-                      strokeWidth: context.rs(3),
-                      valueColor: AlwaysStoppedAnimation<Color>(scheme.primary),
-                      backgroundColor: scheme.primary.withValues(alpha: 0.1),
-                    ),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(context.rs(32)),
+              child: BackdropFilter(
+                filter: ui.ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                child: Container(
+                  width: size.width * (context.isExpanded ? 0.4 : 0.8),
+                  padding: EdgeInsets.symmetric(
+                    vertical: context.rs(40),
+                    horizontal: context.rs(24),
                   ),
-                  Icon(
-                    Icons.description_outlined,
-                    color: scheme.primary,
-                    size: context.rs(32),
+                  decoration: BoxDecoration(
+                    color: scheme.surface.withValues(alpha: 0.8),
+                    borderRadius: BorderRadius.circular(context.rs(32)),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: context.rs(40),
+                        offset: Offset(0, context.rs(20)),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              SizedBox(height: context.rs(32)),
-              AnimatedWavyText(
-                infinite: infinite,
-                duration: duration,
-                text: text,
-                style: style ?? TextStyle(
-                  color: scheme.onSurface,
-                  fontSize: context.rf(18),
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Outfit',
-                  letterSpacing: 0.5,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                           SizedBox(
+                            width: context.rs(80),
+                            height: context.rs(80),
+                            child: CircularProgressIndicator(
+                              strokeWidth: context.rs(4),
+                              valueColor: AlwaysStoppedAnimation<Color>(scheme.primary),
+                              backgroundColor: scheme.primary.withValues(alpha: 0.1),
+                              strokeCap: StrokeCap.round,
+                            ),
+                          ),
+                          Icon(
+                            Icons.description_outlined,
+                            color: scheme.primary,
+                            size: context.rs(32),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: context.rs(32)),
+                      AnimatedWavyText(
+                        infinite: infinite,
+                        duration: duration,
+                        text: text,
+                        style: style ?? TextStyle(
+                          color: scheme.onSurface,
+                          fontSize: context.rf(18),
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Outfit',
+                          letterSpacing: 0.5,
+                        ),
+                        verticalPadding: 0,
+                      ),
+                    ],
+                  ),
                 ),
-                verticalPadding: 0,
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

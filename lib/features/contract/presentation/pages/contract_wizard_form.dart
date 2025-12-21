@@ -72,15 +72,22 @@ class _WizardFormState extends State<WizardForm> {
         filter: ui.ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.85),
+            color: Colors.white.withValues(alpha: 0.9),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(context.rs(32)),
               topRight: Radius.circular(context.rs(32)),
             ),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.3),
+              color: Colors.white.withValues(alpha: 0.6),
               width: 1.5,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: scheme.primary.withValues(alpha: 0.1),
+                blurRadius: 30,
+                offset: const Offset(0, -10),
+              ),
+            ],
           ),
           padding: EdgeInsets.only(
             top: context.rs(20),
@@ -97,7 +104,7 @@ class _WizardFormState extends State<WizardForm> {
                   width: context.rs(48),
                   height: context.rs(5),
                   decoration: BoxDecoration(
-                    color: scheme.primary.withValues(alpha: 0.2),
+                    color: scheme.onSurfaceVariant.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(context.rs(10)),
                   ),
                 ),
@@ -109,7 +116,7 @@ class _WizardFormState extends State<WizardForm> {
                   fontSize: context.rf(24),
                   fontWeight: FontWeight.w900,
                   fontFamily: 'Outfit',
-                  color: scheme.primary,
+                  color: scheme.onSurface,
                   letterSpacing: -0.5,
                 ),
               ),
@@ -125,12 +132,19 @@ class _WizardFormState extends State<WizardForm> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Text(
-                    '${((_currentStep + 1) / totalSteps * 100).toInt()}%',
-                    style: TextStyle(
-                      fontSize: context.rf(14),
-                      color: scheme.primary,
-                      fontWeight: FontWeight.w800,
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: context.rs(10), vertical: context.rs(4)),
+                    decoration: BoxDecoration(
+                      color: scheme.primary.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(context.rs(12)),
+                    ),
+                    child: Text(
+                      '${((_currentStep + 1) / totalSteps * 100).toInt()}%',
+                      style: TextStyle(
+                        fontSize: context.rf(12),
+                        color: scheme.primary,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                 ],
@@ -140,7 +154,7 @@ class _WizardFormState extends State<WizardForm> {
                 borderRadius: BorderRadius.circular(context.rs(10)),
                 child: LinearProgressIndicator(
                   value: (_currentStep + 1) / totalSteps,
-                  backgroundColor: scheme.primary.withValues(alpha: 0.1),
+                  backgroundColor: scheme.surfaceContainerHighest,
                   valueColor: AlwaysStoppedAnimation<Color>(scheme.primary),
                   minHeight: context.rs(8),
                 ),
@@ -168,13 +182,12 @@ class _WizardFormState extends State<WizardForm> {
                           padding: EdgeInsets.symmetric(vertical: context.rs(18)),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(context.rs(18)),
-                            side: BorderSide(color: scheme.primary.withValues(alpha: 0.2)),
                           ),
                         ),
                         child: Text(
                           'Précédent',
                           style: TextStyle(
-                            color: scheme.primary,
+                            color: scheme.onSurfaceVariant,
                             fontWeight: FontWeight.bold,
                             fontSize: context.rf(16),
                           ),
@@ -210,15 +223,24 @@ class _WizardFormState extends State<WizardForm> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(context.rs(18)),
                         ),
-                        elevation: 8,
-                        shadowColor: scheme.primary.withValues(alpha: 0.3),
+                        elevation: 0,
+                        shadowColor: Colors.transparent,
                       ),
-                      child: Text(
-                        _currentStep == totalSteps - 1 ? 'Générer le contrat' : 'Suivant',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: context.rf(16),
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _currentStep == totalSteps - 1 ? 'Générer' : 'Suivant',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: context.rf(16),
+                            ),
+                          ),
+                          if (_currentStep < totalSteps - 1) ...[
+                            SizedBox(width: context.rs(8)),
+                            Icon(Icons.arrow_forward_rounded, size: context.rs(20)),
+                          ]
+                        ],
                       ),
                     ),
                   ),
@@ -246,31 +268,33 @@ class _WizardFormState extends State<WizardForm> {
         fontWeight: FontWeight.w600,
         color: scheme.onSurface,
       ),
+      cursorColor: scheme.primary,
       decoration: InputDecoration(
         labelText: placeholder,
         labelStyle: TextStyle(
-          color: scheme.onSurfaceVariant.withValues(alpha: 0.8),
+          color: scheme.onSurfaceVariant.withValues(alpha: 0.6),
           fontSize: context.rf(14),
           fontWeight: FontWeight.w500,
         ),
         hintText: 'Saisissez ici...',
         hintStyle: TextStyle(
-          color: scheme.onSurfaceVariant.withValues(alpha: 0.4),
+          color: scheme.onSurfaceVariant.withValues(alpha: 0.3),
           fontSize: context.rf(14),
         ),
         filled: true,
-        fillColor: scheme.surfaceContainerHighest.withValues(alpha: 0.3),
+        fillColor: Colors.white,
+        hoverColor: scheme.primary.withValues(alpha: 0.05),
         contentPadding: EdgeInsets.symmetric(
           horizontal: context.rs(20),
-          vertical: context.rs(18),
+          vertical: context.rs(20),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(context.rs(16)),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: scheme.outlineVariant.withValues(alpha: 0.2)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(context.rs(16)),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: scheme.outlineVariant.withValues(alpha: 0.2)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(context.rs(16)),

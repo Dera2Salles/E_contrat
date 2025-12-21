@@ -8,6 +8,7 @@ import 'package:e_contrat/features/pdf_management/presentation/bloc/pdf_list_sta
 import 'package:e_contrat/features/contract/presentation/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:ui' as ui;
 
 class PdfListPage extends StatelessWidget {
   const PdfListPage({super.key});
@@ -124,13 +125,13 @@ class PdfListPage extends StatelessWidget {
 
   Widget _buildPdfList(BuildContext context, List<dynamic> pdfs, ColorScheme scheme) {
     return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: context.rs(20), vertical: context.rs(8)),
+      padding: EdgeInsets.fromLTRB(context.rs(20), context.rs(8), context.rs(20), context.rs(100)),
       physics: const BouncingScrollPhysics(),
       itemCount: pdfs.length,
       itemBuilder: (context, index) {
         final pdf = pdfs[index];
         return Padding(
-          padding: EdgeInsets.only(bottom: context.rs(12)),
+          padding: EdgeInsets.only(bottom: context.rs(16)),
           child: Dismissible(
             key: Key(pdf.id.toString()),
             direction: DismissDirection.endToStart,
@@ -138,8 +139,8 @@ class PdfListPage extends StatelessWidget {
               alignment: Alignment.centerRight,
               padding: EdgeInsets.only(right: context.rs(24)),
               decoration: BoxDecoration(
-                color: Colors.redAccent.withValues(alpha: 0.8),
-                borderRadius: BorderRadius.circular(context.rs(20)),
+                color: scheme.error.withValues(alpha: 0.8),
+                borderRadius: BorderRadius.circular(context.rs(24)),
               ),
               child: Icon(Icons.delete_outline_rounded, color: Colors.white, size: context.rs(28)),
             ),
@@ -153,49 +154,108 @@ class PdfListPage extends StatelessWidget {
             onDismissed: (_) => context.read<PdfListBloc>().add(DeletePdfEvent(pdf.id)),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(context.rs(20)),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.1), width: 1),
+                color: Colors.white.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(context.rs(24)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.15), width: 1),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
-              child: ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: context.rs(20), vertical: context.rs(8)),
-                leading: Container(
-                  padding: EdgeInsets.all(context.rs(10)),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(context.rs(12)),
-                  ),
-                  child: Icon(
-                    Icons.picture_as_pdf_rounded,
-                    color: Colors.white,
-                    size: context.rs(30),
-                  ),
-                ),
-                title: Text(
-                  pdf.name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: context.rf(16),
-                    fontFamily: 'Inter',
-                  ),
-                ),
-                subtitle: Text(
-                  'PDF Document',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: context.rf(13),
-                  ),
-                ),
-                trailing: Icon(Icons.chevron_right_rounded, color: Colors.white54, size: context.rs(24)),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => PdfViewScreen(path: pdf.path, title: pdf.name),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(context.rs(24)),
+                child: BackdropFilter(
+                  filter: ui.ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => PdfViewScreen(path: pdf.path, title: pdf.name),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(context.rs(16)),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(context.rs(12)),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    scheme.primary.withValues(alpha: 0.8),
+                                    scheme.tertiary.withValues(alpha: 0.8),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(context.rs(16)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: scheme.primary.withValues(alpha: 0.3),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Icon(
+                                Icons.picture_as_pdf_rounded,
+                                color: Colors.white,
+                                size: context.rs(28),
+                              ),
+                            ),
+                            SizedBox(width: context.rs(16)),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    pdf.name,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: context.rf(16),
+                                      fontFamily: 'Outfit',
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  SizedBox(height: context.rs(4)),
+                                  Text(
+                                    'Document PDF',
+                                    style: TextStyle(
+                                      color: Colors.white.withValues(alpha: 0.6),
+                                      fontSize: context.rf(13),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(context.rs(8)),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: Colors.white70,
+                                size: context.rs(14),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
             ),
           ),

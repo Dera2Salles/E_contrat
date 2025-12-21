@@ -49,13 +49,13 @@ class _ContractItemState extends State<ContractItem> {
           vertical: context.rs(24),
         ),
         decoration: BoxDecoration(
-          color: scheme.surface,
+          color: scheme.surface.withValues(alpha: 0.85),
           borderRadius: BorderRadius.circular(context.rs(32)),
-          border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.1)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: scheme.primary.withValues(alpha: 0.08),
-              blurRadius: context.rs(40),
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: context.rs(50),
               offset: Offset(0, context.rs(20)),
             ),
           ],

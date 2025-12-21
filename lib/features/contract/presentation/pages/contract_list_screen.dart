@@ -15,6 +15,8 @@ class ContractListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
@@ -22,17 +24,55 @@ class ContractListScreen extends StatelessWidget {
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+        leading: Container(
+          margin: EdgeInsets.all(context.rs(8)),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            shape: BoxShape.circle,
+          ),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: context.rs(20)),
+            onPressed: () => Navigator.pop(context),
+          ),
         ),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: context.rf(20),
+            fontWeight: FontWeight.w700,
+            fontFamily: 'Outfit',
+          ),
+        ),
+        centerTitle: true,
       ),
       body: Stack(
         children: [
           const Linear(),
           SafeArea(
+            bottom: false,
             child: Column(
               children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: context.rs(24), vertical: context.rs(16)),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: context.rs(20), vertical: context.rs(4)),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(context.rs(20)),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
+                    ),
+                    child: TextField(
+                      style: TextStyle(color: Colors.white, fontSize: context.rf(16)),
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.search_rounded, color: Colors.white70, size: context.rs(24)),
+                        hintText: 'Rechercher un modèle...',
+                        hintStyle: TextStyle(color: Colors.white60, fontSize: context.rf(15)),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: PageView.builder(
                     scrollDirection: Axis.vertical,

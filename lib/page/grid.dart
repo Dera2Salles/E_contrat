@@ -30,22 +30,28 @@ class _GridState extends State<Grid> {
       extendBodyBehindAppBar: true,
       extendBody: true,
       body: _pages[_pageIndex],
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
-        buttonBackgroundColor: Colors.white,
-        color: scheme.primary,
-        height: context.rs(75),
-        animationDuration: const Duration(milliseconds: 300),
-        items: [
-          Icon(Icons.layers_rounded, color: Colors.white, size: context.rs(30)),
-          Icon(Icons.check_circle, color: Colors.white, size: context.rs(30)),
-          Icon(Icons.assistant, color: Colors.white, size: context.rs(30)),
-        ],
-        onTap: (index) {
-          setState(() {
-            _pageIndex = index;
-          });
-        },
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          iconTheme: const IconThemeData(color: Colors.white),
+        ),
+        child: CurvedNavigationBar(
+          backgroundColor: Colors.transparent,
+          buttonBackgroundColor: scheme.primary,
+          color: scheme.surfaceContainerHighest.withValues(alpha: 0.9),
+          height: context.rs(75),
+          animationDuration: const Duration(milliseconds: 300),
+          index: _pageIndex,
+          items: [
+            Icon(Icons.dashboard_rounded, size: context.rs(30), color: _pageIndex == 0 ? Colors.white : scheme.primary),
+            Icon(Icons.folder_copy_rounded, size: context.rs(30), color: _pageIndex == 1 ? Colors.white : scheme.primary),
+            Icon(Icons.auto_awesome_rounded, size: context.rs(30), color: _pageIndex == 2 ? Colors.white : scheme.primary),
+          ],
+          onTap: (index) {
+            setState(() {
+              _pageIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
