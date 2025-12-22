@@ -1,7 +1,7 @@
 import 'package:e_contrat/features/contract/presentation/pages/contract_wizard_form.dart';
 import 'package:flutter/material.dart';
+
 import '../responsive.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ContractItem extends StatefulWidget {
   final String title;
@@ -51,7 +51,10 @@ class _ContractItemState extends State<ContractItem> {
         decoration: BoxDecoration(
           color: scheme.surface.withValues(alpha: 0.85),
           borderRadius: BorderRadius.circular(context.rs(32)),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1.5),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.4),
+            width: 1.5,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
@@ -186,13 +189,19 @@ class _ContractItemState extends State<ContractItem> {
                         Center(
                           child: TextButton.icon(
                             onPressed: () {
-                              final pageController = context.findAncestorWidgetOfExactType<PageView>()?.controller;
+                              final pageController = context
+                                  .findAncestorWidgetOfExactType<PageView>()
+                                  ?.controller;
                               pageController?.nextPage(
                                 duration: const Duration(milliseconds: 600),
                                 curve: Curves.easeOutQuart,
                               );
                             },
-                            icon: Icon(Icons.keyboard_arrow_down_rounded, size: context.rs(20), color: scheme.primary),
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              size: context.rs(20),
+                              color: scheme.primary,
+                            ),
                             label: Text(
                               'Voir le suivant',
                               style: TextStyle(

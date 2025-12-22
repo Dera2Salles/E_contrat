@@ -239,15 +239,15 @@ class _PdfQuillState extends State<PdfQuill> {
       icon: Icon(icon, size: context.rs(20)),
       label: Text(
         label,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: context.rf(16),
-        ),
+        style: TextStyle(fontWeight: FontWeight.w600, fontSize: context.rf(16)),
       ),
     );
   }
 
-  Future<void> _captureSignature(GlobalKey<SfSignaturePadState> key, int partyIndex) async {
+  Future<void> _captureSignature(
+    GlobalKey<SfSignaturePadState> key,
+    int partyIndex,
+  ) async {
     if (key.currentState != null) {
       final image = await key.currentState!.toImage(pixelRatio: 3.0);
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
@@ -283,7 +283,9 @@ class _PdfQuillState extends State<PdfQuill> {
               ),
               backgroundColor: Colors.green.shade600,
               behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           );
           Navigator.of(context).pushAndRemoveUntil(
@@ -363,9 +365,12 @@ class _PdfQuillState extends State<PdfQuill> {
                                     defaultFontFamily: 'Arial',
                                     scrollController: _scrollController,
                                     onChange: (Document document) {
-                                      if (oldDelta == document.toDelta()) return;
+                                      if (oldDelta == document.toDelta()) {
+                                        return;
+                                      }
                                       oldDelta = document.toDelta();
-                                      if (mounted && !_shouldShowToolbar.value) {
+                                      if (mounted &&
+                                          !_shouldShowToolbar.value) {
                                         _shouldShowToolbar.value = true;
                                       }
                                     },
@@ -427,7 +432,7 @@ class _PdfQuillState extends State<PdfQuill> {
                           color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 2),
-                        )
+                        ),
                       ],
                     ),
                     child: IconButton(
@@ -490,7 +495,8 @@ class _PdfQuillState extends State<PdfQuill> {
                               onConfirm: () {
                                 context.read<ContractPdfBloc>().add(
                                   GeneratePdfRequested(
-                                    content: _quillController.document.toDelta(),
+                                    content: _quillController.document
+                                        .toDelta(),
                                     parties: widget.partie,
                                     placeholders: widget.placeholder,
                                     formData: widget.formData,
@@ -531,9 +537,9 @@ class _PdfQuillState extends State<PdfQuill> {
             margin: EdgeInsets.symmetric(horizontal: context.rs(4)),
             padding: EdgeInsets.all(context.rs(8)),
             decoration: BoxDecoration(
-              color: hasSignature 
-                ? Colors.green.withValues(alpha: 0.1)
-                : scheme.surfaceContainerHighest.withValues(alpha: 0.5),
+              color: hasSignature
+                  ? Colors.green.withValues(alpha: 0.1)
+                  : scheme.surfaceContainerHighest.withValues(alpha: 0.5),
               shape: BoxShape.circle,
               border: Border.all(
                 color: hasSignature ? Colors.green : Colors.transparent,
@@ -586,7 +592,9 @@ class _PdfQuillState extends State<PdfQuill> {
         config: QuillSimpleToolbarConfig(
           toolbarSize: context.rs(50),
           color: Colors.transparent,
-          sectionDividerColor: Theme.of(context).dividerColor.withValues(alpha: 0.2),
+          sectionDividerColor: Theme.of(
+            context,
+          ).dividerColor.withValues(alpha: 0.2),
           multiRowsDisplay: !isMobile,
           showAlignmentButtons: true,
           showLineHeightButton: true,
