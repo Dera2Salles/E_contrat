@@ -19,6 +19,8 @@ import 'package:e_contrat/features/assistant/domain/repositories/assistant_repos
     as _i799;
 import 'package:e_contrat/features/assistant/domain/usecases/assistant_usecases.dart'
     as _i139;
+import 'package:e_contrat/features/assistant/presentation/bloc/assistant_bloc.dart'
+    as _i24;
 import 'package:e_contrat/features/contract/data/datasources/contract_templates_static_datasource.dart'
     as _i495;
 import 'package:e_contrat/features/contract/data/repositories/contract_templates_repository_impl.dart'
@@ -27,6 +29,8 @@ import 'package:e_contrat/features/contract/domain/repositories/contract_templat
     as _i412;
 import 'package:e_contrat/features/contract/domain/usecases/get_contract_categories.dart'
     as _i493;
+import 'package:e_contrat/features/contract/presentation/bloc/contract_categories_bloc.dart'
+    as _i873;
 import 'package:e_contrat/features/contract/presentation/bloc/contract_pdf_bloc.dart'
     as _i537;
 import 'package:e_contrat/features/pdf_management/data/datasources/pdf_local_datasource.dart'
@@ -84,6 +88,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i234.SavePdfBytes>(
       () => _i234.SavePdfBytes(gh<_i627.PdfRepository>()),
     );
+    gh.factory<_i873.ContractCategoriesBloc>(
+      () => _i873.ContractCategoriesBloc(
+        getContractCategories: gh<_i493.GetContractCategories>(),
+      ),
+    );
     gh.lazySingleton<_i799.AssistantRepository>(
       () => _i706.AssistantRepositoryImpl(
         localDataSource: gh<_i615.AssistantLocalDataSource>(),
@@ -119,6 +128,17 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i139.UpdateConversationTitle>(
       () => _i139.UpdateConversationTitle(gh<_i799.AssistantRepository>()),
+    );
+    gh.factory<_i24.AssistantBloc>(
+      () => _i24.AssistantBloc(
+        getConversations: gh<_i139.GetConversations>(),
+        createConversation: gh<_i139.CreateConversation>(),
+        deleteConversation: gh<_i139.DeleteConversation>(),
+        getMessages: gh<_i139.GetMessages>(),
+        sendMessage: gh<_i139.SendMessage>(),
+        saveMessage: gh<_i139.SaveMessage>(),
+        updateConversationTitle: gh<_i139.UpdateConversationTitle>(),
+      ),
     );
     return this;
   }

@@ -1,5 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:e_contrat/core/di/injection.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../features/assistant/presentation/bloc/assistant_bloc.dart';
 import '../../features/contract/presentation/pages/contract_categories_page.dart';
 import '../../features/pdf_management/presentation/pages/pdf_list_page.dart';
 import '../../features/assistant/presentation/pages/assistant_screen.dart';
@@ -18,7 +21,10 @@ class _GridState extends State<Grid> {
   final List<Widget> _pages = [
     const ContractCategoriesPage(),
     const PdfListPage(),
-    const AssistantScreen(),
+    BlocProvider(
+      create: (_) => getIt<AssistantBloc>(),
+      child: const AssistantScreen(),
+    ),
   ];
 
   @override

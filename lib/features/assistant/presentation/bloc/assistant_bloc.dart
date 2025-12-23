@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/assistant_message_entity.dart';
 import '../../domain/entities/conversation_entity.dart';
@@ -5,6 +6,7 @@ import '../../domain/usecases/assistant_usecases.dart';
 import 'assistant_event.dart';
 import 'assistant_state.dart';
 
+@injectable
 class AssistantBloc extends Bloc<AssistantEvent, AssistantState> {
   final GetConversations getConversations;
   final CreateConversation createConversation;
