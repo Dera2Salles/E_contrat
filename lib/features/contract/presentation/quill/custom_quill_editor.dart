@@ -63,7 +63,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
         customStyles: DefaultStyles(
           indent: DefaultTextBlockStyle(
             TextStyle(
-              color: Theme.of(context).textTheme.displayMedium!.color,
+              color: Theme.of(context).colorScheme.onSurface,
               fontFamily: widget.defaultFontFamily,
               height: 1.15,
             ),
@@ -74,7 +74,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
           ),
           lists: DefaultListBlockStyle(
             TextStyle(
-              color: Theme.of(context).textTheme.displayMedium!.color,
+              color: Theme.of(context).colorScheme.onSurface,
               fontFamily: widget.defaultFontFamily,
               height: 1.15,
             ),
@@ -86,6 +86,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
           ),
           leading: DefaultTextBlockStyle(
             TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
               fontFamily: widget.defaultFontFamily,
               height: 1.15,
               decoration: TextDecoration.none,
@@ -96,38 +97,38 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
             null,
           ),
           code: DefaultTextBlockStyle(
-              const TextStyle(
+              TextStyle(
                 fontFamily: 'monospace',
-                color: Color.fromARGB(255, 117, 117, 117),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
               const HorizontalSpacing(0, 0),
               const VerticalSpacing(5, 5),
               const VerticalSpacing(5, 5),
               BoxDecoration(
                   borderRadius: BorderRadius.circular(2),
-                  color: const Color.fromARGB(255, 234, 234, 234))),
+                  color: Theme.of(context).colorScheme.surfaceContainer)),
           quote: DefaultTextBlockStyle(
             TextStyle(
               height: 1.15,
               fontFamily: widget.defaultFontFamily,
-              color: Colors.grey,
+              color: Theme.of(context).colorScheme.outline,
             ),
             const HorizontalSpacing(0, 0),
             const VerticalSpacing(0, 1),
             const VerticalSpacing(0, 0),
-            const BoxDecoration(
+            BoxDecoration(
               border: BorderDirectional(
                   start: BorderSide(
-                      width: 5, color: Color.fromARGB(201, 84, 224, 255))),
-              borderRadius: BorderRadius.only(
+                      width: 5, color: Theme.of(context).colorScheme.tertiary)),
+              borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(15),
                   bottomRight: Radius.circular(15)),
-              color: Color.fromARGB(15, 255, 255, 255),
+              color: Theme.of(context).colorScheme.tertiaryContainer.withValues(alpha: 0.1),
             ),
           ),
           align: DefaultTextBlockStyle(
             TextStyle(
-                color: Theme.of(context).textTheme.displayMedium!.color,
+                color: Theme.of(context).colorScheme.onSurface,
                 height: 1.15,
                 fontFamily: widget.defaultFontFamily),
             const HorizontalSpacing(0, 0),
@@ -137,7 +138,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
           ),
           paragraph: DefaultTextBlockStyle(
             TextStyle(
-                color: Theme.of(context).textTheme.displayMedium!.color,
+                color: Theme.of(context).colorScheme.onSurface,
                 height: 1.15,
                 fontFamily: widget.defaultFontFamily),
             const HorizontalSpacing(0, 0),
@@ -145,7 +146,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
             const VerticalSpacing(0, 0),
             const BoxDecoration(),
           ),
-          link: const TextStyle(color: Color.fromARGB(255, 115, 192, 255)),
+          link: TextStyle(color: Theme.of(context).colorScheme.primary),
         ),
         searchConfig: QuillSearchConfig(),
       ),

@@ -54,7 +54,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
         title: Text(
           AppConfig.appName,
           style: TextStyle(
-            color: Colors.white,
+            color: scheme.primary,
             fontSize: context.rf(24),
             fontWeight: FontWeight.w900,
             fontFamily: 'Outfit',
@@ -65,7 +65,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
         leading: IconButton(
           icon: Icon(
             Icons.add_circle_outline_rounded,
-            color: Colors.white,
+            color: scheme.primary,
             size: context.rs(28),
           ),
           onPressed: () =>
@@ -75,7 +75,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
           IconButton(
             icon: Icon(
               Icons.history_rounded,
-              color: Colors.white,
+              color: scheme.primary,
               size: context.rs(28),
             ),
             onPressed: () {
@@ -130,9 +130,10 @@ class _AssistantScreenState extends State<AssistantScreen> {
   }
 
   Widget _buildChatContent(AssistantState state) {
+    final scheme = Theme.of(context).colorScheme;
     if (state is AssistantLoading) {
-      return const Center(
-        child: CircularProgressIndicator(color: Colors.white),
+      return Center(
+        child: CircularProgressIndicator(color: scheme.primary),
       );
     } else if (state is AssistantChatLoaded) {
       if (state.messages.isEmpty) {
@@ -142,14 +143,14 @@ class _AssistantScreenState extends State<AssistantScreen> {
             children: [
               Icon(
                 Icons.auto_awesome_rounded,
-                color: Colors.white,
+                color: scheme.primary.withValues(alpha: 0.5),
                 size: context.rs(64),
               ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 2000.ms),
               SizedBox(height: context.rs(20)),
               Text(
                 "Comment puis-je vous aider ?",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: scheme.onSurface.withValues(alpha: 0.8),
                   fontSize: context.rf(20),
                   fontWeight: FontWeight.w800,
                   fontFamily: 'Inter',
@@ -189,7 +190,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
       child: Text(
         "Commencez une conversation",
         style: TextStyle(
-          color: Colors.white,
+          color: scheme.onSurface.withValues(alpha: 0.6),
           fontSize: context.rf(18),
           fontWeight: FontWeight.w600,
         ),

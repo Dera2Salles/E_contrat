@@ -329,17 +329,17 @@ class _PdfQuillState extends State<PdfQuill> {
                     child: Container(
                       margin: EdgeInsets.all(context.rs(16)),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: Colors.white.withValues(alpha: 0.95),
                         borderRadius: BorderRadius.circular(context.rs(24)),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.5),
+                          color: scheme.primary.withValues(alpha: 0.2),
                           width: 1.5,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: scheme.shadow.withValues(alpha: 0.1),
-                            blurRadius: context.rs(24),
-                            offset: Offset(0, context.rs(8)),
+                            color: scheme.primary.withValues(alpha: 0.1),
+                            blurRadius: context.rs(30),
+                            offset: Offset(0, context.rs(10)),
                           ),
                         ],
                       ),

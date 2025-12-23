@@ -14,13 +14,13 @@ class AppGradientBackground extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             scheme.surface,
+            scheme.primary.withValues(alpha: 0.15),
+            scheme.secondary.withValues(alpha: 0.1),
             scheme.primary.withValues(alpha: 0.05),
-            scheme.secondary.withValues(alpha: 0.05),
-            scheme.surface,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          stops: const [0.0, 0.3, 0.7, 1.0],
+          stops: const [0.0, 0.4, 0.8, 1.0],
         ),
       ),
       child: child,
