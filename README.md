@@ -12,41 +12,36 @@
   <a href="https://flutter.dev">
     <img src="https://img.shields.io/badge/Flutter-3.x-blue.svg" alt="Flutter Version">
   </a>
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
-  </a>
+
 </p>
 
 ---
 
-## 🚀 Introduction
+## Introduction
 
 **e-contrat** is a revolutionary mobile application built with Flutter that simplifies the creation, management, and signing of contracts. Powered by Google's Gemini AI, e-contrat offers intelligent assistance, turning complex legal jargon into simple, understandable language. Whether you're a freelancer, a small business owner, or just need to create a personal agreement, e-contrat is your go-to solution.
 
-## ✨ Features
+## Features
 
 e-contrat is packed with features designed to make your life easier:
 
-- **📝 Smart Contract Editor:** A powerful and intuitive editor based on Flutter Quill that allows you to create and customize contracts with ease.
-- **🤖 AI Assistant (Gemini):** Get intelligent suggestions, explanations of legal clauses, and even generate entire contracts from a simple prompt.
-- **✍️ Digital Signatures:** Sign your contracts directly on your device with our smooth and responsive signature pad.
-- **📄 PDF Generation:** Instantly convert your contracts into professional-looking PDF documents.
-- **🔍 QR Code Scanner:** Quickly scan and import contract details or share contracts with others.
-- **☁️ Local Storage:** Your contracts are securely stored on your device using a local SQLite database.
-- **📤 Easy Sharing:** Share your contracts via email, messaging apps, or any other sharing platform.
-- **🎨 Beautiful UI:** A modern and user-friendly interface with light and dark themes.
-- **🌐 Cross-Platform:** A single codebase that runs on both Android and iOS.
+- **Smart Contract Editor:** A powerful and intuitive editor based on Flutter Quill that allows you to create and customize contracts with ease.
+- **AI Assistant (Gemini):** Get intelligent suggestions, explanations of legal clauses, and even generate entire contracts from a simple prompt.
+- **Digital Signatures:** Sign your contracts directly on your device with our smooth and responsive signature pad.
+- **PDF Generation:** Instantly convert your contracts into professional-looking PDF documents.
+- **Easy Sharing:** Share your contracts via email, messaging apps, or any other sharing platform.
+- ** Beautiful UI:** A modern and user-friendly interface with light and dark themes.
 
-## 📸 Screenshots
+## Screenshots
 
-| Light Mode | Dark Mode |
-| :---: | :---: |
-| *Screenshot of the app in light mode* | *Screenshot of the app in dark mode* |
-| *Another screenshot* | *Another screenshot* |
+|              Light Mode               |              Dark Mode               |
+| :-----------------------------------: | :----------------------------------: |
+| _Screenshot of the app in light mode_ | _Screenshot of the app in dark mode_ |
+|         _Another screenshot_          |         _Another screenshot_         |
 
-*(More screenshots to be added soon)*
+_(More screenshots to be added soon)_
 
-## 🏁 Getting Started
+## Getting Started
 
 To get a local copy up and running, follow these simple steps.
 
@@ -74,7 +69,7 @@ To get a local copy up and running, follow these simple steps.
     flutter run
     ```
 
-## 📦 Main Dependencies
+## Main Dependencies
 
 Here are some of the key packages that make e-contrat possible:
 
@@ -87,7 +82,7 @@ Here are some of the key packages that make e-contrat possible:
 
 For a full list of dependencies, see the `pubspec.yaml` file.
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -99,7 +94,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 4.  Push to the Branch (`git push origin feature/AmazingFeature`)
 5.  Open a Pull Request
 
-## 📜 License
+## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
