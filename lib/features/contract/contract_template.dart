@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:e_contrat/features/contract/domain/value_objects/quill_delta_document.dart';
+import 'package:e_contrat/features/contract/quill_delta_document.dart';
 
 class ContractTemplate extends Equatable {
   final String id;

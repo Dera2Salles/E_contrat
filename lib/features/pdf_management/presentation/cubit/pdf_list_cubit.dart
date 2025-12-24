@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:e_contrat/features/pdf_management/domain/usecases/delete_pdf.dart';
-import 'package:e_contrat/features/pdf_management/domain/usecases/get_all_pdfs.dart';
+import 'package:e_contrat/features/pdf_management/delete_pdf.dart';
+import 'package:e_contrat/features/pdf_management/get_all_pdfs.dart';
 
 import 'pdf_list_state.dart';
 

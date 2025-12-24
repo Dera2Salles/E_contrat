@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import '../../domain/entities/pdf_document.dart';
-import '../../domain/repositories/pdf_repository.dart';
+import 'pdf_document.dart';
+import 'pdf_repository.dart';
 
 @injectable
 class GetAllPdfs {

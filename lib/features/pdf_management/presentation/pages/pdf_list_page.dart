@@ -5,7 +5,7 @@ import 'package:e_contrat/features/pdf_management/presentation/pages/pdf_view_sc
 import 'package:e_contrat/features/pdf_management/presentation/bloc/pdf_list_bloc.dart';
 import 'package:e_contrat/features/pdf_management/presentation/bloc/pdf_list_event.dart';
 import 'package:e_contrat/features/pdf_management/presentation/bloc/pdf_list_state.dart';
-import 'package:e_contrat/features/contract/presentation/responsive.dart';
+import 'package:e_contrat/core/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui' as ui;

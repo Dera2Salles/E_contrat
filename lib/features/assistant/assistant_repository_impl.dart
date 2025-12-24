@@ -1,10 +1,10 @@
-import '../../domain/entities/assistant_message_entity.dart';
-import '../../domain/entities/conversation_entity.dart';
-import '../../domain/repositories/assistant_repository.dart';
-import '../datasources/assistant_local_datasource.dart';
-import '../datasources/assistant_remote_datasource.dart';
-import '../models/assistant_message_model.dart';
-import '../models/conversation_model.dart';
+import 'assistant_message_entity.dart';
+import 'conversation_entity.dart';
+import 'assistant_repository.dart';
+import 'assistant_local_datasource.dart';
+import 'assistant_remote_datasource.dart';
+import 'assistant_message_model.dart';
+import 'conversation_model.dart';
 
 import 'package:injectable/injectable.dart';
 

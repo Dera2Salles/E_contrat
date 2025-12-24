@@ -10,7 +10,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
-import '../../../pdf_management/domain/usecases/save_pdf_bytes.dart';
+import '../../../pdf_management/save_pdf_bytes.dart';
 import '../quill/fonts_loader.dart';
 import 'contract_pdf_event.dart';
 import 'contract_pdf_state.dart';

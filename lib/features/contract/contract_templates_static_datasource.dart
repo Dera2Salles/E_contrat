@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:e_contrat/features/contract/data/static/contract_templates_legacy.dart' as legacy;
+import 'package:e_contrat/features/contract/contract_templates_legacy.dart' as legacy;
 
 @injectable
 class ContractTemplatesStaticDataSource {

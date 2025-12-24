@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import '../../domain/usecases/delete_pdf.dart';
-import '../../domain/usecases/get_all_pdfs.dart';
+import '../../delete_pdf.dart';
+import '../../get_all_pdfs.dart';
 import 'pdf_list_event.dart';
 import 'pdf_list_state.dart';
 

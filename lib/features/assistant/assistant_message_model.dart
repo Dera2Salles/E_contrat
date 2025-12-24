@@ -1,4 +1,4 @@
-import '../../domain/entities/assistant_message_entity.dart';
+import 'assistant_message_entity.dart';
 
 class AssistantMessageModel extends AssistantMessageEntity {
   const AssistantMessageModel({

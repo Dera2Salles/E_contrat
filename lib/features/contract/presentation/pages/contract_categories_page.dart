@@ -1,11 +1,11 @@
 import 'package:e_contrat/core/di/injection.dart';
 import 'package:e_contrat/core/widgets/linear.dart';
-import 'package:e_contrat/features/contract/domain/entities/contract_category.dart';
+import 'package:e_contrat/features/contract/contract_category.dart';
 import 'package:e_contrat/features/contract/presentation/bloc/contract_categories_bloc.dart';
 import 'package:e_contrat/features/contract/presentation/bloc/contract_categories_event.dart';
 import 'package:e_contrat/features/contract/presentation/bloc/contract_categories_state.dart';
 import 'package:e_contrat/features/contract/presentation/pages/contract_list_screen.dart';
-import 'package:e_contrat/features/contract/presentation/responsive.dart';
+import 'package:e_contrat/core/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui' as ui;

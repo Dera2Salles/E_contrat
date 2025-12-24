@@ -1,5 +1,5 @@
-import '../entities/conversation_entity.dart';
-import '../entities/assistant_message_entity.dart';
+import 'conversation_entity.dart';
+import 'assistant_message_entity.dart';
 
 abstract class AssistantRepository {
   Future<List<ConversationEntity>> getConversations();

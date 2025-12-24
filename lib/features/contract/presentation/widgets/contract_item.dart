@@ -1,7 +1,7 @@
 import 'package:e_contrat/features/contract/presentation/pages/contract_wizard_form.dart';
 import 'package:flutter/material.dart';
 
-import '../responsive.dart';
+import '../../../../core/widgets/responsive.dart';
 
 class ContractItem extends StatefulWidget {
   final String title;

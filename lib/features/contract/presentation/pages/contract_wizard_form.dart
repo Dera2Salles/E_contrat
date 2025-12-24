@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:ui' as ui;
-import 'package:e_contrat/features/contract/presentation/pages/contract_pdf_quill_page.dart';
-import 'package:e_contrat/features/contract/presentation/responsive.dart';
+import 'package:e_contrat/features/contract/presentation/pages/contract_pdf_quill_page_impl.dart';
+import 'package:e_contrat/core/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';

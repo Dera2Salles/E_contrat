@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as path;
-import '../../../../core/config/app_config.dart';
-import '../models/conversation_model.dart';
-import '../models/assistant_message_model.dart';
+import '../../core/config/app_config.dart';
+import 'conversation_model.dart';
+import 'assistant_message_model.dart';
 
 abstract class AssistantLocalDataSource {
   Future<List<ConversationModel>> getConversations();

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:e_contrat/features/contract/domain/entities/contract_template.dart';
+import 'package:e_contrat/features/contract/contract_template.dart';
 import 'package:flutter/widgets.dart';
 
 class ContractCategory extends Equatable {

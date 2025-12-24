@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:e_contrat/features/contract/domain/usecases/get_contract_categories.dart';
+import 'package:e_contrat/features/contract/get_contract_categories.dart';
 
 import 'contract_categories_state.dart';
 

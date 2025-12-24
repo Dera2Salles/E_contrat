@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/usecases/get_contract_categories.dart';
+import '../../get_contract_categories.dart';
 import 'contract_categories_event.dart';
 import 'contract_categories_state.dart';
 

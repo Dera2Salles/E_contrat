@@ -1,8 +1,8 @@
-import 'package:e_contrat/features/contract/data/datasources/contract_templates_static_datasource.dart';
-import 'package:e_contrat/features/contract/domain/entities/contract_category.dart';
-import 'package:e_contrat/features/contract/domain/entities/contract_template.dart';
-import 'package:e_contrat/features/contract/domain/repositories/contract_templates_repository.dart';
-import 'package:e_contrat/features/contract/domain/value_objects/quill_delta_document.dart';
+import 'package:e_contrat/features/contract/contract_templates_static_datasource.dart';
+import 'package:e_contrat/features/contract/contract_category.dart';
+import 'package:e_contrat/features/contract/contract_template.dart';
+import 'package:e_contrat/features/contract/contract_templates_repository.dart';
+import 'package:e_contrat/features/contract/quill_delta_document.dart';
 import 'package:flutter/material.dart';
 
 import 'package:injectable/injectable.dart';

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/conversation_entity.dart';
-import '../../domain/entities/assistant_message_entity.dart';
+import '../../conversation_entity.dart';
+import '../../assistant_message_entity.dart';
 
 abstract class AssistantState extends Equatable {
   const AssistantState();

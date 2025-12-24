@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/contract_category.dart';
+import '../../contract_category.dart';
 
 abstract class ContractCategoriesState extends Equatable {
   const ContractCategoriesState();

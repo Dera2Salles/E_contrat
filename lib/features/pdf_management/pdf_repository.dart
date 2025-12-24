@@ -1,4 +1,4 @@
-import 'package:e_contrat/features/pdf_management/domain/entities/pdf_document.dart';
+import 'package:e_contrat/features/pdf_management/pdf_document.dart';
 
 abstract class PdfRepository {
   Future<List<PdfDocument>> getAll();

@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/assistant_message_entity.dart';
-import '../../domain/entities/conversation_entity.dart';
-import '../../domain/usecases/assistant_usecases.dart';
+import '../../assistant_message_entity.dart';
+import '../../conversation_entity.dart';
+import '../../assistant_usecases.dart';
 import 'assistant_event.dart';
 import 'assistant_state.dart';
 

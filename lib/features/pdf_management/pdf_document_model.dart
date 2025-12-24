@@ -1,4 +1,4 @@
-import 'package:e_contrat/features/pdf_management/domain/entities/pdf_document.dart';
+import 'package:e_contrat/features/pdf_management/pdf_document.dart';
 
 class PdfDocumentModel extends PdfDocument {
   const PdfDocumentModel({

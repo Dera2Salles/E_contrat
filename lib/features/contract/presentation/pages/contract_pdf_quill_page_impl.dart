@@ -11,7 +11,7 @@ import 'package:e_contrat/features/contract/presentation/bloc/contract_pdf_state
 import 'package:e_contrat/features/contract/presentation/quill/constants.dart';
 import 'package:e_contrat/features/contract/presentation/quill/custom_quill_editor.dart';
 import 'package:e_contrat/features/contract/presentation/quill/fonts_loader.dart';
-import 'package:e_contrat/features/contract/presentation/responsive.dart';
+import 'package:e_contrat/core/widgets/responsive.dart';
 import 'package:e_contrat/page/grid.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:e_contrat/features/contract/domain/entities/contract_category.dart';
+import 'package:e_contrat/features/contract/contract_category.dart';
 
 class ContractCategoriesState extends Equatable {
   final bool isLoading;

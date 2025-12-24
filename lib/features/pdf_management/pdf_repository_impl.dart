@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:e_contrat/features/pdf_management/data/datasources/pdf_local_datasource.dart';
-import 'package:e_contrat/features/pdf_management/data/models/pdf_document_model.dart';
-import 'package:e_contrat/features/pdf_management/domain/entities/pdf_document.dart';
-import 'package:e_contrat/features/pdf_management/domain/repositories/pdf_repository.dart';
+import 'package:e_contrat/features/pdf_management/pdf_local_datasource.dart';
+import 'package:e_contrat/features/pdf_management/pdf_document_model.dart';
+import 'package:e_contrat/features/pdf_management/pdf_document.dart';
+import 'package:e_contrat/features/pdf_management/pdf_repository.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 

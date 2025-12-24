@@ -1,6 +1,6 @@
 import 'dart:ui' as ui;
 
-import 'package:e_contrat/features/contract/presentation/responsive.dart';
+import 'package:e_contrat/core/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

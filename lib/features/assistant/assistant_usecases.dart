@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import '../entities/conversation_entity.dart';
-import '../entities/assistant_message_entity.dart';
-import '../repositories/assistant_repository.dart';
+import 'conversation_entity.dart';
+import 'assistant_message_entity.dart';
+import 'assistant_repository.dart';
 
 @injectable
 class GetConversations {

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:e_contrat/features/pdf_management/domain/entities/pdf_document.dart';
+import 'package:e_contrat/features/pdf_management/pdf_document.dart';
 
 class PdfListState extends Equatable {
   final bool isLoading;
