@@ -354,144 +354,153 @@ class _AssistantScreenState extends State<AssistantScreen> {
   }
 
   void _showHistory(BuildContext context) {
+    final bloc = context.read<AssistantBloc>();
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => BlocBuilder<AssistantBloc, AssistantState>(
-        builder: (context, state) {
-          return ClipRRect(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(context.rs(32)),
-            ),
-            child: BackdropFilter(
-              filter: ui.ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.9),
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(context.rs(32)),
+      builder: (bottomSheetContext) => BlocProvider.value(
+        value: bloc,
+        child: BlocBuilder<AssistantBloc, AssistantState>(
+          builder: (context, state) {
+            return ClipRRect(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(context.rs(32)),
+              ),
+              child: BackdropFilter(
+                filter: ui.ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(context.rs(32)),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: context.rs(12)),
+                      Center(
+                        child: Container(
+                          width: context.rs(40),
+                          height: context.rs(4),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withValues(alpha: 0.3),
+                            borderRadius: BorderRadius.circular(context.rs(2)),
+                          ),
+                        ),
+                      ),
+                      AppBar(
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                        automaticallyImplyLeading: false,
+                        title: Text(
+                          'Historique',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w900,
+                            fontSize: context.rf(22),
+                            fontFamily: 'Outfit',
+                          ),
+                        ),
+                        centerTitle: true,
+                        actions: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.close_rounded,
+                              color: Colors.black54,
+                              size: context.rs(28),
+                            ),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          SizedBox(width: context.rs(8)),
+                        ],
+                      ),
+                      Expanded(
+                        child: state is AssistantConversationsLoaded
+                            ? ListView.separated(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: context.rs(16),
+                                ),
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: state.conversations.length,
+                                separatorBuilder: (_, __) => Divider(
+                                  height: 1,
+                                  color: Colors.black.withValues(alpha: 0.05),
+                                ),
+                                itemBuilder: (context, index) {
+                                  final conv = state.conversations[index];
+                                  final id = conv.id;
+                                  return ListTile(
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: context.rs(16),
+                                      vertical: context.rs(4),
+                                    ),
+                                    leading: Container(
+                                      padding: EdgeInsets.all(context.rs(10)),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary
+                                            .withValues(alpha: 0.1),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.chat_bubble_outline_rounded,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
+                                        size: context.rs(24),
+                                      ),
+                                    ),
+                                    title: Text(
+                                      conv.title,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: context.rf(16),
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      '${conv.createdAt.day}/${conv.createdAt.month}/${conv.createdAt.year}',
+                                      style: TextStyle(
+                                        color: Colors.black45,
+                                        fontSize: context.rf(13),
+                                      ),
+                                    ),
+                                    trailing: IconButton(
+                                      icon: Icon(
+                                        Icons.delete_outline_rounded,
+                                        color: Colors.redAccent,
+                                        size: context.rs(24),
+                                      ),
+                                      onPressed: id == null
+                                          ? null
+                                          : () => context
+                                              .read<AssistantBloc>()
+                                              .add(DeleteConversationEvent(id)),
+                                    ),
+                                    onTap: id == null
+                                        ? null
+                                        : () {
+                                            context.read<AssistantBloc>().add(
+                                              LoadMessages(id),
+                                            );
+                                            Navigator.pop(context);
+                                          },
+                                  );
+                                },
+                              )
+                            : Center(
+                                child: CircularProgressIndicator(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                      ),
+                    ],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(height: context.rs(12)),
-                    Center(
-                      child: Container(
-                        width: context.rs(40),
-                        height: context.rs(4),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withValues(alpha: 0.3),
-                          borderRadius: BorderRadius.circular(context.rs(2)),
-                        ),
-                      ),
-                    ),
-                    AppBar(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      automaticallyImplyLeading: false,
-                      title: Text(
-                        'Historique',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w900,
-                          fontSize: context.rf(22),
-                          fontFamily: 'Outfit',
-                        ),
-                      ),
-                      centerTitle: true,
-                      actions: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.close_rounded,
-                            color: Colors.black54,
-                            size: context.rs(28),
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        SizedBox(width: context.rs(8)),
-                      ],
-                    ),
-                    Expanded(
-                      child: state is AssistantConversationsLoaded
-                          ? ListView.separated(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: context.rs(16),
-                              ),
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: state.conversations.length,
-                              separatorBuilder: (_, __) => Divider(
-                                height: 1,
-                                color: Colors.black.withValues(alpha: 0.05),
-                              ),
-                              itemBuilder: (context, index) {
-                                final conv = state.conversations[index];
-                                return ListTile(
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: context.rs(16),
-                                    vertical: context.rs(4),
-                                  ),
-                                  leading: Container(
-                                    padding: EdgeInsets.all(context.rs(10)),
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary
-                                          .withValues(alpha: 0.1),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.chat_bubble_outline_rounded,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                      size: context.rs(24),
-                                    ),
-                                  ),
-                                  title: Text(
-                                    conv.title,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: context.rf(16),
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    '${conv.createdAt.day}/${conv.createdAt.month}/${conv.createdAt.year}',
-                                    style: TextStyle(
-                                      color: Colors.black45,
-                                      fontSize: context.rf(13),
-                                    ),
-                                  ),
-                                  trailing: IconButton(
-                                    icon: Icon(
-                                      Icons.delete_outline_rounded,
-                                      color: Colors.redAccent,
-                                      size: context.rs(24),
-                                    ),
-                                    onPressed: () => context
-                                        .read<AssistantBloc>()
-                                        .add(DeleteConversationEvent(conv.id!)),
-                                  ),
-                                  onTap: () {
-                                    context.read<AssistantBloc>().add(
-                                      LoadMessages(conv.id!),
-                                    );
-                                    Navigator.pop(context);
-                                  },
-                                );
-                              },
-                            )
-                          : Center(
-                              child: CircularProgressIndicator(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                    ),
-                  ],
-                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
