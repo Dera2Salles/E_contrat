@@ -124,11 +124,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/svg/Business.svg
-    - assets/svg/Consent.svg
-    - assets/svg/background.svg
-    - assets/svg/editor.svg
-    - assets/svg/Consent2.svg
     - assets/
     - assets/fonts/
     - assets/fonts/unicodes/Noto_Emoji/NotoEmoji-VariableFont_wght.ttf
