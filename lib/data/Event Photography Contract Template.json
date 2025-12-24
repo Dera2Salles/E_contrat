@@ -1,0 +1,16 @@
+[
+    {"insert": "CONTRAT DE PHOTOGRAPHIE D’ÉVÉNEMENT\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom du Photographe]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Photographe], ci-après dénommé(e) 'le Photographe',\n\nEt\n\n"},
+    {"insert": "[Nom du Client]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Client], ci-après dénommé(e) 'le Client',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet du contrat\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Photographe couvrira l’événement suivant : [Description de l’événement].\n\n"},
+    {"insert": "Article 2 - Date et lieu\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "L’événement aura lieu le [Date] à [Lieu].\n\n"},
+    {"insert": "Article 3 - Rémunération\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Client paiera [Montant] euros selon [Modalités de paiement].\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nLe Photographe : ____________________\nLe Client : ____________________\n"}
+]

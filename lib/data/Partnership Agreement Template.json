@@ -1,0 +1,16 @@
+[
+    {"insert": "CONTRAT DE PARTENARIAT\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom du Partenaire 1]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Partenaire 1], ci-après dénommé(e) 'le Partenaire 1',\n\nEt\n\n"},
+    {"insert": "[Nom du Partenaire 2]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Partenaire 2], ci-après dénommé(e) 'le Partenaire 2',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Les parties s’associent pour [Objectif du partenariat].\n\n"},
+    {"insert": "Article 2 - Contributions\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Chaque partenaire contribue comme suit : [Contributions].\n\n"},
+    {"insert": "Article 3 - Durée\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le partenariat est conclu pour une durée de [Durée].\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nPartenaire 1 : ____________________\nPartenaire 2 : ____________________\n"}
+]

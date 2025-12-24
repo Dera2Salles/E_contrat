@@ -1,6 +1,6 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import '../../features/contract/presentation/responsive.dart';
+import 'responsive.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   final String title;

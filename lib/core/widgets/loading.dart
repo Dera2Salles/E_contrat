@@ -1,7 +1,7 @@
 import 'dart:ui' as ui;
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import '../../features/contract/presentation/responsive.dart';
+import 'responsive.dart';
 
 class LoadingScreen extends StatelessWidget {
   final String text;

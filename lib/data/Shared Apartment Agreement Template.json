@@ -1,0 +1,16 @@
+[
+    {"insert": "CONTRAT DE COLOCATION D’APPARTEMENT\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom du Colocataire 1]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Colocataire 1], ci-après dénommé(e) 'le Colocataire 1',\n\nEt\n\n"},
+    {"insert": "[Nom du Colocataire 2]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Colocataire 2], ci-après dénommé(e) 'le Colocataire 2',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet du contrat\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Les Colocataires partagent l’appartement situé à [Adresse de l’appartement].\n\n"},
+    {"insert": "Article 2 - Loyer\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le loyer total de [Montant] euros est divisé équitablement ou selon [Répartition].\n\n"},
+    {"insert": "Article 3 - Règles\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Les Colocataires respectent les règles suivantes : [Ex. ménage, invités].\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nColocataire 1 : ____________________\nColocataire 2 : ____________________\n"}
+]

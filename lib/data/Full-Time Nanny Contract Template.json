@@ -1,0 +1,16 @@
+[
+    {"insert": "CONTRAT DE NOUNOU À TEMPS PLEIN\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom de la Nounou]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse de la Nounou], ci-après dénommé(e) 'la Nounou',\n\nEt\n\n"},
+    {"insert": "[Nom du Parent]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Parent], ci-après dénommé(e) 'le Parent',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet du contrat\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "La Nounou s’engage à garder [Nom(s) de l’enfant/des enfants] à temps plein.\n\n"},
+    {"insert": "Article 2 - Horaires\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Les horaires sont : [Jours, Heures] pour [Nombre] heures par semaine.\n\n"},
+    {"insert": "Article 3 - Rémunération\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Parent paiera [Montant] euros par mois, payable le [Jour].\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nLa Nounou : ____________________\nLe Parent : ____________________\n"}
+]

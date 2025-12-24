@@ -1,6 +1,6 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import '../../features/contract/presentation/responsive.dart';
+import 'responsive.dart';
 
 class ConfirmationDelete {
   static Future<bool> show(

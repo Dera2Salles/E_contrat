@@ -13,7 +13,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
    WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   try {
-    await dotenv.load(fileName: "assets/fichier.env");
+    await dotenv.load(fileName: "assets/.env");
   } catch (_) {}
   configureDependencies();
   registerFeatureDependencies();

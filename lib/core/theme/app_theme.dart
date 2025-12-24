@@ -1,4 +1,4 @@
-import 'package:e_contrat/features/contract/presentation/responsive.dart';
+import 'package:e_contrat/core/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {

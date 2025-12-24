@@ -6,7 +6,7 @@ import '../../features/assistant/presentation/bloc/assistant_bloc.dart';
 import '../../features/contract/presentation/pages/contract_categories_page.dart';
 import '../../features/pdf_management/presentation/pages/pdf_list_page.dart';
 import '../../features/assistant/presentation/pages/assistant_screen.dart';
-import '../../features/contract/presentation/responsive.dart';
+import '../core/widgets/responsive.dart';
 
 class Grid extends StatefulWidget {
   const Grid({super.key});

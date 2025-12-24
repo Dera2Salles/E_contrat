@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../core/widgets/linear.dart';
-import '../features/contract/presentation/responsive.dart';
+import '../core/widgets/responsive.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});

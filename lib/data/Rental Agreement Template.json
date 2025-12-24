@@ -1,0 +1,16 @@
+[
+    {"insert": "CONTRAT DE LOCATION\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom du Bailleur]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Bailleur], ci-après dénommé(e) 'le Bailleur',\n\nEt\n\n"},
+    {"insert": "[Nom du Locataire]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Locataire], ci-après dénommé(e) 'le Locataire',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet du contrat\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Bailleur loue au Locataire le bien situé à [Adresse du bien] pour une durée de [Durée].\n\n"},
+    {"insert": "Article 2 - Loyer\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le loyer mensuel s’élève à [Montant] payable le [Jour] de chaque mois.\n\n"},
+    {"insert": "Article 3 - Obligations\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Locataire s’engage à maintenir le bien en bon état et à respecter les termes du contrat.\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nLe Bailleur : ____________________\nLe Locataire : ____________________\n"}
+]

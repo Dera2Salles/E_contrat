@@ -1,0 +1,16 @@
+[
+    {"insert": "CONTRAT DE PROMENADE DE CHIEN\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom du Promeneur]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Promeneur], ci-après dénommé(e) 'le Promeneur',\n\nEt\n\n"},
+    {"insert": "[Nom du Propriétaire]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Propriétaire], ci-après dénommé(e) 'le Propriétaire',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet du contrat\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Promeneur s’engage à promener le chien suivant : [Nom, Race].\n\n"},
+    {"insert": "Article 2 - Fréquence\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Les promenades auront lieu [Jours, Horaires] pour une durée de [Durée].\n\n"},
+    {"insert": "Article 3 - Rémunération\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Propriétaire paiera [Montant] euros par [promenade/semaine].\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nLe Promeneur : ____________________\nLe Propriétaire : ____________________\n"}
+]

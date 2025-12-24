@@ -1,0 +1,16 @@
+[
+    {"insert": "CONTRAT DE GARDE D’ANIMAL\n", "attributes": {"header": 1}},
+    {"insert": "\nEntre les soussignés :\n"},
+    {"insert": "[Nom du Gardien]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Gardien], ci-après dénommé(e) 'le Gardien',\n\nEt\n\n"},
+    {"insert": "[Nom du Propriétaire]", "attributes": {"bold": true}},
+    {"insert": ", domicilié(e) à [Adresse du Propriétaire], ci-après dénommé(e) 'le Propriétaire',\n\nIl a été convenu ce qui suit :\n\n"},
+    {"insert": "Article 1 - Objet du contrat\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Gardien s’engage à prendre soin de l’animal suivant : [Nom, Espèce, Description].\n\n"},
+    {"insert": "Article 2 - Durée\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "La garde aura lieu du [Date de début] au [Date de fin].\n\n"},
+    {"insert": "Article 3 - Rémunération\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Le Propriétaire paiera [Montant] euros selon les modalités : [Modalités de paiement].\n\n"},
+    {"insert": "Article 4 - Signatures\n", "attributes": {"bold": true, "header": 2}},
+    {"insert": "Fait à [Lieu], le [Date].\n\nLe Gardien : ____________________\nLe Propriétaire : ____________________\n"}
+]
